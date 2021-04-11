@@ -1,0 +1,36 @@
+<div class="main nav-cols">
+
+  <div>
+    <app-dash-nav></app-dash-nav>
+  </div>
+  <div class="body">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+
+
+
+
+
+<div class="pop" *ngIf="message">
+  <p>
+    {{message}}
+  </p>
+  <div class="">
+    <span class="material-icons" (click)="message = ''">
+      close
+    </span>
+  </div>
+</div>
+
+
+
+<div class="overlay" *ngIf="loadingUx && loadingUx.Loading">
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+    <h3 *ngIf="loadingUx.Message">
+      {{loadingUx.Message}}
+    </h3>
+  </div>
+</div>

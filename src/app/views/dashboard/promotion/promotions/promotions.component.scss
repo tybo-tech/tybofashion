@@ -1,0 +1,58 @@
+@import '../../../../../assets/styles/color';
+.main{
+    padding: 1em;
+    margin-bottom: 2em;
+    width: 60%;
+  
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+      padding: 0;
+      margin-bottom: 2em;
+    }
+  
+    .headers{
+        display: grid;
+        grid-template-columns: 50% auto;
+        padding: 1em;
+        background: $cloud;
+        margin: 0;
+        h4{
+            padding: .75em .2em;
+        }
+        button{
+            position: relative;
+            right: -1em;
+            width: 12em;
+            float: right;
+        }
+    }
+
+    .product-item{
+        grid-template-columns: 25% 50% auto;
+        img{
+            margin: .3em;
+        }
+        .link{
+            top: .5em;
+        }
+    }
+} 
+
+
+.back{
+    position: fixed;
+    bottom: 2em;
+    width: 100%;
+}
+
+.sections{
+    background: $white;
+    margin: 1em 0;
+    padding: 1em .4em;
+    h4{
+        text-align: center;
+        padding: 1em;
+        border-bottom: 1px solid $cloud;
+        color: $pop-darker;
+    }
+}

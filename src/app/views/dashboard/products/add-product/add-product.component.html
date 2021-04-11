@@ -1,0 +1,524 @@
+<app-loader *ngIf="showLoader"></app-loader>
+
+<div class="data-view-main" *ngIf="product">
+  <!-- <h3 class="header-label">
+    Product images.
+  </h3>
+  <div class="basic">
+    <app-images *ngIf="product" [images]="product.Images" (onUploadFinished)="saveImage($event)"
+      (deleteImageEvent)="deleteImage($event)" (setMianImageEvent)="setMianImage($event)"
+      (showImageEvent)="showImage($event)"></app-images>
+    <div class="notes">
+      <i> Tap on the image to set as main picture</i>
+    </div>
+  </div> -->
+  <h3 class="header-label">
+    Product info.
+  </h3>
+
+  <div class="basic">
+    <!-- <div class="basic" style="display: none;"> -->
+    <div class="no-child">
+      <div class="black-label">
+        Name
+      </div>
+      <div class="link" (click)="name()">
+        <input type="text" [(ngModel)]="product.Name" placeholder="e.g. Floral summer shirts">
+      </div>
+    </div>
+    <div class="no-child">
+      <div class="black-label">
+        Description
+      </div>
+      <div class="link" (click)="name()">
+        <textarea name="" [(ngModel)]="product.Description" placeholder="Enter product description "></textarea>
+      </div>
+    </div>
+
+    <div class="no-child">
+      <div class="black-label">
+        <p>
+          Price <strong>(ZAR)</strong>
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <div class="link" (click)="name()">
+          <input type="number" [(ngModel)]="product.RegularPrice" placeholder="Selling price">
+        </div>
+      </div>
+    </div>
+    <div class="no-child med">
+      <div class="black-label">
+
+        <p>
+          Sex
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.ParentCategoryGuid" *ngIf="parentCategories && parentCategories.length"
+          (change)="selectCategory($event.target.value)">
+          <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="no-child med">
+      <div class="black-label">
+        <p>
+          Catergory
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.CategoryGuid" (change)="catChanged()"
+          *ngIf="chilndrenCategories && chilndrenCategories.length">
+          <option value="add"> ➕ Add new</option>
+          <option *ngFor="let cc of chilndrenCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-child med">
+      <div class="black-label">
+        <p>
+          Sub catergory 
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.TertiaryCategoryGuid" (change)="catChanged()"
+          *ngIf="tertiaryCategories && tertiaryCategories.length">
+          <option value="add-tertiary"> ➕ Add new</option>
+          <option *ngFor="let cc of tertiaryCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-child long">
+      <div class="black-label">
+        Enable for online shopping
+      </div>
+      <div class="link" (click)="name()">
+        <input type="checkbox" name="" [(ngModel)]="product.ShowOnline">
+      </div>
+    </div>
+    <div class="no-child med">
+      <div class="black-label">
+        Show remaining items when
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.ShowRemainingItems">
+          <option value="6">Items below 6</option>
+          <option value="11">Items below 11</option>
+          <option value="1">Always show</option>
+          <option value="0">Never show</option>
+        </select>
+      </div>
+    </div>
+    <div class="no-child med">
+      <div class="black-label">
+        Product stock type
+      </div>
+      <div class="link">
+        <select [(ngModel)]="product.IsJustInTime">
+          <option value="Stock product">Stock product</option>
+          <option value="Just in time">Just in time</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-child med">
+      <div class="black-label">
+        Estimated delivery days, from the order date.
+      </div>
+      <div class="link">
+        <select [(ngModel)]="product.EstimatedDeliveryDays">
+          <option value="1">1 Day</option>
+          <option value="2">2 Days</option>
+          <option value="3">3 Days</option>
+          <option value="4">4 Days</option>
+          <option value="5">5 Days</option>
+          <option value="6">6 Days</option>
+          <option value="7">7 Days</option>
+          <option value="8">8 Days</option>
+          <option value="9">9 Days</option>
+          <option value="10">10 Days</option>
+          <option value="11">11 Days</option>
+          <option value="12">12 Days</option>
+          <option value="13">13 Days</option>
+          <option value="14">14 Days</option>
+          <option value="-1"> Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="no-child med">
+      <div class="black-label">
+        Return Policy
+      </div>
+      <div class="link">
+        <select [(ngModel)]="product.ReturnPolicy">
+          <option value="No returns">No returns</option>
+          <option value="Returns Allowed">Returns Allowed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-child med" *ngIf="product.IsJustInTime == 'Just in time'">
+      <div class="black-label">
+        Sales order limit
+      </div>
+      <div class="link">
+        <select [(ngModel)]="product.OrderLimit">
+          <option [value]="PRODUCT_ORDER_LIMIT_MAX">Not limited</option>
+          <option value="1">1 Product</option>
+          <option value="2">2 Products</option>
+          <option value="3">3 Products</option>
+          <option value="4">4 Products</option>
+          <option value="5">5 Products</option>
+          <option value="6">6 Products</option>
+          <option value="7">7 Products</option>
+          <option value="8">8 Products</option>
+          <option value="9">9 Products</option>
+          <option value="10">10 Products</option>
+          <option value="11">11 Products</option>
+          <option value="12">12 Products</option>
+          <option value="13">13 Products</option>
+          <option value="14">14 Products</option>
+          <option value="-1"> Other</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="no-child med" *ngIf="product.IsJustInTime == 'Just in time'">
+      <div class="black-label">
+        Allowed to sell so far.
+      </div>
+      <div class="link" (click)="name()">
+        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
+      </div>
+    </div>
+  </div>
+
+
+  <h3 class="header-label">
+    Product options.
+  </h3>
+
+  <div class="basic">
+    <div class="no-child col-3">
+      <div class="black-label">
+        Colours
+      </div>
+      <div class="link">
+        <div class="options" *ngIf="colors">
+          <!-- <div *ngFor="let option of colors.ProductVariationOptions">
+            <div *ngIf="!option.ImageUrl || !option.ImageUrl.length" class="option color-btn"
+              [ngStyle]="{background: option.Description}"></div>
+          </div> -->
+          <button class="btn-color" *ngFor="let option of colors.ProductVariationOptions"
+            [ngStyle]="{'background-color':option.Description, 'background-image': option.ImageUrl? 'url(' + option.ImageUrl + ')' : 'none'}"
+            [ngClass]="option.Class">
+          </button>
+        </div>
+
+      </div>
+
+      <div class="action">
+        <span class="material-icons pointer" (click)="toggleSetUpVariations()">
+          chevron_right
+        </span>
+      </div>
+    </div>
+    <div class="no-child col-3">
+      <div class="black-label">
+        <p>
+          Sizes
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <div class="options" *ngIf="sizes">
+          <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn">
+            {{option.OptionName}}
+          </div>
+          <div class="option">
+            <span class="material-icons icon-more">
+              chevron_right
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="action">
+        <span class="material-icons pointer" (click)="toggleSetUpVariations()">
+          chevron_right
+        </span>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
+  <h3 class="header-label">
+    Product images.
+  </h3>
+  <div class="basic">
+    <div class="" *ngIf="colors">
+      <div *ngFor="let option of colors.ProductVariationOptions" class="color-section"
+        [ngStyle]="{'border-color': option.Description}">
+        <div class="color-grid">
+          <div class="col">
+            <h5>
+              Images for {{option.OptionName}}
+            </h5>
+          </div>
+
+          <div class="col">
+            <div class="col-btn" *ngIf="option.ShowOnline == 'show'" (click)="toggleShowOptionOnline(option,'hide')">
+              Showing online
+            </div>
+            <div class="col-btn" *ngIf="option.ShowOnline == 'hide'" (click)="toggleShowOptionOnline(option,'show')">
+              Hidden online
+            </div>
+          </div>
+        </div>
+        <app-images *ngIf="product" [images]="product.Images" [user]="user" [product]="product" [optionId]="option.Id"
+          (onUploadFinished)="saveImage($event)" (deleteImageEvent)="deleteImage($event)"
+          (setMianImageEvent)="setMianImage($event)" (showImageEvent)="showImage($event)"></app-images>
+      </div>
+      <div class="option">
+
+      </div>
+    </div>
+
+    <div class="notes">
+      <i> Tap on the image to set as main picture</i>
+    </div>
+  </div>
+
+
+
+  <h3 class="header-label" *ngIf="product && product.ProductCombinations  && product.IsJustInTime != 'Just in time'">
+    Product variations.
+  </h3>
+
+  <app-product-combinations *ngIf="product && product.ProductCombinations && product.IsJustInTime != 'Just in time'"
+    [product]="product">
+  </app-product-combinations>
+
+  <div class="ctas">
+
+    <div class="cta">
+      <button class="mat-primary checkout cancel" [disabled]="!product.Name" mat-button color="primary"
+        (click)="back()">
+        Cancel
+      </button>
+    </div>
+
+    <div class="cta">
+      <button class="mat-primary checkout" [disabled]="!product.Name" mat-button color="primary"
+        (click)="saveProduct()">
+        Save product
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="overlay add-cat" *ngIf="shoWaddNewCatergory  && newCatergory">
+  <div class="form-section" *ngIf="shoWaddNewCatergory && newCatergory">
+    <div class="close-mod" (click)="shoWaddNewCatergory=false">
+      <span class="material-icons">
+        close
+      </span>
+    </div>
+    <div class="col">
+      <div class="detail">
+        <label for="name">Category Name *</label>
+        <input type="text" [(ngModel)]="newCatergory.Name" placeholder="e.g. Male">
+      </div>
+      <button mat-button class="mat-primary" [disabled]="!newCatergory.Name" type="button" (click)="saveCatergory()">
+        Save Category
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- 
+<div class="dash-forms">
+
+  <div class="grid">
+    <div class="col" *ngIf="product">
+
+
+
+
+      <div class="upload-preview">
+        <div class="preview">
+          <img *ngIf="product.FeaturedImageUrl" [src]="product.FeaturedImageUrl" alt="">
+          <div class="no-images" *ngIf="!product.FeaturedImageUrl">
+            <h1>
+              Upload clear product image
+              <span>
+                Please upload the pictures showing the product clearly. Perhaps include the pictures of the person
+                wearing the product
+              </span>
+            </h1>
+
+            <app-images *ngIf="product" [images]="product.Images" (onUploadFinished)="saveImage($event)"
+              (deleteImageEvent)="deleteImage($event)" (setMianImageEvent)="setMianImage($event)"
+              (showImageEvent)="showImage($event)"></app-images>
+          </div>
+        </div>
+        <app-images *ngIf="product.Images" [images]="product.Images" (onUploadFinished)="saveImage($event)"
+          (deleteImageEvent)="deleteImage($event)" (setMianImageEvent)="setMianImage($event)"
+          (showImageEvent)="showImage($event)"></app-images>
+      </div>
+
+      <div class="upload-preview">
+        <div class="form-item">
+          <div class="body quill">
+            <label for="name">Product Description</label>
+            <quill-editor [styles]="editorStyle" [modules]="modules" [(ngModel)]="product.Description">
+            </quill-editor>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col">
+
+      <div class="form-items-grid">
+        <div class="form-item" *ngIf="parentCategories && parentCategories.length">
+          <label for="name">Product catergory</label>
+          <select [(ngModel)]="product.ParentCategoryGuid" (change)="selectCategory($event.target.value)">
+            <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
+          </select>
+        </div>
+
+
+        <div class="form-item" *ngIf="chilndrenCategories && chilndrenCategories.length">
+          <label for="name">Sub catergory</label>
+          <select [(ngModel)]="product.CategoryGuid">
+            <option *ngFor="let cc of chilndrenCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
+          </select>
+          <span class="add-new-catergory" (click)="addNewSubCat()">
+            Can't find catergory? Add new.
+          </span>
+        </div>
+      </div>
+
+
+      <div class="form-items-grid">
+        <div class="form-item">
+          <label for="name">Product Name *</label>
+          <input type="text" [(ngModel)]="product.Name" placeholder="e.g. Floral summer shirts">
+        </div>
+        <div class="form-item">
+          <label for="name">Price (ZAR)</label>
+          <input type="number" [(ngModel)]="product.RegularPrice" placeholder="How much your selling for?">
+        </div>
+        <div class="form-item">
+          <label for="name">Total Stock</label>
+          <input type="number" [(ngModel)]="product.TotalStock" placeholder="How many items of this product do you have?">
+        </div>
+      </div>
+
+      <div class="form-items-grid">
+        <div class="item">
+          <label for="name">Available sizes</label>
+          <div class="options" *ngIf="sizes">
+            <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn">
+              {{option.OptionName}}
+              <span class="material-icons" *ngIf="option.IsSelected">
+                check_circle
+              </span>
+            </div>
+          </div>
+          <span class="add-new-catergory" (click)="setUpVariations = true">
+            Set up product sizes
+          </span>
+        </div>
+        <div class="item">
+          <label for="name">Available colours</label>
+          <div class="options" *ngIf="colors">
+            <div *ngFor="let option of colors.ProductVariationOptions" class="option color-btn"
+              [ngStyle]="{background: option.Description}">
+              <span class="material-icons" *ngIf="option.IsSelected">
+                check_circle
+              </span>
+            </div>
+          </div>
+          <span class="add-new-catergory" (click)="setUpVariations = true">
+            Set up product colours.
+          </span>
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="form-item" style="display: none;">
+        <label for="name">Product Status</label>
+        <select [(ngModel)]="product.StatusId">
+          <option value="1">Active</option>
+          <option value="2">In-Active</option>
+          <option value="3">Deleted</option>
+        </select>
+      </div>
+
+
+
+
+
+      <button mat-button class="more" [disabled]="!product.Name" type="button" (click)="saveProduct()">
+        Save product.
+      </button>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+<div class="overlay add-cat" *ngIf="shoWaddNewCatergory  && newCatergory">
+  <div class="form-section" *ngIf="shoWaddNewCatergory && newCatergory">
+    <div class="close-mod" (click)="shoWaddNewCatergory=false">
+      <span class="material-icons">
+        close
+      </span>
+    </div>
+    <div class="col">
+      <div class="detail">
+        <label for="name">Category Name *</label>
+        <input type="text" [(ngModel)]="newCatergory.Name" placeholder="e.g. Male">
+      </div>
+      <button mat-button class="mat-primary" [disabled]="!newCatergory.Name" type="button" (click)="saveCatergory()">
+        Save Category
+      </button>
+    </div>
+  </div>
+</div> -->

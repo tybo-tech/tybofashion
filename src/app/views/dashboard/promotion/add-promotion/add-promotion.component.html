@@ -1,0 +1,135 @@
+<input type="file" accept="image/png, image/jpeg" #file placeholder="Choose file" multiple
+  (change)="uploadFile(file.files)" style="display:none;position: fixed;">
+<input type="file" accept="image/png, image/jpeg" #file2 placeholder="Choose file" multiple
+  (change)="uploadFile(file2.files)" style="display:none;position: fixed;">
+
+<div class="main" *ngIf="promotion">
+
+  <div class="top-bar-conatiner">
+
+    <div class="top-bar">
+      <div class="menu-back">
+        <span class="material-icons" (click)="back()">
+          chevron_left
+        </span>
+      </div>
+
+
+      <div class="name">
+        {{promotion.Name}}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="banner">
+    <div class="icon" *ngIf="promotion.ImageUrl">
+      <div class="user-dp-image">
+        <img [src]="promotion.ImageUrl" alt="">
+      </div>
+    </div>
+
+    <div class="icon" *ngIf="!promotion.ImageUrl">
+      <div class="user-dp-image">
+        <img src="assets/images/icons/add.svg" style="width: 40%;" alt="">
+      </div>
+    </div>
+
+    <div class="error" *ngIf="!promotion.ImageUrl">The promotion banner is requried.</div>
+    <div *ngIf="!promotion.ImageUrl">
+      <button class="primary" (click)="file.click()">Uplaod banner</button>
+    </div>
+    <div *ngIf="promotion.ImageUrl">
+      <button class="primary" (click)="file2.click()">Change banner</button>
+    </div>
+  </div>
+
+  <div class="line-grid">
+    <div class="col">
+      Name
+    </div>
+    <div class="col">
+      {{promotion.Name}}
+    </div>
+  </div>
+
+  <div class="line-grid">
+    <div class="col">
+      Promotion Type
+    </div>
+    <div class="col">
+      {{promotion.PromoType}}
+    </div>
+  </div>
+
+
+
+  <div class="line-grid">
+    <div class="col">
+      Applies To
+    </div>
+    <div class="col">
+      {{promotion.AppliesTo}}
+    </div>
+  </div>
+
+
+  <div class="line-grid">
+    <div class="col">
+      Minimum Requirements
+    </div>
+    <div class="col">
+      {{promotion.MinimumRequirementValue  || 'None'}}
+    </div>
+  </div>
+
+  <div class="line-grid">
+    <div class="col">
+      Discount Value (%)
+    </div>
+    <div class="col">
+      <!-- {{promotion.DiscountValue}}% -->
+      <input type="number" name="" id="" [(ngModel)]="promotion.DiscountValue" placeholder="e.ge. 7">
+    </div>
+  </div>
+
+  <div class="line-grid">
+    <div class="col">
+      Start date
+    </div>
+    <div class="col">
+      <input type="date" name="" id="" [(ngModel)]="promotion.StartDate" placeholder="e.ge. 7">
+    </div>
+  </div>
+
+  <div class="line-grid">
+    <div class="col">
+      End date
+    </div>
+    <div class="col">
+      <input type="date" name="" id="" [(ngModel)]="promotion.FinishDate" placeholder="e.ge. 7">
+    </div>
+  </div>
+
+
+  <div class="line-grid">
+    <div class="col">
+      Status
+    </div>
+    <div class="col">
+      <select [(ngModel)]="promotion.StatusId">
+        <option value="1">Running</option>
+        <option value="2">Scheduled</option>
+        <option value="3">Stopped</option>
+        <option value="4">Paused</option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="action">
+    <button (click)="back()" class="secondary">Back</button>
+    <button (click)="savePromotion()" class="primary">Save</button>
+  </div>
+
+</div>

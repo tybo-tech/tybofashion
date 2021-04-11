@@ -1,0 +1,241 @@
+
+
+  <div class="main" *ngIf="promotions">
+
+    <div class="top-bar-conatiner">
+
+      <div class="top-bar">
+        <div class="menu-back">
+          <span class="material-icons" (click)="back()">
+            chevron_left
+          </span>
+        </div>
+  
+  
+        <div class="name">
+          All promotions ({{promotions.length}})
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="headers">
+      <div class="col">
+        <h4>
+          Active Promotions
+        </h4>
+      </div>
+
+      <div class="col">
+        <button class="primary" (click)="add()" >Add new</button>
+      </div>
+    </div>
+    <div>
+
+    
+
+
+
+      <div class="sections">
+  
+        <h4>
+          Active Promotions
+        </h4>
+        <div class="product-item" *ngFor="let item of promotions" (click)="view(item)">
+          <div class="item">
+            <div class="icon" *ngIf="item.ImageUrl">
+              <div class="user-dp-image">
+                <img [src]="item.ImageUrl" alt="">
+              </div>
+            </div>
+      
+            <div class="icon" *ngIf="!item.ImageUrl">
+              <div class="user-dp-image">
+                <img src="assets/images/icons/add.svg" style="width: 80%; margin: .75em;" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <p>
+              <b>{{item.Name}}</b>
+              <span class="cat">
+                {{item.DiscountValue}}% off
+              </span>
+      
+            </p>
+          </div>
+      
+          <div class="option link">
+            <span> {{item.TotalStock}} More</span>
+            <span class="material-icons icon-more">
+              chevron_right
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+
+<div class="sections">
+  
+  <h4>
+    Scheduled Promotions
+  </h4>
+  <div class="product-item" *ngFor="let item of scheduledPromotions" (click)="view(item)">
+    <div class="item">
+      <div class="icon" *ngIf="item.ImageUrl">
+        <div class="user-dp-image">
+          <img [src]="item.ImageUrl" alt="">
+        </div>
+      </div>
+
+      <div class="icon" *ngIf="!item.ImageUrl">
+        <div class="user-dp-image">
+          <img src="assets/images/icons/add.svg" style="width: 80%; margin: .75em;" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <p>
+        <b>{{item.Name}}</b>
+        <span class="cat">
+          {{item.DiscountValue}}% off
+        </span>
+
+      </p>
+    </div>
+
+    <div class="option link">
+      <span> {{item.TotalStock}} More</span>
+      <span class="material-icons icon-more">
+        chevron_right
+      </span>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="sections">
+  
+  <h4>
+    Inactive Promotions
+  </h4>
+  <div class="product-item" *ngFor="let item of inactivePromotions" (click)="view(item)">
+    <div class="item">
+      <div class="icon" *ngIf="item.ImageUrl">
+        <div class="user-dp-image">
+          <img [src]="item.ImageUrl" alt="">
+        </div>
+      </div>
+
+      <div class="icon" *ngIf="!item.ImageUrl">
+        <div class="user-dp-image">
+          <img src="assets/images/icons/add.svg" style="width: 80%; margin: .75em;" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <p>
+        <b>{{item.Name}}</b>
+        <span class="cat">
+          {{item.DiscountValue}}% off
+        </span>
+
+      </p>
+    </div>
+
+    <div class="option link">
+      <span> {{item.TotalStock}} More</span>
+      <span class="material-icons icon-more">
+        chevron_right
+      </span>
+    </div>
+  </div>
+</div>
+      
+
+      <div class="p6"></div>
+      <div class="col">
+        <button class="" (click)="back()" >Back to dashboard</button>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+<div class="quick-add" *ngIf="showAdd && newPromotion">
+  <div class="form">
+    <h1>
+      Add new Promotion.
+    </h1>
+
+
+    <div class="form-item">
+      <label for="">Product name</label>
+      <input type="text" name="" id="" [(ngModel)]="newPromotion.Name" placeholder="Enter product name.">
+    </div>
+
+    <div class="form-item">
+      <label for=""><b>Promotion Type.</b></label>
+      <select [(ngModel)]="newPromotion.PromoType">
+        <option value="Percentage off">Percentage off</option>
+        <option value="Fixed Amount">Fixed Amount</option>
+        <option value="Free shipping">Free shipping</option>
+        <option value="Buy X get Y">Buy X get Y</option>
+      </select>
+    </div>
+
+   
+ 
+
+
+
+
+    <div class="form-item" *ngIf="newPromotion.PromoType == 'Percentage off'">
+      <label for="">Percentage value off.</label>
+      <input type="number" name="" id="" [(ngModel)]="newPromotion.DiscountValue"
+        placeholder="e.ge. 7">
+    </div>
+
+
+    <div class="form-item">
+      <label for=""><b>This Promotion Applies To.</b></label>
+      <select [(ngModel)]="newPromotion.AppliesTo">
+        <option value="All products">All products</option>
+        <option value="Specific products">Specific products</option>
+        <option value="Specific collections">Specific collections</option>
+      </select>
+    </div>
+
+    <div class="form-item">
+      <label for=""><b>Minimum Requirements.</b></label>
+      <select [(ngModel)]="newPromotion.MinimumRequirements">
+        <option value="None">None</option>
+        <option value="Minimum purchase amount">Minimum purchase amount</option>
+        <option value="Minimum purchase quantity">Minimum purchase quantity</option>
+      </select>
+    </div>
+
+    <div class="form-item" *ngIf="newPromotion.MinimumRequirements == 'Minimum purchase amount'">
+      <label for="">Purchase amount.</label>
+      <input type="number" name="" id="" [(ngModel)]="newPromotion.MinimumRequirementValue"
+        placeholder="e.ge. 500">
+    </div>
+
+    <div class="form-item" *ngIf="newPromotion.MinimumRequirements == 'Minimum purchase quantity'">
+      <label for="">Purchase quantity.</label>
+      <input type="number" name="" id="" [(ngModel)]="newPromotion.MinimumRequirementValue"
+        placeholder="e.ge. 3">
+    </div>
+
+    <div class="form-item">
+      <button (click)="savePromotion()" [disabled]="!newPromotion.Name">Next</button>
+      <div class="link" (click)="showAdd = false">Cancel</div>
+    </div>
+  </div>
+</div>

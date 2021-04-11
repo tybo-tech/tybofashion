@@ -1,0 +1,75 @@
+@import '../../../../../assets/styles/color';
+
+.main {
+  padding: 1em;
+  margin-bottom: 2em;
+  width: 60%;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 2em;
+  }
+
+
+  .banner {
+    text-align: center;
+    padding: .4em 1em;
+    background: $white;
+    padding: 1em;
+    margin: 1em 0;
+
+    
+  button {
+    width:15em;
+    @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+  }
+
+    img {
+      width: 100%;
+     margin-bottom: 1em;
+    }
+  }
+
+  .line-grid {
+    display: grid;
+    grid-template-columns: 45% auto;
+
+    .col {
+      padding: 1em;
+      background: $white;
+      border-bottom: 1px solid $cloud;
+
+      &:last-child {
+        text-align: right;
+        font-weight: 600;
+      }
+
+      input {
+        text-align: right;
+        margin: 0;
+        padding: .5em;
+      }
+    }
+
+    .link {
+      top: .5em;
+    }
+  }
+}
+
+.action {
+  background: $white;
+  padding: 1em;
+  display: grid;
+  grid-template-columns: 20% 20% auto;
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 50% auto;
+  }
+
+  button {
+    width: 90%;
+  }
+}

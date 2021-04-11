@@ -1,0 +1,36 @@
+
+<div class="main">
+  <h3>
+    Please leave your message here.
+  </h3>
+
+  <div class="form-item">
+    <label for="name">Your Name *</label>
+    <input type="text" [(ngModel)]="name" placeholder="">
+  </div>
+  
+  <div class="form-item">
+    <label for="name">Your Email</label>
+    <input type="email" [(ngModel)]="email" placeholder="">
+  </div>
+  
+  <div class="form-item">
+    <label for="name">Your Phone</label>
+    <input type="tel" [(ngModel)]="phone" placeholder="">
+  </div>
+  
+  <div class="form-item">
+    <label for="name">Message</label>
+    <textarea  [(ngModel)]="massage" placeholder="">
+  
+    </textarea>
+  </div>
+  
+  <button class="more"  type="button" (click)="back()">
+   Back
+  </button>
+  <button class="more black" [disabled]="!name" type="button" (click)="sendEmail()">
+    Send Message
+  </button>
+  
+</div>

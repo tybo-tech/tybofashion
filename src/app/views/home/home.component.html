@@ -1,0 +1,52 @@
+<app-home-nav [showNav]="true"  (showMobileMenuEvent)="toggleMenu($event)">
+</app-home-nav>
+
+<div class="home-grid">
+  <div class="">
+    <app-home-side-nav
+      [user]="user"
+      [showMobileNav]="showMobileNav"
+      [showExistShop]="showExistShop"
+      (showMobileMenuEvent)="toggleMenu($event)"
+     >
+    </app-home-side-nav>
+  </div>
+
+  <div class="out-let">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+
+<div class="overlay" *ngIf="loadingUx && loadingUx.Loading">
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+    <h3 *ngIf="loadingUx.Message">
+      {{loadingUx.Message}}
+    </h3>
+  </div>
+
+</div>
+
+
+<div class="pop" *ngIf="message">
+  <p>
+    {{message}}
+  </p>
+  <div class="">
+    <span class="material-icons" (click)="message = ''">
+      close
+    </span>
+  </div>
+</div>
+
+<footer>
+  <div class="grid">
+    <div class="col">
+      <p>Powered by tybo fashion</p>
+    </div>
+    <div class="col">
+      <img src="assets/images/common/payments.png" alt="">
+    </div>
+  </div>
+</footer>

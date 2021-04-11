@@ -1,0 +1,17 @@
+
+  <div *ngIf="categories" class="all">
+    <!-- <div class="products">
+      <app-product-section  [selectedCategory]="selectedCategory" [categories]="categories"
+        (selectCategoryEvent)="selectCategory($event)"></app-product-section>
+      <app-collections *ngIf="viewIndex === 1" (navAction)="navAction($event)"></app-collections>
+      <app-my-profile *ngIf="viewIndex === 2" (navAction)="navAction($event)"></app-my-profile>
+      <app-list-my-orders *ngIf="viewIndex === 3" (navAction)="navAction($event)"></app-list-my-orders>
+      <app-all-shops  *ngIf="viewIndex === 4" (navAction)="navAction($event)"></app-all-shops>
+    </div> -->
+
+  </div>
+
+
+  <div *ngIf="isLoading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>

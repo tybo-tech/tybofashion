@@ -1,0 +1,490 @@
+@import '../../../../assets/styles/color';
+
+.top-nav-bar {
+  background: $white;
+  width: 100%;
+  border-bottom: 1px solid $cloud;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 15% 10% 60% auto;
+    width: 100%;
+    border-radius: 0;
+
+  }
+
+  .nav-grid {
+    display: grid;
+    // grid-template-columns: 4% 20% 50% 20% auto;
+    grid-template-columns: 4% 12% 40% 40% auto;
+
+    max-width: $max-width;
+    margin: 0 auto;
+    padding: 0 1em;
+    padding-left: 0;
+
+
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+      grid-template-columns: 10% 72% 10% auto;
+      padding: .5em .2em;
+      padding-right: 1em;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+
+    &:nth-child(2) {
+      text-align: left;
+    }
+
+    &:nth-child(1) {
+      text-align: left;
+    }
+
+
+    .col {
+      // border: 1px solid rgb(168, 168, 168);
+      padding: .5em;
+
+      .form-item {
+        width: 100%;
+        padding: 0;
+      }
+
+    }
+
+
+
+    .c-name {
+      span {
+        font-weight: 600;
+        top: 1.3em;
+        display: block;
+
+        @media only screen and (max-width: 600px) {
+          top: .3em;
+        }
+      }
+
+    }
+
+    .logo {
+      display: block;
+      margin: 0;
+      text-align: left;
+
+      @media only screen and (max-width: 600px) {
+        text-align: center;
+      }
+
+      img {
+        width: auto;
+        height: 2em;
+        top: .2em;
+        border-radius: .3em;
+        cursor: pointer;
+
+        @media only screen and (max-width: 600px) {
+          height: 3em;
+          top: .3em;
+          left: 1em;
+
+        }
+
+      }
+    }
+
+    .cart {
+      text-align: right;
+      cursor: pointer;
+
+      @media only screen and (max-width: 600px) {
+        text-align: left;
+      }
+
+      .material-icons {
+        top: .5em;
+      }
+    }
+
+    .user-col {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .name {
+      span {
+        top: .15em
+      }
+    }
+
+    .menu {
+      // display: none;
+      color: $black;
+
+      @media only screen and (max-width: 600px) {
+        display: block;
+      }
+
+      img {
+        width: 2em;
+        top: .6em;
+
+        @media only screen and (max-width: 600px) {
+          width: 2em;
+          top: .3em;
+        }
+
+      }
+    }
+
+    .search {
+      text-align: right;
+
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+
+
+
+    .user-col {
+      text-align: right;
+
+      img {
+        width: 1.5em;
+        border: 1px solid $pop;
+        border-radius: 10em;
+
+        @media only screen and (max-width: 600px) {
+          top: .4em;
+        }
+      }
+    }
+  }
+}
+
+.sub-carts {
+  padding: .5em;
+  background: $charcoal;
+  margin-top: 5.4em;
+  color: $white;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+
+  @media only screen and (max-width: 600px) {
+    // display: none;
+    margin-top: 0;
+    position: relative;
+
+  }
+
+  .subs {
+    margin: 0 auto;
+    max-width: $max-width;
+    display: flex;
+    margin-top: 1em;
+    // overflow-x: scroll;
+
+    @media only screen and (max-width: 600px) {
+
+      display: flex;
+      overflow-x: scroll;
+      margin-top: 0;
+
+    }
+
+    .sub-catergory {
+      width: fit-content;
+      padding: 0;
+
+
+      button {
+        text-transform: uppercase !important;
+        text-decoration: none;
+        font-weight: 600;
+        color: $white;
+        cursor: pointer;
+        border-right: 1px solid $cloud;
+        display: block;
+        min-width: 10em;
+        width: fit-content;
+        padding: .2em 1em;
+        background: none;
+        border-radius: 0;
+        border: none;
+        padding: .5em;
+        text-align: left;
+
+      }
+
+      .active {
+        // font-weight: 600;
+        // text-decoration: underline;
+      }
+    }
+
+
+
+
+
+
+  }
+}
+
+
+.search-mobile {
+  display: none;
+
+  .close {
+    text-align: right;
+    padding: .5em;
+    color: $danger;
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: $white;
+    z-index: 10000000000;
+    padding: 1em;
+  }
+}
+
+
+
+
+
+
+
+.search {
+  background: $white;
+
+
+
+  input {
+    border: none;
+    background: $cloud;
+    color: $primary;
+
+    &::placeholder {}
+
+  }
+
+  .search-results {
+    // position: fixed;
+    background: $cloud;
+    z-index: 2000;
+    width: 100%;
+    height: 90%;
+    left: 0;
+    padding-bottom: 4em;
+    overflow-y: scroll;
+    animation: fadeIn .3s ease-out 0s;
+    animation-fill-mode: backwards;
+
+    .result-item {
+      background: white;
+      width: 60%;
+      margin: 1em auto;
+      display: grid;
+      grid-template-columns: 20% auto;
+
+      @media only screen and (max-width: 600px) {
+        width: 96%;
+
+      }
+
+      img {
+        width: 20%;
+
+        @media only screen and (max-width: 600px) {
+          width: 100%;
+        }
+      }
+
+      .company-image {
+        text-align: center;
+
+        img {
+          width: 2em;
+          top: -.4em;
+          border-radius: .3em;
+        }
+      }
+
+      .name {
+        padding: 1em;
+
+        .price {
+          display: block;
+          padding: .4em 0;
+
+          color: $darker-grey;
+        }
+      }
+    }
+
+    .sorry {
+      width: 80%;
+      margin: 4em auto;
+      background: $white;
+      color: $black;
+      padding: 1em;
+      border-radius: .7em;
+
+      span {
+        display: block;
+        padding: 1em;
+        text-align: center;
+
+        img {
+          width: 10%;
+
+          @media only screen and (max-width: 600px) {
+            width: 70%;
+
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.bottom-nav {
+  position: relative;
+  left: 0;
+  background: $white;
+  height: 3.5em;
+  z-index: 1000;
+  width: 100%;
+  display: grid;
+  border-bottom: 1px solid $cloud;
+  border-top: 1px solid $cloud;
+  // box-shadow: $box-shadow;
+  grid-template-columns: repeat(3, 33%);
+  // grid-template-columns: 33% 33% .00000001% 33%;
+  padding: .5em;
+
+  .nav-items {
+    text-align: center;
+
+    a {
+      display: block;
+      text-decoration: none;
+
+      text-align: center;
+      padding: .4em;
+      // top: .8em;
+      margin: .1em auto;
+      border-radius: 0;
+      color: $silver;
+      width: 80%;
+      font-weight: 800;
+    }
+
+    .active {
+      color: $black;
+      font-weight: 600;
+      background: $pop;
+      border-radius: .5em;
+      // border-bottom: 3px solid $pop;
+      // box-shadow: $box-shadow;
+    }
+
+  }
+}
+
+.bottom-nav-2-cols {
+  grid-template-columns: repeat(2, 50%);
+}
+
+.divisions {
+  background: $white;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 20%);
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+
+  .division {
+    text-align: center;
+    padding: .5em;
+    font-weight: 400;
+    color: $darker-grey;
+    text-transform: capitalize;
+    cursor: pointer;
+
+    a {
+      display: block;
+    }
+  }
+
+  .active {
+    color: $black;
+    font-weight: 600;
+    text-decoration: underline;
+    -webkit-text-decoration-color: $pop;
+    text-decoration-color: $pop;
+    // border-bottom: 1px solrgb(5, 5, 5)000;
+
+  }
+
+}
+
+.mobile-divisions {
+  // background: $white;
+  background: $cloud;
+  padding: 1em;
+  display: none;
+  margin-top: 7.4em;
+
+  @media only screen and (max-width: 600px) {
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+  }
+
+  .division {
+    text-align: center;
+    padding: .5em;
+    font-weight: 400;
+    color: $black;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    a {
+      display: block;
+    }
+  }
+
+  .active {
+    font-weight: 600;
+    background: $pop;
+    border-radius: .45em;
+    // border-bottom: 1px solrgb(5, 5, 5)000;
+
+  }
+
+}
+
+
+.notice{
+  background: $black;
+  color: $pop;
+  text-align: center;
+  padding: .4em;
+}

@@ -1,0 +1,123 @@
+<div class="main" [ngClass]="Class" *ngIf="order">
+  <div class="bag" *ngIf="order.Orderproducts && order.Orderproducts.length">
+    <div class="cart-item" *ngFor="let item of order.Orderproducts; let i = index">
+      <div class="item">
+        <div class="icon" *ngIf="item.FeaturedImageUrl">
+          <div class="user-dp-image">
+            <img [src]="item.FeaturedImageUrl" alt="">
+          </div>
+        </div>
+
+        <div class="icon" *ngIf="!item.FeaturedImageUrl">
+          <div class="user-dp-image">
+            <img src="assets/images/icons/add.svg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <p>
+          {{item.ProductName}}
+          <span class="price">
+            Size: {{item.Size  || 'N/A'}} | Colour: {{item.Colour || 'N/A'}}
+          </span>
+          <span class="price">
+            {{item.Quantity}} x {{item.UnitPrice  | currency:'R'}}
+          </span>
+        </p>
+      </div>
+
+      <div class="item">
+        <span class="material-icons" *ngIf="!hideDelete" (click)="deleteItem(item, i)">
+          delete
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bag" *ngIf="!order.Orderproducts || !order.Orderproducts.length">
+    <div class="no-data">
+      <h1>
+        Your bag is empty.
+      </h1>
+      <img src="assets/images/common/bagempty.svg" alt="">
+      <p>
+        Go shopping, if you like it bag it.
+      </p>
+
+      <button class="" (click)="back()">Go shopping</button>
+    </div>
+  </div>
+
+
+  <div class="shippings" *ngIf="shippings &&  shippings.length  && user">
+    <p>
+      <b>
+        Delivery information
+      </b> <br>
+      {{user.Name}} {{user.Surname}} <br>
+      {{user.PhoneNumber}} <br>
+      {{user.Email}} <br>
+      <button class="link" (click)="profile()">Edit Info</button>
+    </p>
+    <p *ngIf="user.AddressLineHome">
+      <b>Address</b> <br>
+      {{user.AddressLineHome}}
+    </p>
+
+
+    <p *ngIf="!user.AddressLineHome" class="warn">
+      Please capture your delivery address
+      <br>
+      <button class="link" (click)="profile()">Go to my profile</button>
+    </p>
+  </div>
+
+  <div class="shippings" *ngIf="shippings &&  shippings.length">
+    <h4>Shipping methods</h4>
+    <div class="cart-item" *ngFor="let shipping of shippings; let i = index" (click)="selectShipping(shipping)">
+
+      <div class="item">
+        <p>
+          {{shipping.Name}}
+          <span>
+            <span class="price">
+              {{shipping.Price  | currency:'R'}}
+            </span>
+          </span>
+        </p>
+      </div>
+
+      <div class="item">
+        <span class="material-icons active" *ngIf="shipping.Selected">
+          check_circle
+        </span>
+        <span class="material-icons" *ngIf="!shipping.Selected">
+          lens
+        </span>
+      </div>
+
+
+    </div>
+
+
+    <h2 class="sammary" *ngIf="order">
+      <span>
+        Sub Total:
+      </span>
+      {{order.Total  | currency:'R'}}
+      <span class="ship" *ngIf="order.Shipping">Including {{ order.Shipping}} shipping</span>
+    </h2>
+
+    <!-- <button>
+  Proceed to payments
+</button>
+<button>
+  continue shopping
+</button> -->
+
+
+
+  </div>
+
+
+</div>

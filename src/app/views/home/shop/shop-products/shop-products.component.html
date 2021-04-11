@@ -1,0 +1,81 @@
+<div class="product-section" *ngIf="selectedCategory">
+  <!-- <pre>
+    {{selectedCategory | json}}
+  </pre> -->
+
+  <div class="promotions" *ngIf="promotions && promotions.length">
+    <img *ngIf="promotions[0].ImageUrl" [src]="promotions[0].ImageUrl" alt="">
+  </div>
+
+
+
+
+  <div class="" *ngFor="let child of selectedCategory.Tertiary">
+    <div class="product-section-container child" *ngIf="child.Products &&  child.Products.length">
+
+      <div class="expore" (click)="selectCategory(child)">
+        <div class="">
+          <h2>
+            {{child.Name}}
+          </h2>
+        </div>
+
+        <div class="image">
+          <img src="assets/images/all.svg" alt="">
+
+        </div>
+      </div>
+      <div class="product-scroller">
+        <div class="product" *ngFor="let product of child.Products; let i = index" [ngClass]="product.ClassSelector">
+          <div class="image">
+            <img [src]="product.FeaturedImageUrl" alt="" (click)="viewMore(product)">
+          </div>
+          <div class="product-info">
+            {{product.Name}}
+            <span class="price" *ngIf="!product.OnSale" (click)="viewMore(product)">
+              {{product.RegularPrice | currency:'R'}}
+            </span>
+            <span class="price" *ngIf="product.OnSale" (click)="viewMore(product)">
+              <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+              {{product.SalePrice | currency:'R'}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="" *ngFor="let child of selectedCategory.Children">
+    <div class="product-section-container child" *ngIf="child.Products &&  child.Products.length">
+
+      <div class="expore" (click)="selectCategory(child)">
+        <div class="">
+          <h2>
+            {{child.Name}}
+          </h2>
+        </div>
+
+        <div class="image">
+          <img src="assets/images/all.svg" alt="">
+
+        </div>
+      </div>
+      <div class="product-scroller">
+        <div class="product" *ngFor="let product of child.Products; let i = index" [ngClass]="product.ClassSelector">
+          <div class="image">
+            <img [src]="product.FeaturedImageUrl" alt="" (click)="viewMore(product)">
+          </div>
+          <div class="product-info">
+            {{product.Name}}
+            <span class="price" *ngIf="!product.OnSale" (click)="viewMore(product)">
+              {{product.RegularPrice | currency:'R'}}
+            </span>
+            <span class="price" *ngIf="product.OnSale" (click)="viewMore(product)">
+              <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+              {{product.SalePrice | currency:'R'}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

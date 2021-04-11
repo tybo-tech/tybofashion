@@ -1,0 +1,77 @@
+<app-loader [showLoader]="showLoader" *ngIf="showLoader"></app-loader>
+
+<div class="body success-modal mobile-full" *ngIf="jobCards && jobCards.length">
+  <div class="top-bar-conatiner">
+
+    <div class="top-bar" *ngIf="jobCards">
+      <div class="menu-back">
+        <span class="material-icons" (click)="back()">
+          chevron_left
+        </span>
+      </div>
+
+
+      <div class="name">
+        Jobs ({{jobCards.length}})
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cards">
+    <div class="product-item" *ngFor="let item of jobCards" (click)="view(item)">
+
+      <div class="item">
+       <p>
+        {{item.Tittle}}
+       </p>
+      </div>
+
+
+      <div class="item">
+        <span class="job-status">
+          {{item.Status}}
+        </span>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="p6"></div>
+</div>
+
+
+<div (click)="showAdd = true" class="add" *ngIf="jobCards && jobCards.length">
+  Add new job
+</div>
+
+
+<div class="" *ngIf="jobCards && !jobCards.length">
+  <div class="no-data">
+    <h1>
+      You don't have jobs yet.
+    </h1>
+    <img src="assets/images/common/products.svg" alt="">
+    <p>
+      Tap add to create a new job, then you can do a to-do list, estimates, quotes, and invoices.
+    </p>
+
+    <button class="more" (click)="showAdd = true">Add</button>
+  </div>
+</div>
+
+<div class="quick-add" *ngIf="showAdd">
+  <div class="form">
+    <h1>
+      Add new job
+    </h1>
+
+    <div class="form-item">
+      <label for="">Job tittle</label>
+      <input type="text" name="" id="" [(ngModel)]="newJob.Tittle" placeholder="Enter job tittle">
+      <button (click)="saveJob()" [disabled]="!newJob.Tittle">Save</button>
+      <div class="link" (click)="showAdd = false">Cancel</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="main-list _super" *ngIf="variations && variations.length && product">
+
+  <div class="variation" *ngFor="let variation of variations">
+    Product {{variation.Name}}(s)
+
+
+    <div class="variations" *ngIf="variation.Name == 'Size'">
+      <button class="btn-size" *ngFor="let item of variation.VariationsOptions" (click)="select(item, variation.Name)"
+        [ngClass]="item.Class">
+        {{item.Name}}</button>
+    </div>
+
+    <div class="variations" *ngIf="variation.Name == 'Color'">
+      <button class="btn-color" *ngFor="let item of variation.VariationsOptions"
+        [ngStyle]="{'background-color':item.Description, 'background-image': item.ImageUrl? 'url(' + item.ImageUrl + ')' : 'none'}" (click)="select(item, variation.Name)" [ngClass]="item.Class">
+        <span *ngIf="item.Class && item.Class.length" class="selected-color">
+        </span>
+        <span *ngIf="!item.Class || !item.Class.length" class="not-selected-color">
+        </span>
+      </button>
+      <button class="btn-size in-colour" (click)="toggleShowAddColor(variation)">
+        Add new color
+      </button>
+      <button class="btn-size in-colour" (click)="file.click(); selectedVariation=variation">
+        Use image
+      </button>
+
+
+      <input type="file" accept="image/png, image/jpeg" #file placeholder="Choose file" multiple
+        (change)="uploadFile(file.files)" style="display:none;position: fixed;">
+
+    </div>
+
+  </div>
+
+
+  <div class="actions">
+    <button class="save" (click)="saveProduct()">Save</button>
+    <button (click)="back()">Back to product</button>
+
+  </div>
+</div>
+
+
+
+<div class="quick-add" *ngIf="showAddColor">
+  <div class="form">
+    <h1>
+      Add new color
+    </h1>
+
+
+
+
+
+    <div class="form-item" *ngIf="!newOption.ImageUrl">
+      <label for="">Pick the colur</label>
+      <input type="color" class="color-picker" [(ngModel)]="newOption.Description">
+    </div>
+    <div class="form-item" *ngIf="newOption.ImageUrl">
+      <label for="">Color/Prints image</label>
+      <img [src]="newOption.ImageUrl" alt="" style="width: 20%;">
+    </div>
+
+    <div class="form-item">
+
+      <label for="">Color name</label>
+      <input type="text" name="" id="" [(ngModel)]="newOption.Name" placeholder="Enter color name here">
+    </div>
+
+    <div class="form-item">
+      <button (click)="addVariationOption()" [disabled]="!newOption.Name || !newOption.Description">Save</button>
+      <div class="link" (click)="showAddColor = false">Cancel</div>
+    </div>
+   
+  </div>
+</div>

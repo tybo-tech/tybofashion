@@ -1,0 +1,14 @@
+@import '../../../../../assets/styles/color';
+
+.map {
+  width: 93%;
+  left: 1em;
+}
+
+.secondary-btn{
+  background: $white;
+  color: $black;
+  border: 2px solid $pop;
+  margin-left: 1em;
+  display: none;
+}

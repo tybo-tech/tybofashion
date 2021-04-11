@@ -1,0 +1,266 @@
+<div *ngIf="product && order" class="all">
+
+
+  <div class="product-section-container">
+
+    <div class="top-bar-conatiner">
+
+      <div class="top-bar">
+        <div class="menu-back">
+          <span class="material-icons" (click)="back()">
+            chevron_left
+          </span>
+        </div>
+
+
+        <div class="name menu-back" (click)="back()">
+          <!-- {{product.Name}} -->
+          Back
+        </div>
+
+        <div class="share">
+          <span [cdkCopyToClipboard]="fullLink" class="material-icons" (click)="share()">
+            share
+          </span>
+        </div>
+
+        <div class="col cart">
+          <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="cart()">shopping_bag</mat-icon>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="product-grid">
+
+      <div class="images">
+        <div class="image" *ngIf="product.FeaturedImageUrl">
+          <img id="i" [src]="product.FeaturedImageUrl" (swipeleft)="handleSwipe('left')"
+            (swiperight)="handleSwipe('right')" [ngClass]="imageClass" alt="">
+        </div>
+
+        <!-- <div class="image" [ngStyle]="{'background-image': product.FeaturedImageUrl? 'url(' + product.FeaturedImageUrl + ')' : 'none'}">
+        </div> -->
+
+        <div class="tiles" *ngIf="product.Images && product.Images.length">
+          <div class="tile">
+            <img *ngFor="let image of product.Images; let i = index" [src]="image.Url" alt="" (click)="showImage(image)"
+              [ngClass]="image.Class">
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="">
+
+        <div class="details">
+          <div class="name-grid">
+            <p>
+              <span class="p-name">  {{product.Name}} </span>
+              <span (click)="gotoCompany()" class="by-name" *ngIf="company">By {{company.Name}}</span>
+            </p>
+
+            <p>
+              <span class="price" *ngIf="!product.OnSale" class="tar p-price">
+                {{product.RegularPrice | currency:'R'}}
+              </span>
+              <span class="price" *ngIf="product.OnSale" class="tar p-price">
+                <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+                {{product.SalePrice | currency:'R'}}
+              </span>
+            </p>
+
+         
+          </div>
+
+
+
+        </div>
+
+
+        <div class="options" *ngIf="colors">
+          <h4>
+            Selected Color
+          </h4>
+          <button class="btn-color" *ngFor="let option of colors.ProductVariationOptions"
+            [ngStyle]="{'background-color':option.Description, 'background-image': option.ImageUrl? 'url(' + option.ImageUrl + ')' : 'none'}"
+            [ngClass]="option.Class" (click)="selectOption(option, 'Coulor')">
+          </button>
+        </div>
+
+        <div class="options" *ngIf="sizes">
+          <h4>
+            Selected Size
+          </h4>
+          <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn" [ngClass]="option.Class"
+            (click)="selectOption(option, 'Size')">
+            {{option.OptionName}}
+            <!-- <span class="material-icons" *ngIf="option.IsSelected">
+              check_circle
+            </span> -->
+          </div>
+          <div class=""></div>
+        </div>
+
+        <br>
+        <div class="details description" *ngIf="product.Description">
+          <p>
+            <span class="label">Description</span>
+            {{product.Description}}
+          </p>
+
+          <!-- <div [innerHtml]="htmlPreview"></div> -->
+
+        </div>
+
+
+        <div class="details">
+          <br>
+          <p *ngIf="product.IsJustInTime != 'Just in time' &&  product.ShowRemainingItems == 1">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+
+          <p>
+            {{product.RegularPrice | currency:'R'}} Tax included. Shipping calculated at checkout.
+
+          </p>
+          <p
+            *ngIf="product.IsJustInTime != 'Just in time' &&  product.ShowRemainingItems == 6 && product.TotalStock <= 6">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+          <p
+            *ngIf="product.IsJustInTime != 'Just in time' &&  product.ShowRemainingItems == 11 && product.TotalStock <= 11">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+
+
+
+          <p *ngIf="product.IsJustInTime == 'Just in time' &&  product.ShowRemainingItems == 1">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+          <p
+            *ngIf="product.IsJustInTime == 'Just in time' &&  product.ShowRemainingItems == 6 && product.TotalStock <= 6">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+          <p
+            *ngIf="product.IsJustInTime == 'Just in time' &&  product.ShowRemainingItems == 11 && product.TotalStock <= 11">
+            <span class="warn">
+              {{product.TotalStock}} items left.
+            </span>
+          </p>
+          <p *ngIf="product.IsJustInTime == 'Just in time'">
+            <span class="warn">
+              This product is made on order. The estimated delivery time is {{product.EstimatedDeliveryDays}} working
+              days from order date.
+            </span>
+          </p>
+          <p *ngIf="product.TotalStock == 0">
+            <span class="warn">
+              Out of stock
+            </span>
+          </p>
+          <p *ngIf="product.ReturnPolicy">
+            <span class="warn">
+              {{product.ReturnPolicy}}
+            </span>
+          </p>
+        </div>
+
+
+        <div class="action">
+
+          <button class="mat-primary add-to-cart btn-pop secc" [disabled]="product.TotalStock == 0" mat-button
+            color="primary" (click)="addCart(product)">
+            Save
+          </button>
+
+          <button class="mat-primary add-to-cart btn-pop" [disabled]="product.TotalStock == 0" mat-button
+            color="primary" (click)="addCart(product)">
+            Add to bag
+          </button>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+
+
+    <div class="more-info">
+      <h3>
+        Payment methods
+      </h3>
+      <p>
+        <b> Instant EFT</b>
+        If you have
+        access to internet banking with any bank you can make an Electronic Funds
+        Transfer (EFT) that gets instantly verified.
+
+        <b>Debit cards</b>
+        Debit cards issued by Maestro and Visa Electron can
+        be used to make online pay.
+      </p>
+
+      <h3>
+        Shipping methods
+      </h3>
+      <p>
+        <b> We deliver nationwide </b>
+        With various couriers including
+        Aramex, Paxi and More
+      </p>
+    </div>
+
+
+    <div class="devider"></div>
+
+    <div class="payments">
+      <img src="assets/images/common/payfast.png" alt="">
+    </div>
+
+
+
+
+    <div class="overlay" *ngIf="showModal"></div>
+    <div class="modal my-cart" *ngIf="showModal">
+      <app-cart (checkoutOrShopMoreEvent)="checkoutOrShopMore($event)"></app-cart>
+    </div>
+
+
+  </div>
+</div>
+
+<div *ngIf="leavingShowWarning" class="leaving-warning">
+  <div class="body">
+    <p>
+      One shop at a time.
+
+      <span>
+        You still have an open bag with <b> {{order.Company?.Name}} </b>, please checkout before you continue shopping
+        from other shops.
+      </span>
+
+      <span>
+        To keep delivery efficient and quicker we stick to one shop per order.
+      </span>
+    </p>
+    <div class="actions">
+
+      <button class="ok" (click)="toggleLeavingShowWarning()">Ok</button>
+      <button (click)="checkout()">Go to my bag</button>
+    </div>
+  </div>
+</div>
