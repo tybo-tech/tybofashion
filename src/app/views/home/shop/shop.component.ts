@@ -238,7 +238,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
 
 
   displayProducts(categoryId: string) {
-    // debugger
     this.selectedCategory = this.parentCatergories.find(x => x.CategoryId === categoryId);
     if (!this.selectedCategory) {
       this.selectedCategory = this.parentCatergories[0];

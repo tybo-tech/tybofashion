@@ -16,21 +16,22 @@
 }
 
 
-.top-bar-conatiner{
+.top-bar-conatiner {
   display: none;
+
   @media only screen and (max-width: 600px) {
-   display: block;
+    display: block;
   }
 }
 
 .top-bar {
-  grid-template-columns: 3% 40% 30% auto;
+  grid-template-columns: 3% 40% 20% 20% auto;
   // div{
   //   border: 1px solid red;
   // }
 
   @media only screen and (max-width: 600px) {
-    grid-template-columns: 5% 50% 30% auto;
+    grid-template-columns: 5% 40% 20% 20% auto;
     padding: .75em .5em;
     background: rgba(255, 255, 255, 0.472);
     border: none;
@@ -88,13 +89,7 @@
 
   .images {
     .image {
-      // padding: 0;
-      // height: 40vh;
-      // border: 1px solid $pop;
-      // background-size: cover;
-      // background-repeat: no-repeat;
-
-      // overflow: hidden;
+      position: relative;
     }
 
     img {
@@ -217,7 +212,20 @@
     position: relative;
 
 
+    display: grid;
+    grid-template-columns: 15% 20% auto;
 
+    p {
+      padding: .5em;
+      top: .5em;
+      font-weight: 600;
+    }
+
+    select {
+      width: 90%;
+      font-weight: 600;
+      padding: 1em;
+    }
     @media only screen and (max-width: 600px) {
       position: fixed;
       bottom: 0;
@@ -228,10 +236,12 @@
       margin: 0;
       background: $cloud;
       width: 100%;
-      display: grid;
-      grid-template-columns: 50% auto;
+   
       padding: .5em;
       text-align: center;
+      box-shadow: $box-shadow;
+
+   
     }
 
     button {
@@ -245,7 +255,8 @@
       width: 12em;
 
       @media only screen and (max-width: 600px) {
-        margin: 0 auto;
+        margin: .3em auto;
+        width: 90%;
       }
 
 
@@ -254,9 +265,9 @@
       }
     }
 
-    .secc{
+    .secc {
       background: $white !important;
-      
+
     }
   }
 }
@@ -341,7 +352,7 @@ img {
     background: $white;
     height: auto;
     border-radius: .5em;
-    padding: 1em;
+    padding: 4em;
     margin: 4em auto;
     border: 2px solid $pop;
 
@@ -534,3 +545,6 @@ img {
   animation-fill-mode: backwards;
 }
 
+.loved {
+  color: $red;
+}

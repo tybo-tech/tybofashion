@@ -47,7 +47,6 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
         this.homeShopService.updateCategoryListState(data);
         this.isLoading = false;
         this.uxService.updateLoadingState({ Loading: false, Message: undefined });
-
       }
     });
     this.homeShopService.parentCategoryObservable.subscribe(data => {
@@ -88,7 +87,7 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
     }
     this.uxService.updateNavBarLogoState({
       Name: '',
-      LogoUrl: `assets/images/common/logoblack3.png`
+      LogoUrl: `assets/images/common/logoblack2.png`
     });
 
     this.uxService.showIntroPageObservable.subscribe(data => {

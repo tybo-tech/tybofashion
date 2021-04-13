@@ -13,6 +13,8 @@ import { CompanyService } from 'src/services/company.service';
 import { UxService } from 'src/services/ux.service';
 import { ORDER_TYPE_SALES } from 'src/shared/constants';
 import { environment } from 'src/environments/environment';
+import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
+import { InteractionService } from 'src/services/Interaction.service';
 
 
 @Component({
@@ -28,7 +30,6 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   productSlug: string;
   totalPrice = 0;
   quantity = 0;
-  showModal: boolean;
   modalHeading: string;
   orderProducts: Product[];
   sizes: ProductVariation;
@@ -46,6 +47,10 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   baseUrl = environment.BASE_URL;
   carttItems = 0;
   navHistory: string;
+  selectedQuantiy: number = 1;
+  liked: string = 'no';
+
+  interaction: Interaction;
 
 
   constructor(
@@ -58,6 +63,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     private companyService: CompanyService,
     private productService: ProductService,
     private uxService: UxService,
+    private interactionService: InteractionService,
 
 
   ) {
@@ -135,6 +141,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       }
       this.carttItems = this.order.Orderproducts && this.order.Orderproducts.length || 0;
       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
+      this.getInteractions();
     })
 
 
@@ -171,7 +178,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     }
 
     if (product && product.ProductId) {
-      product.SelectedQuantiy = 1;
+      product.SelectedQuantiy = this.selectedQuantiy;
       const orderproduct = this.mapOrderproduct(product);
       this.order.Orderproducts.push(orderproduct);
       if (product.Company) {
@@ -181,23 +188,11 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       this.calculateTotalOverdue();
       this.order.Total = this.Total;
       this.orderService.updateOrderState(this.order);
-      this.showModal = true;
-      // this.orderProducts = adding.orderProducts;
       this.modalHeading = `${product.Name} added to bag successfully`;
+      this.cart();
     }
-
-
-    // const adding = this.homeShopService.addToCart(product);
-    // if (adding.added) {
-    //   this.showModal = true;
-    //   this.orderProducts = adding.orderProducts;
-    //   this.modalHeading = 'Added to cart successfully';
-    // }
   }
 
-  closeModal() {
-    this.showModal = false;
-  }
   continueShopping() {
     this.orderService.updateOrderState(this.order);
     this.router.navigate(['']);
@@ -209,13 +204,6 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   onNavItemClicked(event) { }
 
   back() {
-    // if (this.product) {
-    //   this.router.navigate([this.product.CompanyId]);
-    //   return;
-    // }
-
-    // this.router.navigate(['']);
-    // return;
     if (this.navHistory) {
       this.location.back();
     } else {
@@ -249,7 +237,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   calculateTotalOverdue() {
     this.Total = 0;
     this.order.Orderproducts.forEach(line => {
-      this.Total += Number(line.UnitPrice);
+      this.Total += (Number(line.UnitPrice) * Number(line.Quantity));
     });
 
   }
@@ -352,5 +340,64 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
 
   gotoCompany() {
     this.router.navigate([this.company.Slug || this.company.CompanyId]);
+  }
+
+
+  goto(url) {
+    this.router.navigate([url]);
+  }
+  onLike(like: string) {
+    if (!this.order || !this.order.CustomerId) {
+      this.goto('home/sign-in');
+      return false;
+    }
+    this.liked = like;
+    if (like === 'yes') {
+      this.interaction = {
+        InteractionId: "",
+        InteractionType: "Like",
+        InteractionSourceId: this.order.CustomerId,
+        InteractionTargetId: this.product.ProductId,
+        TraceId: '1',
+        InteractionBody: "1",
+        InteractionStatus: "Valid",
+        ImageUrl: "",
+        CreateUserId: this.order.CustomerId,
+        ModifyUserId: this.order.CustomerId,
+        StatusId: 1
+      }
+
+      this.interactionService.add(this.interaction).subscribe(data => {
+        console.log(data);
+      })
+    }
+
+    if (like === 'no' && this.interaction.InteractionId && this.interaction.CreateDate) {
+      this.interactionService.delete(this.interaction.InteractionId).subscribe(data => {
+        console.log(data);
+      })
+    }
+
+
+  }
+
+  getInteractions() {
+    if (!this.order || !this.order.CustomerId) {
+      return false;
+    }
+    const interactionSearchModel: InteractionSearchModel = {
+      InteractionSourceId: this.order.CustomerId,
+      InteractionTargetId: this.product.ProductId,
+      StatusId: 1
+    }
+    this.interactionService.getInteractions(interactionSearchModel).subscribe(data => {
+      if (data && data.length) {
+        const liked = data.find(x => x.InteractionType === 'Like');
+        if (liked) {
+          this.interaction = liked;
+          this.liked = 'yes';
+        }
+      }
+    })
   }
 }

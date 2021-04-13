@@ -12,6 +12,8 @@
   input {
     width: 100%;
     padding: .4em;
+    border: none;
+    background: $cloud;
   }
 }
 
@@ -31,7 +33,10 @@ img {
 }
 
 textarea {
-  height: 15em;
+  height: 10em;
+  border: none;
+  background: $cloud;
+  border-radius: .3em;
 }
 
 button {
@@ -41,6 +46,8 @@ button {
 
 .main{
     padding: 2em .5em;
+    background: $white;
+    height: 100vh;
 }
 
 .more{
@@ -60,6 +67,6 @@ button {
 
 .black{
     left: 51%;
-    background: $primary;
-    color: $white;
+    background: $pop;
+    color: $black;
 }

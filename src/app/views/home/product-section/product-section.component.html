@@ -5,14 +5,62 @@
     <img [src]="selectedCategory.PhoneBanner" class="mobile" alt="">
   </div>
 
-  <!-- <div class="promotions" *ngIf="promotions && promotions.length">
-    <div class="promo-item" *ngFor="let promotion of promotions" [ngClass]="promotion.Class">
-      <h4 *ngIf="promotion.ImageUrl">
-        {{ promotion.Company?.Name}} is running a special.
-      </h4>
-      <img *ngIf="promotion.ImageUrl" [src]="promotion.ImageUrl"  (click)="gotoShopPromotion(promotion)">
+
+  <div class="" *ngFor="let child of selectedCategory.Picks">
+    <div class="product-section-container child" *ngIf="child.Products &&  child.Products.length">
+
+      <div class="expore" (click)="selectCategory(child)">
+        <div class="">
+          <h2>
+            {{child.Name}}
+          </h2>
+        </div>
+
+        <div class="image">
+          <img src="assets/images/all.svg" alt="">
+
+        </div>
+      </div>
+      <div class="product-scroller">
+        <div class="product" *ngFor="let product of child.Products; let i = index" [ngClass]="product.ClassSelector">
+          <div class="image">
+            <img [src]="product.FeaturedImageUrl" alt="" (click)="viewMore(product)">
+          </div>
+          <div class="product-info">
+            {{product.Name}}
+
+
+            <span class="price" *ngIf="!product.OnSale">
+              {{product.RegularPrice | currency:'R'}}
+            </span>
+            <span class="price" *ngIf="product.OnSale">
+              <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+              {{product.SalePrice | currency:'R'}}
+            </span>
+            <p>
+              <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By
+                {{product.Company.Name}}</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="sliders">
+          <div class="" (click)="changeSlide(-1)">
+            <span class="material-icons">
+              arrow_back_ios
+            </span>
+          </div>
+
+          <div class="">
+            <span class="material-icons" (click)="changeSlide(1)">
+              arrow_forward_ios
+            </span>
+          </div>
+
+        </div>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <div class="" *ngFor="let child of selectedCategory.Tertiary">
     <div class="product-section-container child" *ngIf="child.Products &&  child.Products.length">
@@ -45,17 +93,9 @@
               <del> {{product.RegularPrice | currency:'R'}}</del> <br>
               {{product.SalePrice | currency:'R'}}
             </span>
-
-            <!-- <span class="company" *ngIf="product.Company">
-              <div class="company-image">
-                <img *ngIf="product.Company.Dp" [src]="product.Company.Dp" alt="">
-                <img *ngIf="!product.Company.Dp" src="assets/images/shop.svg" alt="">
-              </div>
-              <div class="" (click)="gotoShop(product)"> {{product.Company?.Name}}</div>
-            </span> -->
-
             <p>
-              <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By {{product.Company.Name}}</span>
+              <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By
+                {{product.Company.Name}}</span>
             </p>
           </div>
         </div>
@@ -120,7 +160,8 @@
             </span> -->
 
             <p>
-              <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By {{product.Company.Name}}</span>
+              <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By
+                {{product.Company.Name}}</span>
             </p>
           </div>
 
@@ -131,7 +172,7 @@
             <a (click)="selectCategory(child)">See more {{child.Name}} </a>
           </div> -->
         </div>
-        <div class="sliders" >
+        <div class="sliders">
           <div class="" (click)="changeSlide(-1)">
             <span class="material-icons">
               arrow_back_ios

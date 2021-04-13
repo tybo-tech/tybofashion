@@ -14,15 +14,25 @@
 
 
         <div class="name menu-back" (click)="back()">
-          <!-- {{product.Name}} -->
           Back
         </div>
 
         <div class="share">
-          <span [cdkCopyToClipboard]="fullLink" class="material-icons" (click)="share()">
-            share
+          <span class="material-icons love" *ngIf="liked == 'no'" (click)="onLike('yes')">
+            favorite_border
+          </span>
+
+
+          <span class="material-icons love loved" *ngIf="liked == 'yes'" (click)="onLike('no')">
+            favorite
           </span>
         </div>
+
+     
+
+        <span [cdkCopyToClipboard]="fullLink" class="material-icons love share" (click)="share()">
+          share
+        </span> 
 
         <div class="col cart">
           <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="cart()">shopping_bag</mat-icon>
@@ -35,12 +45,13 @@
 
       <div class="images">
         <div class="image" *ngIf="product.FeaturedImageUrl">
+
+
+
           <img id="i" [src]="product.FeaturedImageUrl" (swipeleft)="handleSwipe('left')"
             (swiperight)="handleSwipe('right')" [ngClass]="imageClass" alt="">
         </div>
 
-        <!-- <div class="image" [ngStyle]="{'background-image': product.FeaturedImageUrl? 'url(' + product.FeaturedImageUrl + ')' : 'none'}">
-        </div> -->
 
         <div class="tiles" *ngIf="product.Images && product.Images.length">
           <div class="tile">
@@ -57,7 +68,7 @@
         <div class="details">
           <div class="name-grid">
             <p>
-              <span class="p-name">  {{product.Name}} </span>
+              <span class="p-name"> {{product.Name}} </span>
               <span (click)="gotoCompany()" class="by-name" *ngIf="company">By {{company.Name}}</span>
             </p>
 
@@ -71,7 +82,7 @@
               </span>
             </p>
 
-         
+
           </div>
 
 
@@ -96,9 +107,7 @@
           <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn" [ngClass]="option.Class"
             (click)="selectOption(option, 'Size')">
             {{option.OptionName}}
-            <!-- <span class="material-icons" *ngIf="option.IsSelected">
-              check_circle
-            </span> -->
+
           </div>
           <div class=""></div>
         </div>
@@ -179,11 +188,14 @@
 
 
         <div class="action">
-
-          <button class="mat-primary add-to-cart btn-pop secc" [disabled]="product.TotalStock == 0" mat-button
-            color="primary" (click)="addCart(product)">
-            Save
-          </button>
+          <div class="">
+           <p>
+            Qty:
+           </p>
+          </div>
+          <select name="" [(ngModel)]="selectedQuantiy" id="">
+            <option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]" [value]="item">{{item}}</option>
+          </select>
 
           <button class="mat-primary add-to-cart btn-pop" [disabled]="product.TotalStock == 0" mat-button
             color="primary" (click)="addCart(product)">
@@ -233,13 +245,6 @@
 
 
 
-
-    <div class="overlay" *ngIf="showModal"></div>
-    <div class="modal my-cart" *ngIf="showModal">
-      <app-cart (checkoutOrShopMoreEvent)="checkoutOrShopMore($event)"></app-cart>
-    </div>
-
-
   </div>
 </div>
 
@@ -260,7 +265,7 @@
     <div class="actions">
 
       <button class="ok" (click)="toggleLeavingShowWarning()">Ok</button>
-      <button (click)="checkout()">Go to my bag</button>
+      <button (click)="cart()">Go to my bag</button>
     </div>
   </div>
 </div>

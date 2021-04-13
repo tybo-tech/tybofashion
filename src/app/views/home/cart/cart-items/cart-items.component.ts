@@ -17,7 +17,7 @@ export class CartItemsComponent implements OnInit {
   @Input() shippings: Shipping[];
   @Input() Class: string[];
   user: User;
-
+  showAdd;
 
   constructor(
     private router: Router,
@@ -31,17 +31,21 @@ export class CartItemsComponent implements OnInit {
     this.user = this.accountService.currentUserValue;
     if (this.shippings && this.shippings.length) {
       if (this.order && this.order.Shipping) {
-
         const ship = this.shippings.find(x => x.Name === this.order.Shipping);
         if (ship) {
           this.selectShipping(ship);
         }
+      } else {
+        const courier = this.shippings.find(x => x.ShippingId === 'courier');
+        if (courier) {
+          this.selectShipping(courier);
+        }
       }
     }
   }
- back(){
-  this.location.back();   
- }
+  back() {
+    this.location.back();
+  }
 
   deleteItem(item: Orderproduct, i) {
     this.order.Total -= Number(item.UnitPrice);
@@ -62,13 +66,14 @@ export class CartItemsComponent implements OnInit {
       this.calculateTotalOverdue();
       this.order.Total = Number(this.order.Total) + Number(shipping.Price);
       this.orderService.updateOrderState(this.order);
+      this.showAdd = false;
     }
   }
 
   calculateTotalOverdue() {
     this.order.Total = 0;
     this.order.Orderproducts.forEach(line => {
-      this.order.Total += Number(line.UnitPrice);
+      this.order.Total += (Number(line.UnitPrice) * Number(line.Quantity));
     });
 
   }

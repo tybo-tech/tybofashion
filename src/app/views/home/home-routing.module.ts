@@ -29,6 +29,7 @@ import { HomeSideNavComponent } from './home-nav/home-side-nav/home-side-nav.com
 import { HomeToolbarNavigationComponent } from './home-toolbar-navigation/home-toolbar-navigation.component';
 import { HomeComponent } from './home.component';
 import { ProductSectionCardComponent, ProductSectionComponent, ProductSectionDetailComponent } from './product-section';
+import { AllCollectionsComponent } from './product-section/collections/all-collections/all-collections.component';
 import { CollectionsComponent } from './product-section/collections/collections.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
@@ -59,9 +60,10 @@ const routes: Routes = [
       { path: 'shop/product/:id', component: ProductSectionDetailComponent },
       { path: 'shop/collections/:id', component: ShopCollectionComponent },
       { path: 'home/collections/:id', component: CollectionsComponent },
+      { path: 'home/all-collections/:id', component: AllCollectionsComponent },
       { path: 'home/hello-fashion-shop', component: SellWithUsComponent },
       { path: 'home/shops', component: AllShopsComponent },
-      { path: 'home/contact', component: ContactComponent },
+      { path: 'home/contact-us', component: ContactComponent },
       { path: 'home/payment-cancelled/:id', component: PaymentCancelledComponent },
       // { path: 'home/payment-cancelled/:id', component: ShopingSuccesfulComponent }     for testing only,
       { path: 'home/shopping-succesful/:id', component: ShopingSuccesfulComponent },
@@ -115,7 +117,8 @@ export const declarations = [
   HelloPageComponent,
   CustomerDesignComponent,
   OnSaleComponent,
-  SocialLoginComponent
+  SocialLoginComponent,
+  AllCollectionsComponent
 ];
 
 @NgModule({

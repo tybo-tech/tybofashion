@@ -53,7 +53,7 @@ export class CollectionsComponent implements OnInit , AfterViewInit{
   }
   onNavItemClicked(p) { }
   back() {
-    this.router.navigate(['']);
+    this.location.back();
   }
 
   ngAfterViewInit(): void {

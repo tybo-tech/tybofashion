@@ -28,16 +28,6 @@
       margin: .2em auto;
     }
 
-    .sammary {
-      margin-top: 3em;
-      text-align: center;
-
-      span {
-        font-size: .7em;
-        text-align: center;
-        display: block;
-      }
-    }
 
 
   }
@@ -152,7 +142,7 @@ h1 {
 }
 
 .shippings {
-  width: 93%;
+  width: 100%;
   margin: 1em auto;
   background: $cloud;
   padding: .5em;
@@ -171,7 +161,7 @@ h1 {
     }
 
     .active {
-      color: $pop;
+      color: $secondary;
       // background-color: $pop;
     }
   }
@@ -197,6 +187,39 @@ h2 {
   padding-bottom: .4em;
 }
 
-h4{
+h4 {
   padding: 1em;
+}
+
+.shipping-method {
+  background: $white;
+  padding: 1em;
+  text-align: center;
+  border: 1px solid $black;
+  margin: 1em;
+
+  a {
+    color: $tec;
+    display: block;
+    text-decoration: none;
+    padding: .5em;
+    cursor: pointer;
+  }
+}
+
+
+
+.sammary {
+padding: 1em;
+background: $white;
+  span {
+    font-size: 1em;
+    text-align: center;
+  }
+}
+
+.full-address{
+  padding-top: .5em;
+  margin-top: .5em;
+  border-top: 1px solid $cloud;
 }

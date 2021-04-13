@@ -2,7 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Email, User } from 'src/models';
+import { ModalModel } from 'src/models/modal.model';
 import { EmailService, UploadService, UserService } from 'src/services';
+import { UxService } from 'src/services/ux.service';
+import { IMAGE_DONE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-contact',
@@ -17,11 +20,17 @@ export class ContactComponent implements OnInit {
   email;
   massage;
   phone;
-
+  modalModel: ModalModel = {
+    heading: undefined,
+    body: [],
+    ctaLabel: 'Done',
+    routeTo: '',
+    img: undefined
+  };
   showLoader;
   constructor(
     private uploadService: UploadService,
-    private userService: UserService,
+    private uxService: UxService,
     private emailService: EmailService,
     private router: Router,
   ) { }
@@ -36,19 +45,21 @@ export class ContactComponent implements OnInit {
 
   sendEmail() {
     const emailToSend: Email = {
-      Email: 'zowehsalongroup@zoweh.co.za',
+      Email: 'accounts@tybo.co.za',
       Subject: this.name + ' Enquiry',
       Message: `${this.massage}  | ${this.email} | ${this.phone}`,
-      UserFullName: 'Zoweh Team'
+      UserFullName: this.name
     };
     this.showLoader = true;
+    this.uxService.showLoader();
     this.emailService.sendGeneralTextEmail(emailToSend)
       .subscribe(response => {
         if (response > 0) {
           setTimeout(() => {
-            this.showLoader = false;
-            alert('Thank you for contacting us we will reply as soon as possible');
-            this.router.navigate(['']);
+            this.uxService.hideLoader();
+            this.modalModel.heading = `Success!`
+            this.modalModel.img = IMAGE_DONE
+            this.modalModel.body.push('Thank you for contacting us we will reply as soon as possible')
           }, 1000);
         }
       });

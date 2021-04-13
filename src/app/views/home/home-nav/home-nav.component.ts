@@ -136,7 +136,7 @@ export class HomeNavComponent implements OnInit {
       } else {
         this.logoUx = {
           Name: '',
-          LogoUrl: `assets/images/common/logoblack3.png`
+          LogoUrl: `assets/images/common/logoblack2.png`
         }
       }
     });
@@ -299,7 +299,6 @@ export class HomeNavComponent implements OnInit {
   }
 
   parentNavItemClicked(item: NavigationModel) {
-    // debugger
     if (item) {
       this.navItems.map(x => x.Class = '');
       item.Class = 'active';

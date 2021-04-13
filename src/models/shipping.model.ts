@@ -15,20 +15,20 @@ export interface Shipping {
 
 
 export const systemShippings: Shipping[] = [
-  {
-    ShippingId: '',
-    CompanyId: '',
-    Name: 'Collect',
-    Description: '',
-    Price: 0,
-    ImageUrl: '',
-    CreateUserId: undefined,
-    ModifyUserId: undefined,
-    StatusId: 1
+  // {
+  //   ShippingId: '',
+  //   CompanyId: '',
+  //   Name: 'Collect',
+  //   Description: '',
+  //   Price: 0,
+  //   ImageUrl: '',
+  //   CreateUserId: undefined,
+  //   ModifyUserId: undefined,
+  //   StatusId: 1
 
-  },
+  // },
   {
-    ShippingId: '',
+    ShippingId: 'courier',
     CompanyId: '',
     Name: 'Courier',
     Description: '',

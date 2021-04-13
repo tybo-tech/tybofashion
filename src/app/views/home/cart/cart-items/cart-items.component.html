@@ -48,76 +48,102 @@
     </div>
   </div>
 
+  <div class="shipping-method" *ngIf="order.Shipping && shippings &&  shippings.length  && user">
+    <div class="name">
+      Delivery: {{ order.Shipping}} <b>{{ this.order.ShippingPrice  | currency:'R'}}</b>
+    </div>
 
-  <div class="shippings" *ngIf="shippings &&  shippings.length  && user">
-    <p>
+    <div class="action">
+      <a (click)="showAdd=true">Change</a>
+    </div>
+  </div>
+
+
+  <div class="shipping-method" *ngIf="shippings &&  shippings.length  && user">
+    <div class="name">
       <b>
-        Delivery information
-      </b> <br>
+        Delivery information <br>
+      </b>
       {{user.Name}} {{user.Surname}} <br>
       {{user.PhoneNumber}} <br>
       {{user.Email}} <br>
-      <button class="link" (click)="profile()">Edit Info</button>
-    </p>
-    <p *ngIf="user.AddressLineHome">
-      <b>Address</b> <br>
-      {{user.AddressLineHome}}
-    </p>
 
 
-    <p *ngIf="!user.AddressLineHome" class="warn">
-      Please capture your delivery address
-      <br>
-      <button class="link" (click)="profile()">Go to my profile</button>
-    </p>
+      <p class="full-address" *ngIf="user.AddressLineHome">
+
+        {{user.AddressLineHome}}
+      </p>
+
+      <p *ngIf="!user.AddressLineHome" class="warn">
+        Please capture your delivery address
+        <br>
+      </p>
+    </div>
+
+    <div class="action">
+      <a (click)="profile()">Edit profile</a>
+    </div>
   </div>
 
-  <div class="shippings" *ngIf="shippings &&  shippings.length">
-    <h4>Shipping methods</h4>
-    <div class="cart-item" *ngFor="let shipping of shippings; let i = index" (click)="selectShipping(shipping)">
 
-      <div class="item">
-        <p>
-          {{shipping.Name}}
-          <span>
-            <span class="price">
-              {{shipping.Price  | currency:'R'}}
+  <h3 class="sammary" *ngIf="order">
+    <span>
+      Sub Total:
+    </span>
+    {{order.Total  | currency:'R'}}
+    <!-- <span class="ship" *ngIf="order.Shipping">Including {{ order.Shipping}} shipping</span> -->
+  </h3>
+
+
+
+
+</div>
+
+
+
+<div class="quick-add" *ngIf="showAdd">
+  <div class="form">
+    <h3>
+      Choose a shipping method.
+    </h3>
+
+
+    <div class="shippings" *ngIf="shippings &&  shippings.length">
+      <div class="cart-item" *ngFor="let shipping of shippings; let i = index" (click)="selectShipping(shipping)">
+
+        <div class="item">
+          <p>
+
+            <span>
+              <span class="price">
+                {{shipping.Name}}
+              </span>
             </span>
+
+            {{shipping.Price  | currency:'R'}}
+          </p>
+        </div>
+
+        <div class="item">
+          <span class="material-icons active" *ngIf="shipping.Selected">
+            check_circle
           </span>
-        </p>
+          <span class="material-icons" *ngIf="!shipping.Selected">
+            lens
+          </span>
+        </div>
+
+
       </div>
 
-      <div class="item">
-        <span class="material-icons active" *ngIf="shipping.Selected">
-          check_circle
-        </span>
-        <span class="material-icons" *ngIf="!shipping.Selected">
-          lens
-        </span>
-      </div>
+
+
 
 
     </div>
-
-
-    <h2 class="sammary" *ngIf="order">
-      <span>
-        Sub Total:
-      </span>
-      {{order.Total  | currency:'R'}}
-      <span class="ship" *ngIf="order.Shipping">Including {{ order.Shipping}} shipping</span>
-    </h2>
-
-    <!-- <button>
-  Proceed to payments
-</button>
-<button>
-  continue shopping
-</button> -->
-
-
+    <div class="form-item">
+      <div class="link" (click)="showAdd = false">Cancel</div>
+    </div>
 
   </div>
-
-
 </div>

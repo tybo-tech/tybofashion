@@ -63,7 +63,7 @@ export class HomeSideNavComponent implements OnInit {
       }
     });
 
-  
+
   }
 
   goto(event) {
@@ -88,7 +88,6 @@ export class HomeSideNavComponent implements OnInit {
 
 
   parentNavItemClicked(item: NavigationModel) {
-    // debugger
     if (item) {
       this.navItems.map(x => x.Class = '');
       item.Class = 'active';
@@ -96,6 +95,8 @@ export class HomeSideNavComponent implements OnInit {
       const selectedCategory = this.categories.find(x => x.CategoryId === categoryId);
       if (selectedCategory) {
         this.homeShopService.updateParentCategoryState(selectedCategory);
+        this.toggleMenu(false);
+        this.router.navigate([`home/all-collections`, selectedCategory.Name.toLocaleLowerCase()]);
       }
     }
   }

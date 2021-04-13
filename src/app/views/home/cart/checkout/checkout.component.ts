@@ -89,12 +89,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   laodShipping() {
-    this.shippingService.getShippingsSync(this.order && this.order.CompanyId).subscribe(data => {
-      if (data && data.length) {
-        this.shippings = data;
-      } else {
-        this.shippings = systemShippings;
-      }
-    })
+    this.shippings = systemShippings;
+    // this.shippingService.getShippingsSync(this.order && this.order.CompanyId).subscribe(data => {
+    //   if (data && data.length) {
+    //     this.shippings = data;
+    //   } else {
+    //     this.shippings = systemShippings;
+    //   }
+    // })
   }
 }

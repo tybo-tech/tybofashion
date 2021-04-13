@@ -37,7 +37,6 @@ export class HomeLandingComponent implements OnInit {
     if (this.user && this.user.UserType === ADMIN) {
       this.router.navigate(['admin/dashboard']);
     }
-    // debugger
     this.homeShopService.categoryListObservable.subscribe(data => {
       if (data) {
         this.categories = data;
