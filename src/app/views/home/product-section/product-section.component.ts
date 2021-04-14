@@ -211,7 +211,10 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
     if (model) {
       this.homeShopService.updateProductState(model);
       this.homeShopService.updatePageMovesIntroTrueAndScrollOpen();
-      this.uxService.keepNavHistory('home');
+      this.uxService.keepNavHistory({
+        BackToAfterLogin: ``,
+        BackTo: ''
+      });
       // this.router.navigate([model.Company.Slug]);
       this.router.navigate(['shop/product', model.ProductSlug || model.ProductId])
     }
@@ -254,8 +257,8 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
     this.router.navigate([promotion.CompanyId]);
   }
 
-  changeSlide(e){
+  changeSlide(e) {
     console.log(e);
-    
+
   }
 }

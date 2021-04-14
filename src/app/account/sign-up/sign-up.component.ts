@@ -15,6 +15,8 @@ import { AddressComponent } from 'ngx-google-places-autocomplete/objects/address
 import { OrderService } from 'src/services';
 import { Order } from 'src/models';
 import { environment } from 'src/environments/environment';
+import { UxService } from 'src/services/ux.service';
+import { NavHistoryUX } from 'src/models/UxModel.model';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -47,6 +49,7 @@ export class SignUpComponent implements OnInit {
   order: Order;
   model: any;
   user: any;
+  navHistory: NavHistoryUX;
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +58,7 @@ export class SignUpComponent implements OnInit {
     private emailService: EmailService,
     private _location: Location,
     private orderService: OrderService,
+    private uxService: UxService,
 
 
   ) { }
@@ -79,10 +83,17 @@ export class SignUpComponent implements OnInit {
       IsDeleted: [IS_DELETED_FALSE],
       StatusId: [AWAITING_ACTIVATION]
     });
-
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      this.navHistory = data;
+    })
   }
+
   back() {
-    this._location.back();
+    if (this.navHistory && this.navHistory.BackToAfterLogin) {
+      this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+    } else {
+      this.routeTo.navigate(['']);
+    }
   }
   onSubmit(model: UserModel) {
     model.Roles = [];
@@ -98,6 +109,10 @@ export class SignUpComponent implements OnInit {
     model.Dp =  environment.DF_USER_LOGO;
 
     this.accountService.register(model).subscribe(user => {
+
+      if (user && user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
+        this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+      }
 
       if (user && user.UserType === CUSTOMER) {
         this.accountService.updateUserState(user);

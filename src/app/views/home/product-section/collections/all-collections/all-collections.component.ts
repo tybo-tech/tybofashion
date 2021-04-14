@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'src/models';
-import { OrderService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
-import { PromotionService } from 'src/services/promotion.service';
-import { UxService } from 'src/services/ux.service';
-
 @Component({
   selector: 'app-all-collections',
   templateUrl: './all-collections.component.html',
@@ -16,10 +12,7 @@ export class AllCollectionsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private homeShopService: HomeShopService,
-    private orderService: OrderService,
-    private uxService: UxService,
-    private promotionService: PromotionService,
+    private homeShopService: HomeShopService
   ) { }
 
   ngOnInit() {
@@ -28,7 +21,6 @@ export class AllCollectionsComponent implements OnInit {
     });
   }
   back() {
-    // this.navAction.emit(true);
     this.router.navigate(['']);
   }
 

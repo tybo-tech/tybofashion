@@ -8,6 +8,7 @@ import { UxService } from 'src/services/ux.service';
 import { CUSTOMER, IMAGE_DONE } from 'src/shared/constants';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import { NavHistoryUX } from 'src/models/UxModel.model';
 
 @Component({
   selector: 'app-social-login',
@@ -30,6 +31,7 @@ export class SocialLoginComponent implements OnInit {
   socialUser: SocialUser;
   loggedIn: boolean;
   modalImage: string;
+  navHistory: NavHistoryUX;
   constructor(
     private fb: FormBuilder,
     private routeTo: Router,
@@ -48,8 +50,8 @@ export class SocialLoginComponent implements OnInit {
       if (this.loggedIn) {
         const userModel: UserModel = {
           Dp: this.socialUser.photoUrl,
-          Email:this.socialUser.email,
-          CreateUserId:this.socialUser.provider,
+          Email: this.socialUser.email,
+          CreateUserId: this.socialUser.provider,
           ModifyUserId: this.socialUser.provider,
           Name: this.socialUser.name,
 
@@ -57,7 +59,7 @@ export class SocialLoginComponent implements OnInit {
           AddressLineWork: '',
           AddressUrlWork: '',
           Surname: '',
-   
+
           PhoneNumber: '',
           Password: `${Math.random() * 10}`,
           ImageUrl: '',
@@ -66,7 +68,7 @@ export class SocialLoginComponent implements OnInit {
           AccessStatus: '',
           AccessStartDate: '',
           AccessEndDate: '',
-          
+
           AddressLineHome: '',
           StatusId: 1,
           Roles: [],
@@ -74,19 +76,25 @@ export class SocialLoginComponent implements OnInit {
         };
         this.modalImage = this.socialUser.photoUrl
         this.login(userModel);
-      
+
       }
     });
-
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      this.navHistory = data;
+    })
   }
 
 
- 
+
   login(model: UserModel) {
     this.uxService.showLoader();
     this.accountService.socialLogin(model).subscribe(user => {
       this.uxService.hideLoader();
 
+
+      if (user && user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
+        this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+      }
       if (user && user.UserType === CUSTOMER) {
         this.accountService.updateUserState(user);
 

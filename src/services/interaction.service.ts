@@ -47,6 +47,11 @@ export class InteractionService {
       `${this.url}/api/interaction/get-interactions.php`, interactionSearchModel
     );
   }
+  getInteractionsBySource(interactionSearchModel: InteractionSearchModel) {
+    return this.http.post<Interaction[]>(
+      `${this.url}/api/interaction/get-interactions-by-source.php`, interactionSearchModel
+    );
+  }
 
 
 

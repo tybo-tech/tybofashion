@@ -12,6 +12,11 @@ export interface Interaction {
   CreateDate?: string;
   ModifyDate?: string;
   StatusId: number;
+  Color: string;
+  Size: string;
+  Price: number;
+  Name: string;
+  Description: string;
 
 }
 

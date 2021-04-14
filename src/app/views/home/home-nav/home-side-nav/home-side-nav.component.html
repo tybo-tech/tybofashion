@@ -14,7 +14,7 @@
       <p>
         Hi, <b (click)="profile()">{{user.Name}}</b>
         <br>
-        <span (click)="logout()">Logout</span>
+        <span class="logout" (click)="logout()">Logout</span>
       </p>
     </div>
 
@@ -31,6 +31,13 @@
     <div class="main-collections">
       <div class="collection" (click)="goto('home/contact-us')">
        Contact us.
+      </div>
+    </div>
+    <div class="main-collections">
+      <div class="collection" (click)="goto('home/wishlist')">
+        <span class="material-icons love loved">
+          favorite
+        </span>  My wishlist.
       </div>
     </div>
     <!-- 

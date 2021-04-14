@@ -6,6 +6,7 @@ import { Order, User } from 'src/models';
 import { Shipping, systemShippings } from 'src/models/shipping.model';
 import { AccountService, OrderService } from 'src/services';
 import { ShippingService } from 'src/services/shipping.service';
+import { UxService } from 'src/services/ux.service';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +34,7 @@ export class CheckoutComponent implements OnInit {
     // private shoppingService: ShoppingService,
     private router: Router,
     private orderService: OrderService,
-    private shippingService: ShippingService,
+    private uxService: UxService,
 
 
   ) {
@@ -82,6 +83,10 @@ export class CheckoutComponent implements OnInit {
     this.router.navigate(['']);
   }
   goto(url) {
+    this.uxService.keepNavHistory({
+      BackToAfterLogin: '/shop/checkout',
+      BackTo: null
+    });
     this.router.navigate([url]);
   }
   payments() {

@@ -23,10 +23,6 @@
     <div class="mt5" *ngIf="selectedCategory">
       <div class="shops" *ngFor="let item of selectedCategory.Children" (click)="selectCategory(item)">
         <div class="shop">
-          <!-- <div class="icon">
-            <img *ngIf="item.Dp" [src]="item.Dp" alt="">
-            <img *ngIf="!item.Dp" src="assets/images/shop.svg" alt="">
-          </div> -->
           <h3>
             {{item.Name}}
           </h3>

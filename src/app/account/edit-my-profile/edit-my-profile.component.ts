@@ -9,6 +9,8 @@ import { IMAGE_DONE } from 'src/shared/constants';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { AddressComponent } from 'ngx-google-places-autocomplete/objects/addressComponent';
+import { UxService } from 'src/services/ux.service';
+import { NavHistoryUX } from 'src/models/UxModel.model';
 
 @Component({
   selector: 'app-edit-my-profile',
@@ -37,12 +39,14 @@ export class EditMyProfileComponent implements OnInit {
 
   address: Address;
   x: AddressComponent;
+  navHistory: NavHistoryUX;
   constructor(
     private uploadService: UploadService,
     private userService: UserService,
     private routeTo: Router,
     private accountService: AccountService,
     private location: Location,
+    private uxService: UxService,
 
 
   ) { }
@@ -56,7 +60,18 @@ export class EditMyProfileComponent implements OnInit {
       this.user.AddressLineWork = this.user.AddressLineWork || ''
       this.user.AddressUrlWork = this.user.AddressUrlWork || ''
     }
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      this.navHistory = data;
+    })
+  }
 
+  
+  back() {
+    if (this.navHistory && this.navHistory.BackToAfterLogin) {
+      this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+    } else {
+      this.routeTo.navigate(['']);
+    }
   }
 
   public uploadFile = (files: FileList) => {
@@ -90,18 +105,16 @@ export class EditMyProfileComponent implements OnInit {
           data.Company = this.user.Company;
           this.accountService.updateUserState(data);
           this.showLoader = false;
-          this.modalModel.heading = `Success!`
-          this.modalModel.img = IMAGE_DONE
-          this.modalModel.body.push('Profile updated.')
+          // this.modalModel.heading = `Success!`
+          // this.modalModel.img = IMAGE_DONE
+          // this.modalModel.body.push('Profile updated.');
+          this.uxService.updateMessagePopState('Profile updated successfully.');
+
+          this.back();
         }
       })
     }
 
-  }
-
-  back() {
-
-    this.location.back();
   }
 
 

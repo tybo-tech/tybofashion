@@ -13,6 +13,8 @@ import { Order } from 'src/models';
 import { ModalModel } from 'src/models/modal.model';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { UxService } from 'src/services/ux.service';
+import { NavHistoryUX } from 'src/models/UxModel.model';
 
 
 @Component({
@@ -43,6 +45,7 @@ export class SignInComponent implements OnInit {
     routeTo: 'home/sign-in',
     img: undefined
   };
+  navHistory: NavHistoryUX;
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +53,7 @@ export class SignInComponent implements OnInit {
     private accountService: AccountService,
     private location: LocationStrategy,
     private orderService: OrderService,
+    private uxService: UxService,
     private _location: Location,
 
 
@@ -84,12 +88,17 @@ export class SignInComponent implements OnInit {
     const baseUrlMain: string = (this.location as any)._platformLocation.location.href;
     this.token = baseUrlMain.substring(baseUrlMain.indexOf('=') + 1);
     // this.activateUser();
-
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      this.navHistory = data;
+    })
   }
 
   back() {
-    // this._location.back();
-    this.routeTo.navigate([''])
+    if (this.navHistory && this.navHistory.BackToAfterLogin) {
+      this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+    } else {
+      this.routeTo.navigate(['']);
+    }
   }
   // togo
   activateUser() {
@@ -117,6 +126,9 @@ export class SignInComponent implements OnInit {
       if (user && user.UserId) {
         this.error = '';
         this.accountService.updateUserState(user);
+        if (user && user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
+          this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+        }
         if (user.UserType === ADMIN) {
           this.routeTo.navigate(['admin/dashboard']);
         }

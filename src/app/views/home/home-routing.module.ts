@@ -15,6 +15,7 @@ import { CartItemsComponent } from './cart/cart-items/cart-items.component';
 import { MyCartComponent } from './cart/my-cart/my-cart.component';
 import { PaymentCancelledComponent } from './cart/payment-cancelled/payment-cancelled.component';
 import { ShopingSuccesfulComponent } from './cart/shoping-succesful/shoping-succesful.component';
+import { WishListComponent } from './cart/wish-list/wish-list.component';
 import { ContactComponent } from './contact/contact.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { FiitingRoomComponent } from './fiiting-room/fiiting-room.component';
@@ -71,6 +72,7 @@ const routes: Routes = [
       { path: 'home/edit-myprofile', component: EditMyProfileComponent },
       { path: 'home/my-orders', component: ListMyOrdersComponent },
       { path: 'home/on-sale', component: OnSaleComponent },
+      { path: 'home/wishlist', component: WishListComponent },
     ]
     
     // { path: '', component: FiitingRoomComponent },
@@ -118,7 +120,8 @@ export const declarations = [
   CustomerDesignComponent,
   OnSaleComponent,
   SocialLoginComponent,
-  AllCollectionsComponent
+  AllCollectionsComponent,
+  WishListComponent
 ];
 
 @NgModule({

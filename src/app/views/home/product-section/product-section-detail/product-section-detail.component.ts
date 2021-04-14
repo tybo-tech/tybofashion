@@ -1,4 +1,4 @@
-import { OrderService, ProductService } from 'src/services';
+import { AccountService, OrderService, ProductService } from 'src/services';
 import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
 import { Category, Order, Orderproduct, Product, User } from 'src/models';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { ORDER_TYPE_SALES } from 'src/shared/constants';
 import { environment } from 'src/environments/environment';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { InteractionService } from 'src/services/Interaction.service';
+import { NavHistoryUX } from 'src/models/UxModel.model';
 
 
 @Component({
@@ -46,11 +47,13 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   fullLink: any;
   baseUrl = environment.BASE_URL;
   carttItems = 0;
-  navHistory: string;
+  navHistory: NavHistoryUX;
   selectedQuantiy: number = 1;
   liked: string = 'no';
 
   interaction: Interaction;
+  user: User;
+  showAdd: boolean;
 
 
   constructor(
@@ -60,7 +63,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     private location: Location,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private companyService: CompanyService,
+    private accountService: AccountService,
     private productService: ProductService,
     private uxService: UxService,
     private interactionService: InteractionService,
@@ -73,6 +76,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.user = this.accountService.currentUserValue;
     window.scroll(0, 0);
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
 
@@ -204,8 +208,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   onNavItemClicked(event) { }
 
   back() {
-    if (this.navHistory) {
-      this.location.back();
+    if (this.navHistory && this.navHistory.BackTo) {
+      this.router.navigate([this.navHistory.BackTo || this.navHistory.BackTo]);
     } else {
       this.router.navigate([this.product.CompanyId]);
     }
@@ -347,8 +351,14 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     this.router.navigate([url]);
   }
   onLike(like: string) {
-    if (!this.order || !this.order.CustomerId) {
-      this.goto('home/sign-in');
+    if (!this.user) {
+      this.uxService.keepNavHistory(
+        {
+          BackToAfterLogin: `/shop/product/${this.product.ProductSlug || this.product.ProductId}`,
+          BackTo: this.navHistory && this.navHistory.BackTo || null
+        }
+      );
+      this.showAdd = true;
       return false;
     }
     this.liked = like;
@@ -356,14 +366,19 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       this.interaction = {
         InteractionId: "",
         InteractionType: "Like",
-        InteractionSourceId: this.order.CustomerId,
+        InteractionSourceId: this.user.UserId,
         InteractionTargetId: this.product.ProductId,
         TraceId: '1',
         InteractionBody: "1",
+        Color: this.product.SelectedCoulor || '',
+        Size: this.product.SelectedSize || '',
+        Price: this.product.RegularPrice,
+        Name: this.product.Name,
+        Description: this.product.Description,
         InteractionStatus: "Valid",
-        ImageUrl: "",
-        CreateUserId: this.order.CustomerId,
-        ModifyUserId: this.order.CustomerId,
+        ImageUrl: this.product.FeaturedImageUrl,
+        CreateUserId: this.user.UserId,
+        ModifyUserId: this.user.UserId,
         StatusId: 1
       }
 
@@ -382,11 +397,11 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   }
 
   getInteractions() {
-    if (!this.order || !this.order.CustomerId) {
+    if (!this.user) {
       return false;
     }
     const interactionSearchModel: InteractionSearchModel = {
-      InteractionSourceId: this.order.CustomerId,
+      InteractionSourceId: this.user.UserId,
       InteractionTargetId: this.product.ProductId,
       StatusId: 1
     }

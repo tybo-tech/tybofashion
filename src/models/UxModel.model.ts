@@ -8,3 +8,7 @@ export interface LoaderUx{
   Loading: boolean;
   Message?: string;
 }
+export interface NavHistoryUX{
+  BackTo: string;
+  BackToAfterLogin: string;
+}

@@ -5,6 +5,7 @@ import { Shipping } from 'src/models/shipping.model';
 import { AccountService } from 'src/services';
 import { OrderService } from 'src/services/order.service';
 import { Location } from '@angular/common';
+import { UxService } from 'src/services/ux.service';
 
 @Component({
   selector: 'app-cart-items',
@@ -24,6 +25,7 @@ export class CartItemsComponent implements OnInit {
     private orderService: OrderService,
     private accountService: AccountService,
     private location: Location,
+    private uxService: UxService,
 
   ) { }
 
@@ -78,6 +80,10 @@ export class CartItemsComponent implements OnInit {
 
   }
   profile() {
+    this.uxService.keepNavHistory({
+      BackToAfterLogin: '/shop/checkout',
+      BackTo: null
+    });
     this.router.navigate(['home/edit-myprofile'])
   }
 }

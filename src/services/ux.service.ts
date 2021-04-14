@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HomeNavUx, LoaderUx } from 'src/models/UxModel.model';
+import { HomeNavUx, LoaderUx, NavHistoryUX } from 'src/models/UxModel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class UxService {
   private uxMessagePopBehaviorSubject: BehaviorSubject<string>;
   public uxMessagePopObservable: Observable<string>;
 
-  private uxNavHistoryBehaviorSubject: BehaviorSubject<string>;
-  public uxNavHistoryObservable: Observable<string>;
+  private uxNavHistoryBehaviorSubject: BehaviorSubject<NavHistoryUX>;
+  public uxNavHistoryObservable: Observable<NavHistoryUX>;
 
   private navBarLogoBehaviorSubject: BehaviorSubject<HomeNavUx>;
   public navBarLogoObservable: Observable<HomeNavUx>;
@@ -39,7 +39,7 @@ export class UxService {
     this.showIntroPageObservable = this.showIntroPageBehaviorSubject.asObservable();
 
 
-    this.uxNavHistoryBehaviorSubject = new BehaviorSubject<string>(null);
+    this.uxNavHistoryBehaviorSubject = new BehaviorSubject<NavHistoryUX>(null);
     this.uxNavHistoryObservable = this.uxNavHistoryBehaviorSubject.asObservable();
 
   }
@@ -74,7 +74,7 @@ export class UxService {
   showLoader() {
     this.uxLoadingBehaviorSubject.next(({ Loading: true, Message: 'Loading, please wait.' }));
   }
-  keepNavHistory(item) {
+  keepNavHistory(item: NavHistoryUX) {
     this.uxNavHistoryBehaviorSubject.next(item);
   }
   updateShowIntroPageState(state: string) {
