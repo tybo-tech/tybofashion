@@ -86,12 +86,24 @@
   </div>
 
 
+  <div class="shipping-method" *ngIf="shippings &&  shippings.length  && user">
+    <div class="name">
+      <b>
+        Order Notes <br>
+      </b>
+
+    </div>
+
+    <textarea name="" id="" cols="30" rows="10" [(ngModel)]="order.Notes" (change) = updateOrder()
+      placeholder="Add your notes here to the seller"></textarea>
+  </div>
+
+
   <h3 class="sammary" *ngIf="order">
     <span>
       Sub Total:
     </span>
     {{order.Total  | currency:'R'}}
-    <!-- <span class="ship" *ngIf="order.Shipping">Including {{ order.Shipping}} shipping</span> -->
   </h3>
 
 

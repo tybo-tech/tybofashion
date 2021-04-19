@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/models';
+import { Email, User } from 'src/models';
 import { ModalModel } from 'src/models/modal.model';
 import { Order } from 'src/models/order.model';
 import { AccountService } from 'src/services/account.service';
 import { OrderService } from 'src/services/order.service';
 import { UxService } from 'src/services/ux.service';
-import { ADMIN, IMAGE_DONE, SUPER } from 'src/shared/constants';
+import { ADMIN, IMAGE_DONE, NOTIFY_EMAILS, SUPER } from 'src/shared/constants';
 import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
+import { EmailService } from 'src/services/communication/email.service';
 
 @Component({
   selector: 'app-order',
@@ -40,6 +42,7 @@ export class OrderComponent implements OnInit {
     private uxService: UxService,
     private snackBar: MatSnackBar,
     private location: Location,
+    private emailService: EmailService,
 
 
   ) {
@@ -50,11 +53,11 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
-    if(!this.user){
+    if (!this.user) {
       this.router.navigate(['home/sign-in'])
     }
-    
-    if(this.user && this.user.UserType === SUPER){
+
+    if (this.user && this.user.UserType === SUPER) {
       this.isAdmin = true;
     }
     this.order = this.orderService.currentOrderValue;
@@ -136,5 +139,31 @@ export class OrderComponent implements OnInit {
 
   copy() {
     this.uxService.updateMessagePopState('Copied to clipboard.')
+  }
+
+  SendMail() {
+    const body = `Congratulations you have received an order of R${this.order.Total}`;
+    const company = this.order.Company;
+    if (company && company.Email) {
+      this.sendEmailLogToShop(body, company.Name || '', company.Email);
+      // this.sendEmailLogToShop(customerEMail, this.order.Customer.Name || '', this.order.Customer.Email);
+      this.sendEmailLogToShop(body, company.Name || '', NOTIFY_EMAILS);
+    }
+  }
+  sendEmailLogToShop(data, companyName: string, email: string) {
+    const emailToSend: Email = {
+      Email: email,
+      Subject: 'Resend: New order placed & paid',
+      Message: `${data}`,
+      UserFullName: companyName,
+      Link: `${environment.BASE_URL}/private/order-details/${this.order.OrdersId}`,
+      LinkLabel: 'View Order'
+    };
+    this.emailService.sendGeneralTextEmail(emailToSend)
+      .subscribe(response => {
+        if (response > 0) {
+          alert('Email resent sent')
+        }
+      });
   }
 }

@@ -65,6 +65,7 @@
       <a *ngIf="user && user.UserType === 'Customer'" (click)="goto('home/my-orders')" class="sell-ontybo"> My
         orders</a>
       <a *ngIf="!user" (click)="goto('home/sign-in')" class="sell-ontybo"> Login</a>
+      <a *ngIf="!user" (click)="goto('home/sign-up')" class="sell-ontybo"> Register</a>
 
       <!-- <a (click)="goto('')" class="sell-ontybo"> Exit shop</a> -->
     </div>

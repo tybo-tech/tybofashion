@@ -15,6 +15,7 @@ export interface Email {
   Subject: string;
   Message: string;
   Link?: string;
+  LinkLabel?: string;
   UserFullName?: string;
   Name?: string;
   Amount?: number;

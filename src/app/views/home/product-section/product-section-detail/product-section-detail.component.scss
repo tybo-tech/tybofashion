@@ -210,6 +210,8 @@
     margin: 4em 0;
     display: block;
     position: relative;
+    padding: .5em;
+    
 
 
     display: grid;
@@ -547,4 +549,9 @@ img {
 
 .loved {
   color: $red;
+}
+
+.cart-icon{
+  font-size: 1.5em;
+  left: -.5em;
 }

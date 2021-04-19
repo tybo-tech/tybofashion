@@ -148,7 +148,7 @@
       text-align: right;
 
       @media only screen and (max-width: 600px) {
-        display: none;
+        // display: none;
       }
     }
 
@@ -241,7 +241,15 @@
 
 
 .search-mobile {
-  display: none;
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: $white;
+  z-index: 10000000000;
+
 
   .close {
     text-align: right;
@@ -250,14 +258,7 @@
   }
 
   @media only screen and (max-width: 600px) {
-    display: block;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: $white;
-    z-index: 10000000000;
+ 
     padding: 1em;
   }
 }
@@ -296,10 +297,11 @@
 
     .result-item {
       background: white;
-      width: 60%;
+      width: 90%;
       margin: 1em auto;
       display: grid;
       grid-template-columns: 20% auto;
+      cursor: pointer;
 
       @media only screen and (max-width: 600px) {
         width: 96%;
@@ -307,11 +309,7 @@
       }
 
       img {
-        width: 20%;
-
-        @media only screen and (max-width: 600px) {
-          width: 100%;
-        }
+        width: 100%;
       }
 
       .company-image {

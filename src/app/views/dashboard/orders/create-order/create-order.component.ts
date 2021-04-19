@@ -193,7 +193,7 @@ export class CreateOrderComponent implements OnInit {
       CompanyId: this.user.CompanyId,
       ProductName: product.Name,
       ProductType: 'Product',
-      UnitPrice:product.SalePrice || product.RegularPrice,
+      UnitPrice: product.SalePrice || product.RegularPrice,
       FeaturedImageUrl: product.FeaturedImageUrl,
       Colour: product.SelectedCoulor || '',
       Size: product.SelectedSize || '',
@@ -313,10 +313,10 @@ export class CreateOrderComponent implements OnInit {
       this.order.ShippingPrice = 0;
     }
     this.uxService.showLoader();
-
+    this.order.OrderSource = 'Dashboard';
     this.orderService.create(this.order).subscribe(data => {
       if (data && data.OrdersId) {
-      this.uxService.hideLoader();
+        this.uxService.hideLoader();
 
         this.modalModel.heading = `Success!`
         this.modalModel.img = IMAGE_DONE;

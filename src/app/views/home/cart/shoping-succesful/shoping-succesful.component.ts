@@ -116,11 +116,14 @@ export class ShopingSuccesfulComponent implements OnInit {
     if (!this.order.ShippingPrice) {
       this.order.ShippingPrice = 0;
     }
-
+    this.order.OrderSource = 'Online shop';
+    this.order.EstimatedDeliveryDate = '';
     this.orderService.create(this.order).subscribe(data => {
       if (data && data.OrdersId) {
-      this.uxService.hideLoader();
-
+        this.uxService.hideLoader();
+        this.order = data;
+        this.showDone = true;
+        this.orderNo = this.order.OrderNo;
         this.productService.adjustStockAfterSale(this.products, this.order);
         const body = `Congratulations you have received an order of R${this.order.Total}`;
         const customerEMail = `  Your order, is being processed.
@@ -133,11 +136,6 @@ export class ShopingSuccesfulComponent implements OnInit {
           // this.sendEmailLogToShop(customerEMail, this.order.Customer.Name || '', this.order.Customer.Email);
           this.sendEmailLogToShop(body, company.Name || '', NOTIFY_EMAILS);
         }
-        this.order = data;
-        this.showDone = true;
-        this.orderNo = this.order.OrderNo;
-        console.log(data);
-
         this.orderService.updateOrderState(null);
       }
     });
@@ -157,7 +155,8 @@ export class ShopingSuccesfulComponent implements OnInit {
       Subject: 'New order placed & paid',
       Message: `${data}`,
       UserFullName: companyName,
-      Link: `${environment.BASE_URL_ADMIN}`
+      Link: `${environment.BASE_URL}/private/order-details/${this.order.OrdersId}`,
+      LinkLabel: 'View Order'
     };
     this.emailService.sendGeneralTextEmail(emailToSend)
       .subscribe(response => {

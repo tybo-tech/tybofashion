@@ -187,7 +187,7 @@
         </div>
 
 
-        <div class="action">
+        <div class="action box-shadow">
           <div class="">
            <p>
             Qty:
@@ -199,7 +199,10 @@
 
           <button class="mat-primary add-to-cart btn-pop" [disabled]="product.TotalStock == 0" mat-button
             color="primary" (click)="addCart(product)">
-            Add to bag
+            <span class="material-icons cart-icon">
+              add_shopping_cart
+              </span>
+            Add to cart
           </button>
         </div>
 
@@ -254,7 +257,7 @@
       One shop at a time.
 
       <span>
-        You still have an open bag with <b> {{order.Company?.Name}} </b>, please checkout before you continue shopping
+        You still have an open cart with <b> {{order.Company?.Name}} </b>, please checkout before you continue shopping
         from other shops.
       </span>
 
@@ -265,7 +268,7 @@
     <div class="actions">
 
       <button class="ok" (click)="toggleLeavingShowWarning()">Ok</button>
-      <button (click)="cart()">Go to my bag</button>
+      <button (click)="cart()">Go to my cart</button>
     </div>
   </div>
 </div>

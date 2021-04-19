@@ -9,6 +9,7 @@ import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/socia
 import { SignUpComponent } from 'src/app/account/sign-up';
 import { SignUpModalComponent } from 'src/app/account/sign-up-modal/sign-up-modal.component';
 import { MyOrdersComponent } from '../dashboard/orders/my-orders/my-orders.component';
+import { ViewOrderComponent } from '../dashboard/orders/view-order/view-order.component';
 import { AllShopsComponent } from './all-shops/all-shops.component';
 import { CartComponent, CheckoutComponent } from './cart';
 import { CartItemsComponent } from './cart/cart-items/cart-items.component';
@@ -66,15 +67,17 @@ const routes: Routes = [
       { path: 'home/shops', component: AllShopsComponent },
       { path: 'home/contact-us', component: ContactComponent },
       { path: 'home/payment-cancelled/:id', component: PaymentCancelledComponent },
-      // { path: 'home/payment-cancelled/:id', component: ShopingSuccesfulComponent }     for testing only,
+      // { path: 'home/payment-cancelled/:id', component: ShopingSuccesfulComponent },  //    for testing only,
       { path: 'home/shopping-succesful/:id', component: ShopingSuccesfulComponent },
       { path: 'home/profile', component: MyProfileComponent },
       { path: 'home/edit-myprofile', component: EditMyProfileComponent },
       { path: 'home/my-orders', component: ListMyOrdersComponent },
       { path: 'home/on-sale', component: OnSaleComponent },
       { path: 'home/wishlist', component: WishListComponent },
+      { path: 'private/order-details/:id', component: ViewOrderComponent },
+
     ]
-    
+
     // { path: '', component: FiitingRoomComponent },
   }
 ];
@@ -121,7 +124,9 @@ export const declarations = [
   OnSaleComponent,
   SocialLoginComponent,
   AllCollectionsComponent,
-  WishListComponent
+  WishListComponent,
+  ViewOrderComponent,
+
 ];
 
 @NgModule({

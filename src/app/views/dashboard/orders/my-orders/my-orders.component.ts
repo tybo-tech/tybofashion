@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Order } from 'src/models';
+import { environment } from 'src/environments/environment';
+import { Email, Order, User } from 'src/models';
 import { ModalModel } from 'src/models/modal.model';
+import { EmailService } from 'src/services/communication';
 import { OrderService } from 'src/services/order.service';
-import { IMAGE_DONE } from 'src/shared/constants';
+import { IMAGE_DONE, NOTIFY_EMAILS } from 'src/shared/constants';
 
 @Component({
   selector: 'app-my-orders',
@@ -12,22 +14,24 @@ import { IMAGE_DONE } from 'src/shared/constants';
 export class MyOrdersComponent implements OnInit {
 
   @Input() orders;
+  @Input() user: User;
   order: Order;
   modalModel: ModalModel = {
     heading: undefined,
     body: [],
-    ctaLabel: 'Done',
-    routeTo: '/my-orders',
+    ctaLabel: 'Shop again',
+    routeTo: '',
     img: undefined
   };
   constructor(
-    private orderService: OrderService
+    private orderService: OrderService,
+    private emailService: EmailService,
   ) { }
 
   ngOnInit() {
   }
   confirmDelivery(order: Order) {
-    this.order= order;
+    this.order = order;
     this.order.Status = 'Delivered';
     this.orderService.update(this.order).subscribe(data => {
       if (data && data.OrdersId) {
@@ -37,7 +41,33 @@ export class MyOrdersComponent implements OnInit {
         this.modalModel.body.push(`Thanks for confirming the delivery.`);
         this.order = data;
         this.orderService.updateOrderState(this.order);
+
+        const body = `Well done!, ${this.user.Name} confirmed the order delivery`;
+        const company = this.order.Company;
+        if (company && company.Email) {
+          this.sendEmailLogToShop(body, company.Name || '', company.Email);
+          this.sendEmailLogToShop(body, company.Name || '', NOTIFY_EMAILS);
+
+        }
       }
-    });
+    }
+    );
+  }
+
+  sendEmailLogToShop(data, companyName: string, email: string) {
+    const emailToSend: Email = {
+      Email: email,
+      Subject: `Order ${this.order.OrderNo} delivered`,
+      Message: `${data}`,
+      UserFullName: companyName,
+      Link: `${environment.BASE_URL}/private/order-details/${this.order.OrdersId}`,
+      LinkLabel: 'View Order'
+    };
+    this.emailService.sendGeneralTextEmail(emailToSend)
+      .subscribe(response => {
+        if (response > 0) {
+
+        }
+      });
   }
 }

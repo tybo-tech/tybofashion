@@ -32,6 +32,9 @@
           <span class="date">
             Created {{item.InvoiceDate | date: 'mediumDate'}}
           </span>
+          <span class="date" *ngIf="item.EstimatedDeliveryDate" style="color: rgba(13, 110, 26, 0.678);">
+            Est. Delivery {{item.EstimatedDeliveryDate | date: 'mediumDate'}}
+          </span>
 
 
         </p>

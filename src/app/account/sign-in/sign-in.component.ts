@@ -46,6 +46,7 @@ export class SignInComponent implements OnInit {
     img: undefined
   };
   navHistory: NavHistoryUX;
+  showAdd: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -65,10 +66,7 @@ export class SignInComponent implements OnInit {
     this.order = this.orderService.currentOrderValue;
     if (this.order) {
       if (this.order.CustomerId === 'pending') {
-
-        this.modalModel.heading = ` `
-        this.modalModel.img = IMAGE_WARN;
-        this.modalModel.body.push('Please login to checkout.')
+        this.showAdd = true;
         this.order.CustomerId = 'checked'
         this.orderService.updateOrderState(this.order);
       }
@@ -91,6 +89,11 @@ export class SignInComponent implements OnInit {
     this.uxService.uxNavHistoryObservable.subscribe(data => {
       this.navHistory = data;
     })
+  }
+
+  goto(url) {
+    this.routeTo.navigate(['home/sign-in']);
+    this.routeTo.navigate([url]);
   }
 
   back() {

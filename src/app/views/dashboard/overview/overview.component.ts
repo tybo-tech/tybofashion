@@ -66,14 +66,12 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
 
-    if (this.user && this.user.UserType === ADMIN || SUPER) {
-      // if (this.user && this.user.Company && !this.user.Company.Dp) {
-      //   this.router.navigate(['admin/dashboard/company-profile'])
-      // }
+    if (this.user && this.user.UserType === ADMIN || this.user.UserType === SUPER) {
+      
       if (this.user && this.user.Company) {
         this.fullLink = `${this.baseUrl}/${this.user.Company.Slug}`
       }
-      //orders
+
       this.orderService.OrderListObservable.subscribe(data => {
         this.orders = data || [];
         if (this.orders.length) {

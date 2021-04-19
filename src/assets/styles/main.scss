@@ -84,7 +84,7 @@
   padding: .5rem;
   color: #df122e;
   font-weight: 700;
-  text-transform: capitalize;
+  
 }
 
 .nodata {
@@ -1037,4 +1037,8 @@ del{
 
 .loved {
   color: $red;
+}
+
+.box-shadow{
+  box-shadow: $box-shadow;
 }

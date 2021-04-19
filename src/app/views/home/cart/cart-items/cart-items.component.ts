@@ -86,4 +86,8 @@ export class CartItemsComponent implements OnInit {
     });
     this.router.navigate(['home/edit-myprofile'])
   }
+
+  updateOrder() {
+    this.orderService.updateOrderState(this.order);
+  }
 }

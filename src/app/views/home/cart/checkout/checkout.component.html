@@ -59,9 +59,9 @@
       <div class="actions">
         <button type="submit" *ngIf="user && order && order.Orderproducts.length" class="cta">Proceed to
           payments</button>
-        <button type="button" *ngIf="user" (click)="back()" class="cta shop-more">continue shopping</button>
+        <button type="button" *ngIf="user" (click)="back()" class="cta shop-more secondary">continue shopping</button>
         <button type="button" *ngIf="!user" (click)="goto('home/sign-in')" class="cta">Login & checkout</button>
-        <button type="button" *ngIf="!user" (click)="goto('home/sign-up')" class="cta shop-more">Register &
+        <button type="button" *ngIf="!user" (click)="goto('home/sign-up')" class="cta shop-more secondary">Register &
           checkout</button>
       </div>
     </form>

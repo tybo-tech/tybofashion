@@ -11,7 +11,7 @@ import { ADD_ORDER_URL, GET_ORDERS_BY_USER_ID_URL, GET_ORDERS_URL, GET_ORDER_URL
   providedIn: 'root'
 })
 export class OrderService {
-  
+
 
 
   private OrderListBehaviorSubject: BehaviorSubject<Order[]>;
@@ -20,7 +20,7 @@ export class OrderService {
   private OrderBehaviorSubject: BehaviorSubject<Order>;
   public OrderObservable: Observable<Order>;
   url: string;
-  invoiceUrl ='docs/48f1/invoice.php';
+  invoiceUrl = 'docs/48f1/invoice.php';
 
   constructor(
     private http: HttpClient
@@ -51,10 +51,10 @@ export class OrderService {
     });
   }
   getOrdersSync(companyId: string) {
-   return this.http.get<Order[]>(`${this.url}/${GET_ORDERS_URL}?CompanyId=${companyId}`)
+    return this.http.get<Order[]>(`${this.url}/${GET_ORDERS_URL}?CompanyId=${companyId}`)
   }
   getOrdersByUserIdSync(userId: string) {
-   return this.http.get<Order[]>(`${this.url}/${GET_ORDERS_BY_USER_ID_URL}?UserId=${userId}`)
+    return this.http.get<Order[]>(`${this.url}/${GET_ORDERS_BY_USER_ID_URL}?UserId=${userId}`)
   }
   create(order: Order) {
     return this.http.post<Order>(`${this.url}/${ADD_ORDER_URL}`, order);
@@ -72,6 +72,9 @@ export class OrderService {
         this.updateOrderState(data);
       }
     });
+  }
+  getOrderSync(OrderId: string) {
+    return this.http.get<Order>(`${this.url}/${GET_ORDER_URL}?OrderId=${OrderId}`);
   }
 
   register(model: Order) {

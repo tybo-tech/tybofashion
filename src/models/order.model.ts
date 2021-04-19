@@ -18,6 +18,8 @@ export interface Order {
   Due: number;
   InvoiceDate: Date;
   DueDate: string;
+  EstimatedDeliveryDate?: string;
+  OrderSource?: string;
   CreateDate?: string;
   CreateUserId: string;
   ModifyDate?: string;

@@ -56,7 +56,7 @@ export class HomeShopService {
     this.productObservable = this.productBehaviorSubject.asObservable();
 
     this.pageMovesBehaviorSubject =
-      new BehaviorSubject<PageMoves>(JSON.parse(localStorage.getItem('pageMoves')));
+      new BehaviorSubject<PageMoves>(null);
     this.pageMovesObservable = this.pageMovesBehaviorSubject.asObservable();
 
 

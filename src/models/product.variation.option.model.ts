@@ -1,3 +1,5 @@
+import { Images } from "./images.model";
+
 export interface ProductVariationOption {
   Id?: number;
   ProductVariationId: number;
@@ -16,4 +18,6 @@ export interface ProductVariationOption {
   StatusId: number;
   IsSelected?: boolean;
   Class?: string[];
+  Images?: Images[];
+
 }

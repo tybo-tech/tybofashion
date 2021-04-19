@@ -36,11 +36,14 @@ button {
   background: $pop;
   color: $black;
 }
+.btn-danger {
+  background: $red !important;
+  color: $white !important;
+}
 
 .secondary {
-  background: $white !important;
-  border: 1px solid $black !important;
-  color: $black;
+  background: $black !important;
+  color: $white !important;
 }
 
 button {

@@ -1,16 +1,19 @@
-<div class="mobile-full" *ngIf="orders">
- 
- <div class="user-section" *ngFor="let item of orders; let i = index">
+<div class="main" *ngIf="orders">
+
+  <div class="user-section" *ngFor="let item of orders; let i = index">
     <div class="item">
       <p>
 
-    
+
         <span class="dates">
-        Order placed...  <span>{{item.InvoiceDate | date: 'mediumDate'}}</span>
+          Order placed... <span>{{item.InvoiceDate | date: 'mediumDate'}}</span>
+        </span>
+        <span class="dates" *ngIf="item.EstimatedDeliveryDate">
+          Estimated Delivery... <span>{{item.EstimatedDeliveryDate | date: 'fullDate'}}</span>
         </span>
 
         <span class="price">
-          Order total...  <span> {{item.Total  | currency:'R'}}</span>
+          Order total... <span> {{item.Total  | currency:'R'}}</span>
         </span>
 
 
@@ -111,7 +114,7 @@
         </span>
 
         <span class="status">
-        In transit
+          In transit
           <span class="material-icons">
             local_shipping
           </span>

@@ -34,6 +34,7 @@
       <button class="mat-primary checkout " mat-button color="primary" (click)="print()">
         Print invoice
       </button>
+    
     </div>
   </div>
   <h2 class="header-label">
@@ -77,7 +78,7 @@
     </div>
   </div>
 
-  <span *ngIf="isAdmin && order.Company">
+  <span *ngIf="isAdmin && order &&  order.Company">
     <h2 class="header-label">
       Company
     </h2>
@@ -105,7 +106,9 @@
           </span>
         </div>
       </div>
-
+      <button  class="mat-primary checkout"  mat-button color="primary" (click)="SendMail()">
+        reSend new order email
+      </button>
 
     </div>
   </span>
@@ -134,7 +137,7 @@
         <span>Due... </span> {{order.Due  | currency:'R'}}
       </h4>
 
-      <div class="options">
+      <div class="options" *ngIf="order.Due > 0">
         <button class="edit br" *ngIf="order.OrdersId.length > 10" (click)="pay()">
           Record payment
         </button>

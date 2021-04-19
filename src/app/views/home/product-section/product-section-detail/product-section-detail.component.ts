@@ -104,6 +104,13 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
               this.product.FeaturedImageUrl = this.product.Images[0].Url
             }
 
+
+            if (this.colors && this.colors.ProductVariationOptions) {
+              this.colors.ProductVariationOptions.forEach(item => {
+                item.Images = this.product.AllImages.filter(x => x.OptionId === item.Id);
+              });
+              this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.Images && x.Images.length > 0)
+            }
           }
 
           if (this.colors && this.colors.ProductVariationOptions && this.colors.ProductVariationOptions.length) {

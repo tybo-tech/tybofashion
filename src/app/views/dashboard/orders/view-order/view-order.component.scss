@@ -1,9 +1,33 @@
 @import '../../../../../assets/styles/color';
 
+.private {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  background: $cloud;
+  z-index: 10000000;
+  top: 0;
+  left: 0;
+  padding: 1em;
+}
+
 .main {
   background: $cloud;
+  max-width: $max-width/2;
+  margin: 0 auto;
 
 
+  h3 {
+    text-align: center;
+    padding: 1em;
+
+    span {
+      display: block;
+      font-size: .9em;
+      font-weight: 500;
+    }
+  }
 
   .bag,
   .shippings {
@@ -63,11 +87,11 @@
 
 
   .item {
-    padding: 0;
+    padding: .5em;
     background: $white;
 
     img {
-      width: 80%;
+      width: 100%;
       margin: 0;
       border-radius: 0em;
 
@@ -198,7 +222,7 @@ h4 {
   padding: 1em;
   text-align: center;
   border: 1px solid $darker-grey;
-  margin: 1em;
+  margin: 1em 0;
 
   a {
     color: $tec;
@@ -212,16 +236,48 @@ h4 {
 
 
 .sammary {
-padding: 1em;
-background: $white;
+  padding: 1em;
+  background: $white;
+  font-weight: 500;
+  border: 1px solid $darker-grey;
+
+
   span {
     font-size: 1em;
     text-align: center;
+    display: block;
+  }
+
+  .tot {
+    padding: .5em 0;
+    font-weight: 600;
+  }
+
+  a {
+    color: $secondary;
   }
 }
 
-.full-address{
+.full-address {
   padding-top: .5em;
   margin-top: .5em;
   border-top: 1px solid $cloud;
+}
+
+
+
+.actions {
+  // background: $white;
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: .5em;
+
+  display: grid;
+  grid-template-columns: 50% auto;
+  grid-gap: 1em;
+
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 2em;
+  }
+
 }

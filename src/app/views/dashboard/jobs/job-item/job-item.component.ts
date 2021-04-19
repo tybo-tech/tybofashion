@@ -154,7 +154,7 @@ export class JobItemComponent implements OnInit {
     }
     this.uxService.showLoader();
     this.order.Due = this.order.Total;
-
+    this.order.OrderSource = 'Dashboard';
     this.orderService.create(this.order).subscribe(data => {
       if (data && data.OrdersId) {
         this.uxService.hideLoader();
