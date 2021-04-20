@@ -45,7 +45,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      // { path: '', component: SellWithUsComponent } , //     for admin only,
+      { path: '', component: SellWithUsComponent } , //     for admin only,
       { path: '', component: ProductSectionComponent },
       { path: ':id', component: ShopComponent },
       { path: 'home/shop', component: HomeLandingComponent },

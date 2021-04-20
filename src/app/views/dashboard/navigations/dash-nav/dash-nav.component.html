@@ -4,7 +4,7 @@
      
     </div> -->
 
-    <div class="logo" (click)="list('company-profile')">
+    <div class="logo pointer" (click)="list('company-profile')">
       <img *ngIf="user.Company.Dp" [src]="user.Company.Dp" alt="">
       <img *ngIf="!user.Company.Dp" src="assets/images/common/newlogo.png" alt="">
     </div>
@@ -82,7 +82,7 @@
   </div>
 
   <div class="nav" *ngIf="isSuper">
-    <div class="logo">
+    <div class="logo pointer" (click)="list('company-profile')">
       <img src="assets/images/common/logo.png" alt="">
     </div>
     <ul>

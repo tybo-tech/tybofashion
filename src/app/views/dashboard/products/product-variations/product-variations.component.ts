@@ -35,6 +35,7 @@ export class ProductVariationsComponent implements OnInit {
   varationHeadings: string[];
   showAddColor: boolean;
   selectedVariation: Variation;
+  combinations: any[];
   constructor(
     private accountService: AccountService,
     private companyVariationService: CompanyVariationService,
@@ -53,24 +54,34 @@ export class ProductVariationsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
+
     this.productService.productObservable.subscribe(data => {
       if (data && data.ProductId) {
         this.product = data;
       }
-    })
+    });
+
+    this.getAllVariations();
+  }
+  getAllVariations() {
     this.companyVariationService.getAllVariations('Fashion').subscribe(data => {
       if (data && data.length) {
         this.variations = data;
-        this.variations.map(x => x.IsSelected = false);
-        this.variations[this.index].IsSelected = true;
+
+        // this.variations.map(x => x.IsSelected = false);
+
+        // this.variations[this.index].IsSelected = true;
+
         this.heading = `All variations (${this.variations.length})`;
-        this.loadNewOption(this.variations[this.index]);
+
+        // this.loadNewOption(this.variations[this.index]);
         this.variations.forEach(varitaion => {
 
           varitaion.VariationsOptions.forEach(option => {
             const existingOption =
               this.product &&
               this.product.ProductOVariationOptions &&
+              this.product.ProductOVariationOptions.length &&
               this.product.ProductOVariationOptions.find(x => x.VariationOptionId === option.VariationOptionId);
             if (existingOption && Number(existingOption.StatusId) === 1) {
               this.select(option, varitaion.Name)
@@ -83,6 +94,13 @@ export class ProductVariationsComponent implements OnInit {
   toggleShowAddColor(variation: Variation) {
     this.showAddColor = !this.showAddColor;
     this.selectedVariation = variation;
+  }
+
+  checkIfVaritionIsSelected(id) {
+    return this.product &&
+      this.product.ProductOVariationOptions &&
+      this.product.ProductOVariationOptions.length &&
+      this.product.ProductOVariationOptions.find(x => x.VariationOptionId === id);
   }
   view(variation: Variation, index) {
     if (variation && variation.VariationId) {
@@ -203,6 +221,26 @@ export class ProductVariationsComponent implements OnInit {
       variationOption.Class = [];
       variationOption.IsSelected = false;
       variationOption.StatusId = 2;
+      if (this.checkIfVaritionIsSelected(variationOption.VariationOptionId)) {
+        if (confirm("This color will be deleted press ok to confirm.")) {
+          if (this.product.ProductCombinations && this.product.ProductCombinations.length) {
+            const combinationToDelete =
+              this.product.ProductCombinations.filter(x => x.CombinationString.toLocaleLowerCase().includes(`- ${variationOption.Name.toLocaleLowerCase()}`) 
+              || x.CombinationString.toLocaleLowerCase().includes(`${variationOption.Name.toLocaleLowerCase()} -`)
+              );
+            if (combinationToDelete.length) {
+              combinationToDelete.map(x => x.StatusId = 2);
+              this.productCombinationService.deleteRange(combinationToDelete).subscribe(data => {
+                this.removeOption(variationOption.VariationOptionId);
+                console.log(data);
+
+              });
+            }
+          }
+
+
+        }
+      }
       // this.removeOption(variationOption.VariationOptionId);
       // op.StatusId = -1;
       return;
@@ -258,10 +296,14 @@ export class ProductVariationsComponent implements OnInit {
   }
 
   removeOption(variationOptionId) {
-    this.productVariationService.getByProductIdIVariationOptionId(this.product.ProductId, variationOptionId).subscribe(data => {
-      console.log("Existing Otion", data);
-
-    })
+    this.productVariationService.deleteProductOption(this.product.ProductId, variationOptionId).subscribe(data => {
+      this.uxService.updateMessagePopState('Product option deleted');
+      this.productService.getProductSync(this.product.ProductId).subscribe(data=>{
+        if(data){
+          this.product = data;
+        }
+      })
+    });
   }
 
 

@@ -11,7 +11,7 @@
         {{user.Company.Name}}
       </div>
 
-      <div class="btn-menu user-tab">
+      <div class="user-tab">
 
         <span class="name" (click)="list('user-profile')">
           <span class="material-icons" *ngIf="!user.Dp">
@@ -21,11 +21,17 @@
         </span>
 
       </div>
-      <div class="btn-menu">
+      <div class="btn-menu nots">
 
 
         <mat-icon [matBadge]="0" matBadgeColor="primary">notifications_none</mat-icon>
 
+      </div>
+
+      <div class="col menu">
+        <span class="material-icons pointer">
+          menu
+         </span>
       </div>
     </div>
   </div>

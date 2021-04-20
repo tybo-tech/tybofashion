@@ -69,6 +69,9 @@ export class ProductVariationService {
   getByProductIdIVariationOptionId(productId: string, variationOptionId: string) {
     return this.http.get<ProductVariationOption>(`${this.url}/get-by-product-id-and-variation-option-id.php?ProductId=${productId}&VariationOptionId=${variationOptionId}`);
   }
+  deleteProductOption(productId: string, variationOptionId: string) {
+    return this.http.get<ProductVariationOption>(`${this.url}/api/product-variation-option/delete-product-variation-option-id.php?ProductId=${productId}&VariationOptionId=${variationOptionId}`);
+  }
 
 
   addProductVariationRange(productVariations: ProductVariation[]): Observable<ProductVariation[]> {

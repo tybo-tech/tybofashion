@@ -55,6 +55,10 @@ export class ProductCombinationService {
     return this.http.post<ProductCombination[]>(`${this.url}/api/product-combination/update-product-combination-range.php`,
       productCombinations);
   }
+  deleteRange(productCombinations: ProductCombination[]): Observable<ProductCombination[]> {
+    return this.http.post<ProductCombination[]>(`${this.url}/api/product-combination/delete-product-combination-range.php`,
+      productCombinations);
+  }
   getProductCombinations(companyId: string) {
     this.http.get<ProductCombination[]>(`${this.url}/dsdudisadsadusaiudsai?CompanyId=${companyId}`).subscribe(data => {
       if (data) {

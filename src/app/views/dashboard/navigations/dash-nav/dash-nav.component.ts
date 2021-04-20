@@ -36,7 +36,10 @@ export class DashNavComponent implements OnInit {
   toggleNav() {
     this.showNav = !this.showNav
   }
-  list(e){}
+  list(item) {
+    this.router.navigate([`admin/dashboard/${item}`]);
+  }
+
   
   logout() {
     this.accountService.updateUserState(null);

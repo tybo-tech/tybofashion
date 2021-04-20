@@ -5,7 +5,7 @@
 
 
   @media only screen and (max-width: 600px) {
-    grid-template-columns: 12% 60% 10% auto;
+    grid-template-columns: 12% 45% 14% 10% auto;
 
   }
 
@@ -36,6 +36,20 @@
     }
   }
 
+  .menu {
+    display: none;
+
+    @media only screen and (max-width: 600px) {
+      left: 1em;
+      display: block;
+      text-align: right;
+      padding: 0 1em;
+    }
+  }
+
+  .nots{
+    text-align: center;
+  }
   .name {
     @media only screen and (max-width: 600px) {
       left: 1em;
@@ -278,10 +292,11 @@
 }
 
 
-.goto-shop{
+.goto-shop {
   background: $pop;
   width: 15em;
   margin: 1em 0;
+
   @media only screen and (max-width: 600px) {
     width: 100%;
     margin: 0;
