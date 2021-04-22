@@ -28,7 +28,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
   catergories: Category[];
   parentCatergories: Category[] = [];
   allProducts: Product[];
-  isLoading = true;
   showIntro: boolean;
   order: Order;
   showMenu: any;
@@ -71,52 +70,49 @@ export class ShopComponent implements OnInit, AfterViewInit {
     this.product = this.homeShopService.getCurrentProductValue;
     this.user = this.accountService.currentUserValue;
     this.order = this.orderService.currentOrderValue;
-    this.isLoading = true;
     // this.homeShopService.getForShopSigle(this.shopSlug).subscribe(data => {
     //   console.log('shop', data);
 
     // })
-    this.productService.getProductsSyncForShop(this.shopSlug).subscribe(data => {
-      this.isLoading = false;
-      if (data) {
-        this.company = data;
-        this.products = this.company.Products;
-        this.allProducts = this.company.Products;
-        if (this.company.CompanyId === 'notfound') {
-          this.showNotFound = true;
-        }
+    // this.productService.getProductsSyncForShop(this.shopSlug).subscribe(data => {
+    //   if (data) {
+    //     this.company = data;
+    //     this.products = this.company.Products;
+    //     this.allProducts = this.company.Products;
+    //     if (this.company.CompanyId === 'notfound') {
+    //       this.showNotFound = true;
+    //     }
 
-        this.company.Products = null;
-        if (this.company && this.company.Dp) {
-          this.uxService.updateNavBarLogoState({ LogoUrl: this.company.Dp, Name: this.company.Name });
-        }
-        if (this.product) {
-          const currentProduct = this.allProducts.find(x => x.ProductId === this.product.ProductId);
-          if (currentProduct) {
-            this.product = currentProduct;
-            this.homeShopService.updateProductState(this.product)
-          }
-        }
-        this.products.forEach((product, index) => {
-          product.ClassSelector = `class-${product.ProductId}`;
-          if (this.company && this.company.Promotions) {
-            product.SalePrice = Number(product.RegularPrice) - (Number(product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
-            console.log(product.SalePrice, product.RegularPrice);
-            if (Number(product.SalePrice) < Number(product.RegularPrice)) {
-              product.OnSale = true;
-            }
+    //     this.company.Products = null;
+    //     if (this.company && this.company.Dp) {
+    //       this.uxService.updateNavBarLogoState({ LogoUrl: this.company.Dp, Name: this.company.Name });
+    //     }
+    //     if (this.product) {
+    //       const currentProduct = this.allProducts.find(x => x.ProductId === this.product.ProductId);
+    //       if (currentProduct) {
+    //         this.product = currentProduct;
+    //         this.homeShopService.updateProductState(this.product)
+    //       }
+    //     }
+    //     this.products.forEach((product, index) => {
+    //       product.ClassSelector = `class-${product.ProductId}`;
+    //       if (this.company && this.company.Promotions) {
+    //         product.SalePrice = Number(product.RegularPrice) - (Number(product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
+    //         console.log(product.SalePrice, product.RegularPrice);
+    //         if (Number(product.SalePrice) < Number(product.RegularPrice)) {
+    //           product.OnSale = true;
+    //         }
 
-          }
-        })
-        this.loadCategories(this.products);
-        this.isLoading = false;
-        this.initScreen();
-        this.initOrder();
+    //       }
+    //     })
+    //     this.loadCategories(this.products);
+    //     this.initScreen();
+    //     this.initOrder();
 
 
 
-      }
-    });
+    //   }
+    // });
 
   }
 
@@ -174,77 +170,77 @@ export class ShopComponent implements OnInit, AfterViewInit {
     }
 
   }
-  loadCategories(products: Product[]) {
-    this.catergories = [];
-    this.parentCatergories = [];
-    this.tertiaryCategories = [];
-    products.forEach(product => {
-      if (!this.catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
-        if (product.Category) {
-          this.catergories.push(product.Category);
-        }
-      }
-      if (!this.parentCatergories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
-        if (product.ParentCategory) {
-          this.parentCatergories.push(product.ParentCategory);
-        }
-      }
-      if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
-        if (product.TertiaryCategory) {
-          this.tertiaryCategories.push(product.TertiaryCategory);
-        }
-      }
-    });
-    this.products.map(x => x.Category = null);
-    this.products.map(x => x.ParentCategory = null);
-    this.products.map(x => x.TertiaryCategory = null);
+  // loadCategories(products: Product[]) {
+  //   this.catergories = [];
+  //   this.parentCatergories = [];
+  //   this.tertiaryCategories = [];
+  //   products.forEach(product => {
+  //     if (!this.catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
+  //       if (product.Category) {
+  //         this.catergories.push(product.Category);
+  //       }
+  //     }
+  //     if (!this.parentCatergories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
+  //       if (product.ParentCategory) {
+  //         this.parentCatergories.push(product.ParentCategory);
+  //       }
+  //     }
+  //     if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
+  //       if (product.TertiaryCategory) {
+  //         this.tertiaryCategories.push(product.TertiaryCategory);
+  //       }
+  //     }
+  //   });
+  //   this.products.map(x => x.Category = null);
+  //   this.products.map(x => x.ParentCategory = null);
+  //   this.products.map(x => x.TertiaryCategory = null);
 
-    if (this.catergories && this.catergories.length) {
-      this.catergories.forEach(category => {
-        if (category && category.CategoryId) {
-          category.Products = this.products.filter(product => product.CategoryGuid === category.CategoryId)
-        }
-      });
-    }
-    if (this.tertiaryCategories && this.tertiaryCategories.length) {
-      this.tertiaryCategories.forEach(category => {
-        if (category && category.CategoryId) {
-          category.Products = this.products.filter(product => product.TertiaryCategoryGuid === category.CategoryId)
-        }
-      });
-    }
-    if (this.parentCatergories && this.parentCatergories.length) {
-      this.parentCatergories.forEach(parentCatergy => {
-        if (parentCatergy) {
-          parentCatergy.Children = this.catergories.filter(x => x.ParentId === parentCatergy.CategoryId);
-          parentCatergy.Tertiary = this.tertiaryCategories.filter(x => x.ParentId === parentCatergy.CategoryId);
-          parentCatergy.Children.map(x => x.IsShop = true);
-          parentCatergy.Tertiary.map(x => x.IsShop = true);
+  //   if (this.catergories && this.catergories.length) {
+  //     this.catergories.forEach(category => {
+  //       if (category && category.CategoryId) {
+  //         category.Products = this.products.filter(product => product.CategoryGuid === category.CategoryId)
+  //       }
+  //     });
+  //   }
+  //   if (this.tertiaryCategories && this.tertiaryCategories.length) {
+  //     this.tertiaryCategories.forEach(category => {
+  //       if (category && category.CategoryId) {
+  //         category.Products = this.products.filter(product => product.TertiaryCategoryGuid === category.CategoryId)
+  //       }
+  //     });
+  //   }
+  //   if (this.parentCatergories && this.parentCatergories.length) {
+  //     this.parentCatergories.forEach(parentCatergy => {
+  //       if (parentCatergy) {
+  //         parentCatergy.Children = this.catergories.filter(x => x.ParentId === parentCatergy.CategoryId);
+  //         parentCatergy.Tertiary = this.tertiaryCategories.filter(x => x.ParentId === parentCatergy.CategoryId);
+  //         parentCatergy.Children.map(x => x.IsShop = true);
+  //         parentCatergy.Tertiary.map(x => x.IsShop = true);
 
-          parentCatergy.Tertiary.sort(function (a, b) {
-            var textA = a.DisplayOrder.toString();
-            var textB = b.DisplayOrder.toString();;
-            return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
-          });
-        }
-      });
-      const currentCategory = this.homeShopService.getCurrentParentCategoryValue || this.parentCatergories[0];
-      this.displayProducts(currentCategory && currentCategory.CategoryId);
-      this.homeShopService.updateCategoryListState(this.parentCatergories);
+  //         parentCatergy.Tertiary.sort(function (a, b) {
+  //           var textA = a.DisplayOrder.toString();
+  //           var textB = b.DisplayOrder.toString();;
+  //           return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
+  //         });
+  //       }
+  //     });
+  //     const currentCategory = this.homeShopService.getCurrentParentCategoryValue || this.parentCatergories[0];
+  //     this.displayProducts(currentCategory && currentCategory.CategoryId);
+  //     this.homeShopService.updateCategoryListState(this.parentCatergories);
 
-    }
+  //   }
 
-  }
+  // }
 
 
-  displayProducts(categoryId: string) {
-    this.selectedCategory = this.parentCatergories.find(x => x.CategoryId === categoryId);
-    if (!this.selectedCategory) {
-      this.selectedCategory = this.parentCatergories[0];
-    }
+  // displayProducts(categoryId: string) {
+  //   this.selectedCategory = this.parentCatergories.find(x => x.CategoryId === categoryId);
+  //   if (!this.selectedCategory) {
+  //     this.selectedCategory = this.parentCatergories[0];
+  //   }
 
-    this.homeShopService.updateParentCategoryState(this.selectedCategory);
-  }
+  //   this.homeShopService.updateParentCategoryState(this.selectedCategory);
+  // }
   view(product: Product) {
     this.productService.updateProductState(product);
     this.router.navigate(['shop/product', product.ProductSlug]);

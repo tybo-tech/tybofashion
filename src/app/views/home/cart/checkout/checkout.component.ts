@@ -85,7 +85,8 @@ export class CheckoutComponent implements OnInit {
   goto(url) {
     this.uxService.keepNavHistory({
       BackToAfterLogin: '/shop/checkout',
-      BackTo: null
+      BackTo: null,
+      ScrollToProduct: null,
     });
     this.router.navigate([url]);
   }

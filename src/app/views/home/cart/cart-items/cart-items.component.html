@@ -1,5 +1,5 @@
-<div class="main" [ngClass]="Class" *ngIf="order">
-  <div class="bag" *ngIf="order.Orderproducts && order.Orderproducts.length">
+<div class="main" *ngIf="order">
+  <div class="" *ngIf="order.Orderproducts && order.Orderproducts.length">
     <div class="cart-item" *ngFor="let item of order.Orderproducts; let i = index">
       <div class="item">
         <div class="icon" *ngIf="item.FeaturedImageUrl">
@@ -16,10 +16,11 @@
       </div>
       <div class="item">
         <p>
-          {{item.ProductName}}
+         
           <span class="price">
-            Size: {{item.Size  || 'N/A'}} | Colour: {{item.Colour || 'N/A'}}
+            {{item.ProductName}}
           </span>
+          Size: {{item.Size  || 'N/A'}} | Colour: {{item.Colour || 'N/A'}}
           <span class="price">
             {{item.Quantity}} x {{item.UnitPrice  | currency:'R'}}
           </span>

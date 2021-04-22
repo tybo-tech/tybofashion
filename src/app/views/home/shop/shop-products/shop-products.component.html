@@ -1,10 +1,93 @@
-<div class="product-section" *ngIf="selectedCategory">
-  <!-- <pre>
-    {{selectedCategory | json}}
-  </pre> -->
+<div class="main" *ngIf="company && products">
+  <div class="company-profile">
+    <div class="cdp">
+      <img [src]="company.Dp" alt="">
+    </div>
+
+    <div class="details">
+      <h3>
+        {{company.Name}}
+        <span *ngIf="company.Description">{{company.Description}}</span>
+        <span>{{products.length}} Products in this shop.</span>
+        <span class="follow" *ngIf="liked == 'no'" (click)="onLike('yes')">Follow</span>
+        <span class="follow" *ngIf="liked == 'yes'" (click)="onLike('no')">Following</span>
+      </h3>
+    </div>
+  </div>
+
+
+  <div class="catergories" *ngIf="catergories">
+    <button class="catergory" (click)="all()">
+      All
+    </button>
+    <button class="catergory" *ngFor="let catergory of catergories; let i = index" (click)="tapChildCategory(catergory)">
+      {{catergory.Name}}
+    </button>
+
+  </div>
+
+ 
+
+  <div class="products" *ngIf="products">
+    <div class="product" *ngFor="let product of products; let i = index">
+      <div class="image">
+        <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
+      </div>
+
+      <div class="product-details" (click)="viewMore(product)">
+        <p>
+          {{product.Name}}
+
+          <span class="price" *ngIf="!product.OnSale">
+            {{product.RegularPrice | currency:'R'}}
+          </span>
+          <span class="price" *ngIf="product.OnSale">
+            <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+            {{product.SalePrice | currency:'R'}}
+          </span>
+
+        </p>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<div class="quick-add" *ngIf="showAdd">
+  <div class="form">
+    <h3>
+      Please login or sign up to like the product.
+    </h3>
+
+    <div class="form-item">
+      <button (click)="goto('home/sign-in')">Login</button>
+      <div class="or">Or</div>
+      <button (click)="goto('home/sign-up')">Sign up</button>
+      <div class="link" (click)="showAdd = false">Cancel</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="product-section">
 
   <div class="promotions" *ngIf="promotions && promotions.length">
     <img *ngIf="promotions[0].ImageUrl" [src]="promotions[0].ImageUrl" alt="">
+  </div>
+
+  <div *ngIf="company" class="company-profile">
+    <div class="cdp">
+      <img [src]="company.Dp" alt="">
+    </div>
+
+    <div class="details">
+      <h3>
+        {{company.Name}}
+        <span>{{company.Description}}</span>
+      </h3>
+    </div>
   </div>
 
 
@@ -78,4 +161,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

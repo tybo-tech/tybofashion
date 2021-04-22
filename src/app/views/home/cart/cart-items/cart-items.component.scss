@@ -2,13 +2,15 @@
 
 .main {
   background: $cloud;
+  max-width: 50em;
+  margin: .5em auto;
 
 
 
   .bag,
   .shippings {
     background: $white;
-    padding: 1em;
+    padding: 1em 0;
     margin: 1em 0;
     border: 1px solid $darker-grey;
 
@@ -65,10 +67,11 @@
   .item {
     padding: 0;
     background: $white;
+    padding: .4em;
 
     img {
       width: 80%;
-      margin: 0;
+      margin: .1em auto;
       border-radius: 0em;
 
     }

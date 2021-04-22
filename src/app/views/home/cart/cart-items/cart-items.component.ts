@@ -82,7 +82,8 @@ export class CartItemsComponent implements OnInit {
   profile() {
     this.uxService.keepNavHistory({
       BackToAfterLogin: '/shop/checkout',
-      BackTo: null
+      BackTo: null,
+      ScrollToProduct: null,
     });
     this.router.navigate(['home/edit-myprofile'])
   }

@@ -131,12 +131,15 @@ export class SignInComponent implements OnInit {
         this.accountService.updateUserState(user);
         if (user && user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
           this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+          return;
         }
         if (user.UserType === ADMIN) {
           this.routeTo.navigate(['admin/dashboard']);
+          return;
         }
         if (user.UserType === SUPER) {
           this.routeTo.navigate(['admin/dashboard']);
+          return;
         }
         if (user.UserType === CUSTOMER) {
           if (this.order && this.order.CustomerId === 'checked') {
@@ -147,6 +150,7 @@ export class SignInComponent implements OnInit {
           } else {
             this.routeTo.navigate(['']);
           }
+          return;
         }
         this.showLoader = false;
       }

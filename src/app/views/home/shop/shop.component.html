@@ -1,4 +1,4 @@
-<app-shop-products *ngIf="parentCatergories && selectedCategory && company" [selectedCategory]="selectedCategory" [promotions]="company.Promotions"
+<app-shop-products *ngIf="parentCatergories && selectedCategory && company"  [promotions]="company.Promotions"
   (selectCategoryEvent)="selectCategory($event)"></app-shop-products>
 
   <div class="no-products" *ngIf="!this.allProducts || !this.allProducts.length">
@@ -18,8 +18,3 @@
   <a routerLink="">Take me home</a>
 </div>
 
-<div *ngIf="isLoading" class="loading">
-  <div class="spiner">
-    <mat-spinner></mat-spinner>
-  </div>
-</div>

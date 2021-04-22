@@ -39,12 +39,14 @@
 
 .actions {
   background: $white;
-  margin: 1em 0;
+  margin: 1em auto;
   padding: 1em;
   border-radius: .5em;
+  max-width: 50em;
+
 
   display: grid;
-  grid-template-columns: 30% auto;
+  grid-template-columns: 50% auto;
 
   @media only screen and (max-width: 600px) {
     grid-template-columns: 100%;

@@ -19,8 +19,7 @@
 
   .nav-grid {
     display: grid;
-    // grid-template-columns: 4% 20% 50% 20% auto;
-    grid-template-columns: 4% 12% 40% 40% auto;
+    grid-template-columns: 4em 15em 40% 40% auto;
 
     max-width: $max-width;
     margin: 0 auto;
@@ -49,7 +48,6 @@
 
 
     .col {
-      // border: 1px solid rgb(168, 168, 168);
       padding: .5em;
 
       .form-item {
@@ -125,7 +123,6 @@
     }
 
     .menu {
-      // display: none;
       color: $black;
 
       @media only screen and (max-width: 600px) {
@@ -146,10 +143,6 @@
 
     .search {
       text-align: right;
-
-      @media only screen and (max-width: 600px) {
-        // display: none;
-      }
     }
 
 
@@ -180,7 +173,6 @@
   z-index: 1000;
 
   @media only screen and (max-width: 600px) {
-    // display: none;
     margin-top: 0;
     position: relative;
 
@@ -191,7 +183,6 @@
     max-width: $max-width;
     display: flex;
     margin-top: 1em;
-    // overflow-x: scroll;
 
     @media only screen and (max-width: 600px) {
 
@@ -224,11 +215,6 @@
         text-align: left;
 
       }
-
-      .active {
-        // font-weight: 600;
-        // text-decoration: underline;
-      }
     }
 
 
@@ -258,7 +244,7 @@
   }
 
   @media only screen and (max-width: 600px) {
- 
+
     padding: 1em;
   }
 }
@@ -284,7 +270,6 @@
   }
 
   .search-results {
-    // position: fixed;
     background: $cloud;
     z-index: 2000;
     width: 100%;
@@ -371,9 +356,7 @@
   display: grid;
   border-bottom: 1px solid $cloud;
   border-top: 1px solid $cloud;
-  // box-shadow: $box-shadow;
   grid-template-columns: repeat(3, 33%);
-  // grid-template-columns: 33% 33% .00000001% 33%;
   padding: .5em;
 
   .nav-items {
@@ -385,7 +368,6 @@
 
       text-align: center;
       padding: .4em;
-      // top: .8em;
       margin: .1em auto;
       border-radius: 0;
       color: $silver;
@@ -398,8 +380,6 @@
       font-weight: 600;
       background: $pop;
       border-radius: .5em;
-      // border-bottom: 3px solid $pop;
-      // box-shadow: $box-shadow;
     }
 
   }
@@ -438,14 +418,12 @@
     text-decoration: underline;
     -webkit-text-decoration-color: $pop;
     text-decoration-color: $pop;
-    // border-bottom: 1px solrgb(5, 5, 5)000;
 
   }
 
 }
 
 .mobile-divisions {
-  // background: $white;
   background: $cloud;
   padding: 1em;
   display: none;
@@ -473,14 +451,13 @@
     font-weight: 600;
     background: $pop;
     border-radius: .45em;
-    // border-bottom: 1px solrgb(5, 5, 5)000;
 
   }
 
 }
 
 
-.notice{
+.notice {
   background: $black;
   color: $pop;
   text-align: center;

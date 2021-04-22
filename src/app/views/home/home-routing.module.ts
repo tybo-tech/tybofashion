@@ -9,6 +9,7 @@ import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/socia
 import { SignUpComponent } from 'src/app/account/sign-up';
 import { SignUpModalComponent } from 'src/app/account/sign-up-modal/sign-up-modal.component';
 import { MyOrdersComponent } from '../dashboard/orders/my-orders/my-orders.component';
+import { ViewMyOrderComponent } from '../dashboard/orders/view-order/view-my-order/view-my-order.component';
 import { ViewOrderComponent } from '../dashboard/orders/view-order/view-order.component';
 import { AllShopsComponent } from './all-shops/all-shops.component';
 import { CartComponent, CheckoutComponent } from './cart';
@@ -45,10 +46,11 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: '', component: SellWithUsComponent } , //     for admin only,
+      // { path: '', component: SellWithUsComponent } , //     for admin only,
       { path: '', component: ProductSectionComponent },
-      { path: ':id', component: ShopComponent },
-      { path: 'home/shop', component: HomeLandingComponent },
+      // { path: ':id', component: ShopComponent },
+      { path: ':id', component: ShopProductsComponent },
+      // { path: 'home/shop', component: HomeLandingComponent },
       { path: 'home/sign-in', component: SignInComponent },
       { path: 'home/start-shop', component: SignUpModalComponent },
       { path: 'home/sign-up', component: SignUpComponent },
@@ -75,6 +77,7 @@ const routes: Routes = [
       { path: 'home/on-sale', component: OnSaleComponent },
       { path: 'home/wishlist', component: WishListComponent },
       { path: 'private/order-details/:id', component: ViewOrderComponent },
+      { path: 'home/view-my-order/:id', component: ViewMyOrderComponent },
 
     ]
 
@@ -126,6 +129,7 @@ export const declarations = [
   AllCollectionsComponent,
   WishListComponent,
   ViewOrderComponent,
+  ViewMyOrderComponent
 
 ];
 

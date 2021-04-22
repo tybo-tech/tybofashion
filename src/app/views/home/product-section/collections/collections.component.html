@@ -41,16 +41,6 @@
 
             </p>
           </div>
-
-          <!-- <span class="company" *ngIf="product.Company">
-            <div class=""></div>
-            <div class="">
-              <img *ngIf="product.Company.Dp" [src]="product.Company.Dp" alt="">
-              <img *ngIf="!product.Company.Dp" src="assets/images/shop.svg" alt="">
-            </div>
-            <div class="" (click)="gotoShop(product)"> {{product.Company?.Name}}</div>
-          </span> -->
-
           <p>
             <span (click)="gotoShop(product)" class="by-name" *ngIf="product.Company">By {{product.Company.Name}}</span>
           </p>

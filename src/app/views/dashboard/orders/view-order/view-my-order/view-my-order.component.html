@@ -90,26 +90,12 @@
       <span class="tot">
         Order Total: {{order.Total  | currency:'R'}} <a *ngIf="order.Due == 0">Fully paid.</a>
       </span>
-
-      <span>
-        Total commission (8%) : {{order.Total*0.08  | currency:'R'}}
-      </span>
-      <span>
-        Total due to you (92%) : {{order.Total*.92  | currency:'R'}}
-      </span>
-
-      <span>
-        <br>
-        Payments are processed every Wednesday morning (For delivered orders only.)
-      </span>
-
     </h3>
 
 
-    <div class="actions" *ngIf="order.Status === 'Processing'">
-      <button type="button" (click)="orderAction('Cancel')" class="cta shop-more secondary">Cancel
-        Order</button>
-      <button type="button" (click)="orderAction('Accept')" class="cta primary">Accept Order</button>
+    <div class="actions">
+      <button type="button" (click)="goto('home/my-orders')" class="cta shop-more secondary">Order History</button>
+      <button type="button" (click)="goto('')" class="cta primary">Take me home</button>
     </div>
 
 

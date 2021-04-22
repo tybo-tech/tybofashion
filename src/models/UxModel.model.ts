@@ -1,14 +1,17 @@
+import { Product } from "./product.model";
+
 export interface HomeNavUx {
   LogoUrl: string;
   Name: string;
 }
 
 
-export interface LoaderUx{
+export interface LoaderUx {
   Loading: boolean;
   Message?: string;
 }
-export interface NavHistoryUX{
+export interface NavHistoryUX {
   BackTo: string;
   BackToAfterLogin: string;
+  ScrollToProduct: Product;
 }

@@ -362,7 +362,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       this.uxService.keepNavHistory(
         {
           BackToAfterLogin: `/shop/product/${this.product.ProductSlug || this.product.ProductId}`,
-          BackTo: this.navHistory && this.navHistory.BackTo || null
+          BackTo: this.navHistory && this.navHistory.BackTo || null,
+          ScrollToProduct: null
         }
       );
       this.showAdd = true;

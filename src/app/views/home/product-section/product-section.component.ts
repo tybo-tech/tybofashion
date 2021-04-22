@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { Router } from '@angular/router';
 import { Category, NavigationModel, Order, Product } from 'src/models';
 import { Promotion } from 'src/models/promotion.model';
+import { NavHistoryUX } from 'src/models/UxModel.model';
 import { OrderService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { PromotionService } from 'src/services/promotion.service';
@@ -14,7 +15,6 @@ import { ORDER_TYPE_SALES, TIMER_LIMIT_WAIT } from 'src/shared/constants';
   styleUrls: ['./product-section.component.scss']
 })
 export class ProductSectionComponent implements OnInit, AfterViewInit {
-  // @Input() selectedCategory: Category;
   categories: Category[];
   @Output() selectCategoryEvent: EventEmitter<Category> = new EventEmitter<Category>();
   searchString: string;
@@ -22,11 +22,11 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
   product: any;
   allProducts: Product[]
   selectedCategory: Category;
-  isLoading: boolean;
   showIntroPage: string;
   promotions: Promotion[] = [];
   currentSlideIndex = 0;
   timerId: number;
+  uxHistory: NavHistoryUX;
   constructor(
     private router: Router,
     private homeShopService: HomeShopService,
@@ -37,18 +37,7 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
 
   ) { }
 
-  ngOnInit() {
-    this.isLoading = true;
-    this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
-
-    this.homeShopService.getForShop().subscribe(data => {
-      if (data && data.length) {
-        data = this.homeShopService.createProductClasses(data);
-        this.homeShopService.updateCategoryListState(data);
-        this.isLoading = false;
-        this.uxService.updateLoadingState({ Loading: false, Message: undefined });
-      }
-    });
+  ngOnInit() {  
     this.homeShopService.parentCategoryObservable.subscribe(data => {
       this.selectedCategory = data;
       this.loadPromationsPrices();
@@ -104,15 +93,21 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
 
     });
 
-    setInterval(() => {
-      this.doThePromoSlideShow();
-    }, 10000);
+    // setInterval(() => {
+    //   this.doThePromoSlideShow();
+    // }, 10000);
+
+   this.uxService.uxNavHistoryObservable.subscribe(data=>{
+    if(data){
+      this.uxHistory = data;
+    }
+   })
   }
 
   ngAfterViewInit(): void {
-    if (this.product) {
+    if (this.uxHistory && this.uxHistory.ScrollToProduct) {
       setTimeout(() => {
-        this.scrollTo(this.product.ClassSelector);
+        this.scrollTo(this.uxHistory.ScrollToProduct.ClassSelector);
       }, TIMER_LIMIT_WAIT)
     }
   }
@@ -213,7 +208,8 @@ export class ProductSectionComponent implements OnInit, AfterViewInit {
       this.homeShopService.updatePageMovesIntroTrueAndScrollOpen();
       this.uxService.keepNavHistory({
         BackToAfterLogin: ``,
-        BackTo: ''
+        BackTo: '',
+        ScrollToProduct: model
       });
       // this.router.navigate([model.Company.Slug]);
       this.router.navigate(['shop/product', model.ProductSlug || model.ProductId])

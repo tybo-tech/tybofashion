@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Email, Order, User } from 'src/models';
 import { ModalModel } from 'src/models/modal.model';
@@ -26,6 +27,7 @@ export class MyOrdersComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private emailService: EmailService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -69,5 +71,10 @@ export class MyOrdersComponent implements OnInit {
 
         }
       });
+  }
+
+  goto(url: string) {
+    
+    this.router.navigate([url]);
   }
 }

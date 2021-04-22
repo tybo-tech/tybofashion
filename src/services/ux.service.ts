@@ -25,6 +25,9 @@ export class UxService {
   private uxLoadingBehaviorSubject: BehaviorSubject<LoaderUx>;
   public uxLoadingPopObservable: Observable<LoaderUx>;
 
+  private uxHomeSideNavBehaviorSubject: BehaviorSubject<boolean>;
+  public uxHomeSideNavObservable: Observable<boolean>;
+
   constructor() {
     this.uxMessagePopBehaviorSubject = new BehaviorSubject<string>(null);
     this.uxMessagePopObservable = this.uxMessagePopBehaviorSubject.asObservable();
@@ -41,6 +44,10 @@ export class UxService {
 
     this.uxNavHistoryBehaviorSubject = new BehaviorSubject<NavHistoryUX>(null);
     this.uxNavHistoryObservable = this.uxNavHistoryBehaviorSubject.asObservable();
+
+
+    this.uxHomeSideNavBehaviorSubject = new BehaviorSubject<boolean>(null);
+    this.uxHomeSideNavObservable = this.uxHomeSideNavBehaviorSubject.asObservable();
 
   }
 
@@ -72,6 +79,12 @@ export class UxService {
     this.uxLoadingBehaviorSubject.next({ Loading: false, Message: undefined });
   }
   showLoader() {
+    this.uxLoadingBehaviorSubject.next(({ Loading: true, Message: 'Loading, please wait.' }));
+  }
+  hideHomeSideNav() {
+    this.uxHomeSideNavBehaviorSubject.next(false);
+  }
+  showHomeSideNav() {
     this.uxLoadingBehaviorSubject.next(({ Loading: true, Message: 'Loading, please wait.' }));
   }
   keepNavHistory(item: NavHistoryUX) {

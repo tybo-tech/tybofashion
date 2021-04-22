@@ -12,7 +12,7 @@ import { UxService } from 'src/services/ux.service';
 })
 export class HomeSideNavComponent implements OnInit {
   // @Input() navItems;
-  @Input() showMobileNav;
+  showMobileNav = true;
   @Input() user;
   @Output() showMobileMenuEvent: EventEmitter<any> = new EventEmitter<any>();
   categories: Category[];
@@ -71,7 +71,7 @@ export class HomeSideNavComponent implements OnInit {
     this.router.navigate([event]);
   }
   toggleMenu(e) {
-    this.showMobileMenuEvent.emit(e);
+    this.uxService.hideHomeSideNav();
   }
   childCategoryselected(category: Category) {
     if (category && category.IsShop) {
@@ -109,5 +109,7 @@ export class HomeSideNavComponent implements OnInit {
     this.router.navigate(['home/profile']);
     this.showMobileNav = false;
   }
+
+
 
 }

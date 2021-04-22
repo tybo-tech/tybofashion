@@ -38,9 +38,9 @@ export class ProductService {
     return this.productBehaviorSubject.value;
   }
 
-  updateProductListState(grades: Product[]) {
-    this.productListBehaviorSubject.next(grades);
-    localStorage.setItem('ProductsList', JSON.stringify(grades));
+  updateProductListState(products: Product[]) {
+    this.productListBehaviorSubject.next(products);
+    localStorage.setItem('ProductsList', JSON.stringify(products));
   }
   updateProductState(product: Product) {
     this.productBehaviorSubject.next(product);
@@ -136,6 +136,9 @@ export class ProductService {
       }
 
     })
+  }
+  getAllActiveProductsSync() {
+    return this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php`);
   }
 
 

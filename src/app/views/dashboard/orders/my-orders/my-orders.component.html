@@ -1,6 +1,6 @@
 <div class="main" *ngIf="orders">
 
-  <div class="user-section" *ngFor="let item of orders; let i = index">
+  <div class="user-section" *ngFor="let item of orders; let i = index" (click)="goto('home/view-my-order/'+item.OrdersId)">
     <div class="item">
       <p>
 

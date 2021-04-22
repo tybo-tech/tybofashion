@@ -32,7 +32,8 @@ export class WishListComponent implements OnInit {
     } else {
       this.uxService.keepNavHistory({
         BackToAfterLogin: '/home/wishlist',
-        BackTo: '/home/wishlist'
+        BackTo: '/home/wishlist',
+        ScrollToProduct: null,
       });
       this.showAdd = true;
     }
@@ -61,7 +62,8 @@ export class WishListComponent implements OnInit {
   select(interaction: Interaction) {
     this.uxService.keepNavHistory({
       BackToAfterLogin: '/home/wishlist',
-      BackTo: '/home/wishlist'
+      BackTo: '/home/wishlist',
+       ScrollToProduct: null
     });
     this.router.navigate(['shop/product', interaction.InteractionTargetId]);
   }

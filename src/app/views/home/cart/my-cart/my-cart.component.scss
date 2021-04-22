@@ -1,14 +1,8 @@
 @import '../../../../../assets/styles/color';
-.top-bar {
-  grid-template-columns: 16% 10% 70% auto;
+.top-bar-conatiner{
   display: none;
-
   @media only screen and (max-width: 600px) {
-    display: grid;
-  }
-
-  .name {
-    top: .2em;
+   display: block;
   }
 }
 
@@ -29,6 +23,7 @@
     overflow-y: scroll;
     z-index: 40000;
     padding-top: 4em;
+    margin: 0;
   }
 }
 

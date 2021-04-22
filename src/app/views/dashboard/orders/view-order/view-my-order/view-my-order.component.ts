@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { Email, Order, User } from 'src/models';
+import { Order, User, Email } from 'src/models';
 import { ModalModel } from 'src/models/modal.model';
 import { OrderService, AccountService, EmailService } from 'src/services';
 import { UxService } from 'src/services/ux.service';
 import { IMAGE_DONE, NOTIFY_EMAILS } from 'src/shared/constants';
 
 @Component({
-  selector: 'app-view-order',
-  templateUrl: './view-order.component.html',
-  styleUrls: ['./view-order.component.scss']
+  selector: 'app-view-my-order',
+  templateUrl: './view-my-order.component.html',
+  styleUrls: ['./view-my-order.component.scss']
 })
-export class ViewOrderComponent implements OnInit {
+export class ViewMyOrderComponent implements OnInit {
+
   OrderId: any;
   order: Order;
   showAdd: boolean;
@@ -90,7 +91,7 @@ export class ViewOrderComponent implements OnInit {
       Subject: 'New order accepted & in  progress.',
       Message: `${data}`,
       UserFullName: companyName,
-      Link: `${environment.BASE_URL}/home/view-my-order/${this.order.OrdersId}`,
+      Link: `${environment.BASE_URL}/private/order-details/${this.order.OrdersId}`,
       LinkLabel: 'View Order'
     };
     this.emailService.sendGeneralTextEmail(emailToSend)
@@ -117,5 +118,24 @@ export class ViewOrderComponent implements OnInit {
     const url = this.orderService.getInvoiceURL(this.order.OrdersId);
     const win = window.open(url, '_blank');
     win.focus();
+  }
+
+  goto(url: string) {
+    
+    if (url === 'home/my-orders' && this.user) {
+      this.router.navigate([url]);
+    }
+
+    if (url === 'home/my-orders' && !this.user) {
+      this.uxService.keepNavHistory({
+        BackToAfterLogin: url,
+        BackTo: url,
+         ScrollToProduct: null
+      });
+      this.router.navigate(['home/sign-in']);
+    }
+    if (url === '') {
+      this.router.navigate([url]);
+    }
   }
 }

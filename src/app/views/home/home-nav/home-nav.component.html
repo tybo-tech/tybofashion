@@ -1,28 +1,6 @@
-<!-- <div class="divisions" *ngIf="navItems  && navItems.length">
-  <div class="division-items">
-    <div class="search">
-      <span class="material-icons" (click)="showSearch = true">
-        search
-        </span>
-    </div>
-    <div class="division" *ngFor="let item of navItems" [ngClass]="item.Class">
-      <a (click)="parentNavItemClicked(item)">
-        {{item.Label}}
-      </a>
-    </div>
-  </div>
-
-  <div class="col cart-icon">
-    <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="cart()">shopping_bag</mat-icon>
-
-  </div>
-
-</div> -->
-
-
 <div class="top-nav-bar">
   <div class="notice">
-    <div class="subs" *ngIf="selectedCategory">
+    <div class="subs">
     <marquee behavior="" direction="">  Delivery R100.00 | Pep pickup R60.00</marquee>
     </div>
   </div>
@@ -39,10 +17,10 @@
       <img *ngIf="logoUx.Name" [src]="logoUx.LogoUrl" alt="">
       <img *ngIf="!logoUx.Name" [src]="logoUx.LogoUrl" style="width: auto; height: 2.5em;" alt="">
     </div>
-    <div class="divisions col" *ngIf="navItems && navItems.length">
-      <div class="division" *ngFor="let item of navItems" [ngClass]="item.Class">
-        <a (click)="parentNavItemClicked(item)">
-          {{item.Label}}
+    <div class="divisions col" *ngIf="parentCategories && parentCategories.length">
+      <div class="division" *ngFor="let item of parentCategories" [ngClass]="item.Class">
+        <a (click)="tabParentCategories(item)">
+          {{item.Name}}
         </a>
       </div>
       <div class="division">
@@ -66,87 +44,17 @@
 
 
     <div class="cart col">
-      <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="cart()">shopping_bag</mat-icon>
+      <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="goto('shop/cart')">shopping_bag</mat-icon>
     </div>
-
-    <!-- <span *ngIf="user" class="name" (click)="profile()">
-
-
-        <span class="material-icons" *ngIf="!user.Dp">
-          account_circle
-        </span>
-        <img class="profile-user" *ngIf="user.Dp" [src]="user.Dp" alt="">
-      </span>
-
-      <span *ngIf="!user" class="name" (click)="login()">
-        <span class="material-icons">
-          account_circle
-        </span>
-      </span> -->
-    <!-- </div> -->
-
-
-    <!-- <div class="c-name col">
-      <span>
-        {{ logoUx.Name}}
-      </span>
-    </div> -->
-    <!-- <div class="search col">
-
-      <div class="form-item search">
-        <input type="search" [(ngModel)]="searchString" name="" id="" placeholder="🔎 Search products and shops"
-          (keyup)="search()">
-        <div class="search-results" *ngIf="searchString && searchString.length > 0">
-          <span *ngIf="searchResults && searchResults.length">
-            <div class="result-item" *ngFor="let item of searchResults" (click)="openSearchResult(item)">
-              <div class="image">
-                <img [src]="item.Icon" alt="">
-              </div>
-              <div class="name">
-                {{item.Name}}
-                <span class="price">
-                  {{item.RegularPrice | currency:'R'}}
-                </span>
-
-                <span class="company" *ngIf="item.Object && item.Object.Company">
-                  <div class="company-image">
-                    <img *ngIf="item.Object.Company.Dp" [src]="item.Object.Company.Dp" alt="">
-                    <img *ngIf="!item.Object.Company.Dp" src="assets/images/shop.svg" alt="">
-                  </div>
-                  <div class=""> {{item.Object.Company?.Name}}</div>
-                </span>
-
-              </div>
-
-            </div>
-          </span>
-
-          <span *ngIf="searchResults && !searchResults.length">
-            <div class="sorry">
-              <span>
-                <img src="assets/images/common/search-no-found.svg" alt="">
-              </span>
-              Sorry we didn't find any results matching this search : <b>{{searchString}}</b>
-            </div>
-          </span>
-
-        </div>
-
-      </div>
-    </div> -->
-
-
-
-
   </div>
 
 </div>
 
 
-<div class="mobile-divisions" *ngIf="navItems && navItems.length">
-  <div class="division" *ngFor="let item of navItems" [ngClass]="item.Class">
-    <a (click)="parentNavItemClicked(item)">
-      {{item.Label}}
+<!-- <div class="mobile-divisions" *ngIf="parentCategories && parentCategories.length">
+  <div class="division" *ngFor="let item of parentCategories" [ngClass]="item.Class">
+    <a (click)="tabParentCategories(item)">
+      {{item.Name}}
     </a>
   </div>
   <div class="division">
@@ -160,12 +68,12 @@
     </a>
   </div>
 
-</div>
+</div> -->
 
 <div class="sub-carts">
   <div class="subs" *ngIf="selectedCategory">
     <div class="sub-catergory" *ngFor="let child of selectedCategory.Children">
-      <button *ngIf="child.Products && child.Products.length" (click)="childCategoryselected(child)"
+      <button *ngIf="child.Products && child.Products.length" (click)="tabChildCategories(child)"
         [ngClass]="child.Class">{{child.Name}}
       </button>
     </div>
@@ -195,9 +103,7 @@
             <span class="price">
               {{item.RegularPrice | currency:'R'}}
             </span>
-            <!-- <pre>
-  {{item | json}}
-</pre> -->
+
             <span class="company" *ngIf="item && item.Company">
               <div class="company-image">
                 <img *ngIf="item.Company.Dp" [src]="item.Company.Dp" alt="">
@@ -224,3 +130,6 @@
 
   </div>
 </div>
+
+
+<app-home-side-nav *ngIf="showMenu"></app-home-side-nav>

@@ -64,13 +64,13 @@ export class HomeLandingComponent implements OnInit {
     });
 
 
-    this.homeShopService.getForShop().subscribe(data => {
-      if (data && data.length) {
-        data = this.homeShopService.createProductClasses(data);
-        this.homeShopService.updateCategoryListState(data);
-        this.isLoading = false;
-      }
-    });
+    // this.homeShopService.getForShop().subscribe(data => {
+    //   if (data && data.length) {
+    //     data = this.homeShopService.createProductClasses(data);
+    //     this.homeShopService.updateCategoryListState(data);
+    //     this.isLoading = false;
+    //   }
+    // });
 
 
 
