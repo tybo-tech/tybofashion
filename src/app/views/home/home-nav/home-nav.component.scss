@@ -19,12 +19,15 @@
 
   .nav-grid {
     display: grid;
-    grid-template-columns: 4em 15em 40% 40% auto;
+    grid-template-columns: 4em 18em 53% 18% auto;
 
     max-width: $max-width;
     margin: 0 auto;
     padding: 0 1em;
     padding-left: 0;
+    // .col{
+    //   border: 1px solid red;
+    // }
 
 
     @media only screen and (max-width: 600px) {
@@ -173,56 +176,11 @@
   z-index: 1000;
 
   @media only screen and (max-width: 600px) {
-    margin-top: 0;
     position: relative;
 
   }
 
-  .subs {
-    margin: 0 auto;
-    max-width: $max-width;
-    display: flex;
-    margin-top: 1em;
 
-    @media only screen and (max-width: 600px) {
-
-      display: flex;
-      overflow-x: scroll;
-      margin-top: 0;
-
-    }
-
-    .sub-catergory {
-      width: fit-content;
-      padding: 0;
-
-
-      button {
-        text-transform: uppercase !important;
-        text-decoration: none;
-        font-weight: 600;
-        color: $white;
-        cursor: pointer;
-        border-right: 1px solid $cloud;
-        display: block;
-        min-width: 10em;
-        width: fit-content;
-        padding: .2em 1em;
-        background: none;
-        border-radius: 0;
-        border: none;
-        padding: .5em;
-        text-align: left;
-
-      }
-    }
-
-
-
-
-
-
-  }
 }
 
 
@@ -393,7 +351,7 @@
   background: $white;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(5, 20%);
+  grid-template-columns: repeat(4, 25%);
 
   @media only screen and (max-width: 600px) {
     display: none;
@@ -402,9 +360,9 @@
   .division {
     text-align: center;
     padding: .5em;
-    font-weight: 400;
+    font-weight: 600;
     color: $darker-grey;
-    text-transform: capitalize;
+    text-transform: uppercase;
     cursor: pointer;
 
     a {
@@ -462,4 +420,19 @@
   color: $pop;
   text-align: center;
   padding: .4em;
+}
+
+
+.sub-carts{
+  display: grid;
+  grid-template-columns: repeat(4,20%);
+  position: fixed;
+  width: 100%;
+  background: $charcoal;
+  padding: .5em;
+  button{
+    width: 100%;
+    display: block;
+    width: 12em;
+  }
 }

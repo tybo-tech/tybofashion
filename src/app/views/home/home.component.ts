@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { Category, NavigationModel, User } from 'src/models';
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   loadingUx: LoaderUx;
   message: string;
+  showScrollUp: boolean;
 
 
   constructor(
@@ -97,6 +98,24 @@ export class HomeComponent implements OnInit {
   goto(url: string) {
     this.router.navigate([url]);
   }
+
+  logout() {
+    this.user = null;
+    this.accountService.updateUserState(null);
+  }
+  totop(){
+    window.scroll(0,0);
+    console.log(window.screenY);
+    
+  }
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
+  if(window.pageYOffset > 500){
+    this.showScrollUp = true;
+  }else{
+    this.showScrollUp = false;
+  }
+  } 
 }
 
 

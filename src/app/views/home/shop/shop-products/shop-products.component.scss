@@ -272,10 +272,27 @@
     width: fit-content;
     text-align: center;
     height: 2em;
-    padding: .5em;
+    padding: .5em 1em;
     // width:100%;
     margin: .5em;
     flex:0 0 auto;
+    border-radius: .5em;
+    font-size: 1em;
   }
 }
 
+  
+.collections {
+  display: grid;
+  grid-template-columns: 50% auto;
+
+  .collection {
+    background: $pop;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 1em;
+    padding: .7em;
+    cursor: pointer;
+    font-weight: 500;
+  }
+}

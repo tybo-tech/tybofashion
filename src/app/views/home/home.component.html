@@ -13,6 +13,17 @@
   </div> -->
 
   <div class="out-let">
+    <!-- <div class="user" *ngIf="user">
+      <h4>
+        Hi {{user.Name}}
+        <span>
+          Welcome to <b>Tybo Fashion</b>
+        </span>
+        <span class="role">
+          You are loged in as a {{user.UserType}}.
+        </span>
+      </h4>
+    </div> -->
     <router-outlet></router-outlet>
   </div>
 </div>
@@ -50,3 +61,10 @@
     </div>
   </div>
 </footer>
+
+
+<button *ngIf="showScrollUp" class="scroll-top" (click)="totop()">
+  <span class="material-icons">
+    arrow_circle_up
+    </span>
+</button>

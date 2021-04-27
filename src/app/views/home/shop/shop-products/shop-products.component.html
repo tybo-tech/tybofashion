@@ -15,7 +15,14 @@
     </div>
   </div>
 
-
+  <div class="collections">
+    <div class="collection" (click)="goto('home/shop-for/Ladies')">
+      Ladies collection
+    </div>
+    <div class="collection" (click)="goto('home/shop-for/Mens')">
+      Men's collection
+    </div>
+  </div>
   <div class="catergories" *ngIf="catergories">
     <button class="catergory" (click)="all()">
       All

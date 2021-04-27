@@ -203,14 +203,6 @@ export class ShopProductsComponent implements OnInit {
     });
 
 
-
-    // const cat = this.homeShopService.getCurrentParentCategoryValue;
-    // if (cat) {
-    //   this.tabParentCategories(cat);
-    // } else {
-    //   this.tabParentCategories(this.parentCategories[0]);
-    // }
-
   }
 
   tabParentCategories(category: Category) {
@@ -218,7 +210,6 @@ export class ShopProductsComponent implements OnInit {
     if (category) {
       this.parentCategories.map(x => x.Class = ['']);
       category.Class = ['active'];
-      // this.homeShopService.updateParentCategoryState(category);
     }
   }
 }

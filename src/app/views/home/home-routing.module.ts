@@ -34,6 +34,7 @@ import { HomeComponent } from './home.component';
 import { ProductSectionCardComponent, ProductSectionComponent, ProductSectionDetailComponent } from './product-section';
 import { AllCollectionsComponent } from './product-section/collections/all-collections/all-collections.component';
 import { CollectionsComponent } from './product-section/collections/collections.component';
+import { DepartmentComponent } from './product-section/collections/department/department.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
 import { ShopComponent } from './shop';
@@ -78,6 +79,7 @@ const routes: Routes = [
       { path: 'home/wishlist', component: WishListComponent },
       { path: 'private/order-details/:id', component: ViewOrderComponent },
       { path: 'home/view-my-order/:id', component: ViewMyOrderComponent },
+      { path: 'home/shop-for/:id', component: DepartmentComponent },
 
     ]
 
@@ -129,7 +131,8 @@ export const declarations = [
   AllCollectionsComponent,
   WishListComponent,
   ViewOrderComponent,
-  ViewMyOrderComponent
+  ViewMyOrderComponent,
+  DepartmentComponent
 
 ];
 

@@ -1,7 +1,7 @@
 <div class="top-nav-bar">
   <div class="notice">
     <div class="subs">
-    <marquee behavior="" direction="">  Delivery R100.00 | Pep pickup R60.00</marquee>
+      <marquee behavior="" direction=""> Delivery R100.00 | Pep pickup R60.00</marquee>
     </div>
   </div>
   <div class="nav-grid">
@@ -17,10 +17,17 @@
       <img *ngIf="logoUx.Name" [src]="logoUx.LogoUrl" alt="">
       <img *ngIf="!logoUx.Name" [src]="logoUx.LogoUrl" style="width: auto; height: 2.5em;" alt="">
     </div>
-    <div class="divisions col" *ngIf="parentCategories && parentCategories.length">
-      <div class="division" *ngFor="let item of parentCategories" [ngClass]="item.Class">
-        <a (click)="tabParentCategories(item)">
-          {{item.Name}}
+
+
+    <div class="divisions col">
+      <div class="division">
+        <a (click)="goto('home/shop-for/Ladies')">
+          Ladies collection
+          </a>
+      </div>
+      <div class="division">
+        <a (click)="goto('home/shop-for/Mens')">
+          Men's collection
         </a>
       </div>
       <div class="division">
@@ -51,35 +58,18 @@
 </div>
 
 
-<!-- <div class="mobile-divisions" *ngIf="parentCategories && parentCategories.length">
-  <div class="division" *ngFor="let item of parentCategories" [ngClass]="item.Class">
-    <a (click)="tabParentCategories(item)">
-      {{item.Name}}
-    </a>
-  </div>
-  <div class="division">
-    <a (click)="goto('home/on-sale')" style="color: red;">
-      Sale
-    </a>
-  </div>
-  <div class="division">
-    <a (click)="goto('home/shops')">
-      Shops
-    </a>
-  </div>
-
+<!-- 
+<div class="sub-carts phone-only">
+  <button  (click)="goto('home/shop-for/Ladies')">
+    Ladies collection
+  </button>
+  <button  (click)="goto('home/shop-for/Ladies')">
+    Ladies collection
+  </button>
+  <button  (click)="goto('home/shop-for/Ladies')">
+    Ladies collection
+  </button>
 </div> -->
-
-<div class="sub-carts">
-  <div class="subs" *ngIf="selectedCategory">
-    <div class="sub-catergory" *ngFor="let child of selectedCategory.Children">
-      <button *ngIf="child.Products && child.Products.length" (click)="tabChildCategories(child)"
-        [ngClass]="child.Class">{{child.Name}}
-      </button>
-    </div>
-
-  </div>
-</div>
 
 
 

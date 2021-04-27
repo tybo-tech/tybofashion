@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Category, NavigationModel } from 'src/models';
+import { Category, NavigationModel, User } from 'src/models';
 import { AccountService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { UxService } from 'src/services/ux.service';
@@ -13,12 +13,12 @@ import { UxService } from 'src/services/ux.service';
 export class HomeSideNavComponent implements OnInit {
   // @Input() navItems;
   showMobileNav = true;
-  @Input() user;
   @Output() showMobileMenuEvent: EventEmitter<any> = new EventEmitter<any>();
   categories: Category[];
   navItems: NavigationModel[];
   selectedCategory: Category;
   @Input() showExistShop: boolean;
+  user: User;
   constructor(
     private router: Router,
     private homeShopService: HomeShopService,
@@ -28,7 +28,7 @@ export class HomeSideNavComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.user = this.accountService.currentUserValue;
     this.homeShopService.categoryListObservable.subscribe(data => {
       if (data) {
         this.categories = data;

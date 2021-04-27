@@ -27,7 +27,7 @@ export class AllCollectionsComponent implements OnInit {
   selectCategory(category: Category) {
 
     if (category) {
-      this.homeShopService.updateCategoryState(category);
+      // this.homeShopService.updateCategoryState(category);
       this.router.navigate([`home/collections/${category.Name}`])
     }
   }

@@ -1,0 +1,97 @@
+<div class="main-products" *ngIf="products && products.length">
+  <div class="full-image">
+    <img [src]="products[0].ParentCategory.ImageUrl" class="pc-only" alt="">
+    <img [src]="products[0].ParentCategory.PhoneBanner" class="phone-only" alt="">
+  </div>
+
+
+  <div class="collections">
+    <div class="collection" (click)="goto('home/shop-for/Ladies')" *ngIf="parentCategoryId == 'Mens'">
+      Shop Ladies
+    </div>
+    <div class="collection" (click)="goto('home/shop-for/Mens')"  *ngIf="parentCategoryId == 'Ladies'">
+      Shop Mens
+    </div>
+    <div class="collection" (click)="goto('home/shops')">
+     View shops
+    </div>
+  </div>
+
+  <div class="picked" >
+    <h4>
+      {{parentCategoryId}} collections
+    </h4>
+    <div class="catergories" *ngIf="catergories">
+      <button class="catergory" (click)="all()">
+        All
+      </button>
+      <button class="catergory" *ngFor="let catergory of catergories; let i = index" (click)="tapChildCategory(catergory)">
+        {{catergory.Name}}
+      </button>
+  
+    </div>
+  
+   
+  
+    <div class="products" *ngIf="products">
+      <div class="product" *ngFor="let product of products; let i = index">
+        <div class="image">
+          <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
+        </div>
+  
+        <div class="product-details" (click)="viewMore(product)">
+          <p>
+            {{product.Name}}
+  
+            <span class="price" *ngIf="!product.OnSale">
+              {{product.RegularPrice | currency:'R'}}
+            </span>
+            <span class="price" *ngIf="product.OnSale">
+              <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+              {{product.SalePrice | currency:'R'}}
+            </span>
+  
+          </p>
+        </div>
+  
+  
+      </div>
+    </div>
+  </div>
+
+
+  <div class="picked" *ngIf="allUxisexProducts && allUxisexProducts.length">
+    <h4>
+     Unisex products
+    </h4>
+    <div class="products">
+      <div class="product" *ngFor="let product of allUxisexProducts; let i = index">
+        <div class="image">
+          <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
+        </div>
+  
+        <div class="product-details" (click)="viewMore(product)">
+          <p>
+            {{product.Name}}
+  
+            <span class="price" *ngIf="!product.OnSale">
+              {{product.RegularPrice | currency:'R'}}
+            </span>
+            <span class="price" *ngIf="product.OnSale">
+              <del> {{product.RegularPrice | currency:'R'}}</del> <br>
+              {{product.SalePrice | currency:'R'}}
+            </span>
+  
+          </p>
+        </div>
+  
+  
+      </div>
+    </div>
+  </div>
+
+
+
+
+ 
+</div>

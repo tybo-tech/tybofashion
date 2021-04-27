@@ -1,23 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Category, Product, User } from 'src/models';
-import { Interaction } from 'src/models/interaction.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Product, User, Category } from 'src/models';
 import { NavHistoryUX } from 'src/models/UxModel.model';
 import { ProductService, AccountService } from 'src/services';
-import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
-import { InteractionService } from 'src/services/Interaction.service';
 import { UxService } from 'src/services/ux.service';
 
-
 @Component({
-  selector: 'app-product-section',
-  templateUrl: './product-section.component.html',
-  styleUrls: ['./product-section.component.scss']
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrls: ['./department.component.scss']
 })
-export class ProductSectionComponent implements OnInit {
+export class DepartmentComponent implements OnInit {
 
-  selectedCategory: Category;
   products: Product[];
   allProducts: Product[];
   user: User;
@@ -26,10 +21,11 @@ export class ProductSectionComponent implements OnInit {
   parentCategories: Category[] = [];
   catergories: Category[] = [];
   tertiaryCategories: Category[] = [];
-  unisexCategory: Category;
+  parentCategory: Category;
   pickedProducts: Product[];
   newProducts: Product[];
-  allOtherProducts: Product[];;
+  parentCategoryId: any;
+  allUxisexProducts: Product[];
 
   constructor(
     private homeShopService: HomeShopService,
@@ -37,8 +33,14 @@ export class ProductSectionComponent implements OnInit {
     private uxService: UxService,
     private router: Router,
     private accountService: AccountService,
+    private activatedRoute: ActivatedRoute,
+
 
   ) {
+    this.activatedRoute.params.subscribe(r => {
+      this.parentCategoryId = r.id;
+      this.loadCategories();
+    });
   }
 
   ngOnInit() {
@@ -47,7 +49,6 @@ export class ProductSectionComponent implements OnInit {
       this.navHistory = data;
     })
 
-    this.loadCategories();
   }
 
   viewMore(product: Product) {
@@ -79,19 +80,25 @@ export class ProductSectionComponent implements OnInit {
     this.router.navigate([url]);
   }
 
-  openParent(parentId: string) {
-    alert(parentId)
-  }
+
 
   loadCategories() {
     const catergories = [];
     this.newProducts = [];
-    this.allOtherProducts = [];
 
     this.productService.productListObservable.subscribe(products => {
       if (products && products.length) {
         this.allProducts = products;
+        const parent = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === this.parentCategoryId);
+        const unisex = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === 'Unisex');
         this.products = this.allProducts;
+        if (parent && parent.ParentCategory) {
+          this.parentCategory = parent.ParentCategory;
+          this.products = this.allProducts.filter(x => x.ParentCategoryGuid === this.parentCategory.CategoryId);
+        }
+        if (unisex && unisex.ParentCategory) {
+          this.allUxisexProducts = this.allProducts.filter(x => x.ParentCategoryGuid ===  unisex.ParentCategory.CategoryId);
+        }
         let i = 0;
         this.products.forEach(product => {
           if (!catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
@@ -109,25 +116,28 @@ export class ProductSectionComponent implements OnInit {
               this.tertiaryCategories.push(product.TertiaryCategory);
             }
           }
-          if (i < 30 && !product.PickId) {
-            this.newProducts.push(product);
-          }
-          if (i >= 30 && !product.PickId) {
-            this.allOtherProducts.push(product);
-          }
-          i++;
+
         });
 
         if (catergories && catergories.length) {
           this.catergories = catergories;
         }
-        this.unisexCategory = this.parentCategories.find(x => x.Name === "Unisex");
-
-        this.pickedProducts = this.allProducts.filter(x => x.PickId);
       }
-
     });
-    // console.log(this.parentCategories);
+    console.log(this.parentCategories);
+    this.parentCategory = this.parentCategories.find(x => x.Name === this.parentCategoryId);
+
+    // this.pickedProducts = this.allProducts.filter(x => x.PickId);
+    const unisexCategory = this.parentCategories.find(x => x.Name === "Unisex");
+    if (unisexCategory) {
+      this.newProducts = this.allProducts.filter(x => x.ParentCategoryGuid === unisexCategory.CategoryId);
+
+    } else {
+      this.newProducts = [];
+
+    }
+
+
 
   }
 
@@ -138,4 +148,5 @@ export class ProductSectionComponent implements OnInit {
       category.Class = ['active'];
     }
   }
+
 }
