@@ -11,11 +11,11 @@ import { ProductVariationOption } from 'src/models/product.variation.option.mode
 import { Images } from 'src/models/images.model';
 import { CompanyService } from 'src/services/company.service';
 import { UxService } from 'src/services/ux.service';
-import { ORDER_TYPE_SALES } from 'src/shared/constants';
+import { INTERRACTION_TYPE_LIKE, ORDER_TYPE_SALES } from 'src/shared/constants';
 import { environment } from 'src/environments/environment';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { InteractionService } from 'src/services/Interaction.service';
-import { NavHistoryUX } from 'src/models/UxModel.model';
+import { BreadModel, NavHistoryUX } from 'src/models/UxModel.model';
 
 
 @Component({
@@ -56,6 +56,14 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   showAdd: boolean;
 
 
+  items: BreadModel[] = [
+    {
+      Name: 'Home',
+      Link: ''
+    },
+
+  ];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private homeShopService: HomeShopService,
@@ -87,6 +95,21 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
         if (this.product) {
           this.sanitize();
           this.company = this.product.Company;
+          this.items.push({
+            Name: this.company.Name.substr(0,30),
+            Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
+          },
+
+            // {
+            //   Name: this.product.CategoryName.substr(0,50),
+            //   Link: `home/collections/picks`
+            // },
+            {
+              Name: this.product.Name.substr(0,50),
+              Link: `shop/product/${this.product.ProductSlug || this.product.ProductId}`
+            }
+
+          )
           if (this.company && this.company.Promotions) {
             this.product.SalePrice = Number(this.product.RegularPrice) - (Number(this.product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
             if (Number(this.product.SalePrice) < Number(this.product.RegularPrice)) {
@@ -385,6 +408,12 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
         Description: this.product.Description,
         InteractionStatus: "Valid",
         ImageUrl: this.product.FeaturedImageUrl,
+        SourceType: "",
+        SourceName: "",
+        SourceDp: "",
+        TargetType: "",
+        TargetName: "",
+        TargetDp: "",
         CreateUserId: this.user.UserId,
         ModifyUserId: this.user.UserId,
         StatusId: 1
@@ -411,6 +440,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     const interactionSearchModel: InteractionSearchModel = {
       InteractionSourceId: this.user.UserId,
       InteractionTargetId: this.product.ProductId,
+      InteractionType: INTERRACTION_TYPE_LIKE,
       StatusId: 1
     }
     this.interactionService.getInteractions(interactionSearchModel).subscribe(data => {

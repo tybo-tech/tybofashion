@@ -243,22 +243,31 @@
     }
 
     span {
-      display: block;
       font-weight: 400;
       padding: 0;
       font-size: .85em;
       color: $darker-grey;
+
+      .material-icons {
+        margin: 0;
+        top: .2em;
+        font-size: 1.2em;
+        color: $black;
+      }
     }
+
   }
 }
-.flex-wraper{
+
+.flex-wraper {
   display: flex;
   overflow-x: auto;
   width: 100%;
 }
+
 .catergories {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
   // justify-content: space-between;
   overflow-x: scroll;
   margin: 1em;
@@ -275,13 +284,13 @@
     padding: .5em 1em;
     // width:100%;
     margin: .5em;
-    flex:0 0 auto;
+    flex: 0 0 auto;
     border-radius: .5em;
     font-size: 1em;
   }
 }
 
-  
+
 .collections {
   display: grid;
   grid-template-columns: 50% auto;
@@ -295,4 +304,10 @@
     cursor: pointer;
     font-weight: 500;
   }
+}
+
+.col-2-of-2 {
+  display: grid !important;
+  grid-template-columns: 7em auto;
+  margin-top: 1em;
 }

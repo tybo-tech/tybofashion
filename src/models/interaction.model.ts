@@ -7,6 +7,12 @@ export interface Interaction {
   InteractionBody: string;
   InteractionStatus: string;
   ImageUrl: string;
+  SourceType: string;
+  SourceName: string;
+  SourceDp: string;
+  TargetType: string;
+  TargetName: string;
+  TargetDp: string;
   CreateUserId: string;
   ModifyUserId: string;
   CreateDate?: string;
@@ -26,5 +32,7 @@ export interface InteractionSearchModel {
   InteractionSourceId: string;
   InteractionTargetId: string;
   StatusId: number;
+  InteractionType: string;
+  TraceId?: string;
 
 }

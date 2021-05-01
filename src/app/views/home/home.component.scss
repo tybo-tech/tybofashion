@@ -127,22 +127,3 @@ footer {
   }
 }
 
-.scroll-top{
-  position: fixed;
-  z-index: 10000000;
-  bottom: 2em;
-  right: 2em;
-  box-shadow:$box-shadow ;
-  width: 4em;
-  color: $black;
-  background: $pop;
-  cursor: pointer;
-  animation: fadeIn 2s ease-out 0s;
-  animation-fill-mode: backwards;
-  &:hover{
-    background: $pop-darker;
-  }
-  span{
-    top: 0;
-  }
-}

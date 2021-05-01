@@ -28,6 +28,10 @@ export class UxService {
   private uxHomeSideNavBehaviorSubject: BehaviorSubject<boolean>;
   public uxHomeSideNavObservable: Observable<boolean>;
 
+
+  private pageYPositionBehaviorSubject: BehaviorSubject<number>;
+  public pageYPositionObservable: Observable<number>;
+
   constructor() {
     this.uxMessagePopBehaviorSubject = new BehaviorSubject<string>(null);
     this.uxMessagePopObservable = this.uxMessagePopBehaviorSubject.asObservable();
@@ -49,15 +53,25 @@ export class UxService {
     this.uxHomeSideNavBehaviorSubject = new BehaviorSubject<boolean>(null);
     this.uxHomeSideNavObservable = this.uxHomeSideNavBehaviorSubject.asObservable();
 
+
+    this.pageYPositionBehaviorSubject = new BehaviorSubject<number>(null);
+    this.pageYPositionObservable = this.pageYPositionBehaviorSubject.asObservable();
+
   }
 
   public get currentMessagePopValue(): string {
     return this.uxMessagePopBehaviorSubject.value;
   }
+
   public get currentNavBarLogoValue(): HomeNavUx {
     return this.navBarLogoBehaviorSubject.value;
   }
 
+  updatePageYPositionState(state: number) {
+    if (state) {
+      this.pageYPositionBehaviorSubject.next(state);
+    }
+  }
   updateMessagePopState(state: string) {
     if (state) {
       this.uxMessagePopBehaviorSubject.next(state);

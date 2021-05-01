@@ -1,4 +1,3 @@
-
 <div class="main-products">
   <div class="full-image" *ngIf="unisexCategory">
     <img [src]="unisexCategory.ImageUrl" class="pc-only" alt="">
@@ -17,12 +16,12 @@
 
   <div class="picked" *ngIf="pickedProducts && pickedProducts.length">
     <h4>
-     <span> Instagram pick </span>
-     <span> Veiw all </span>
+      <span> Instagram pick </span>
+      <span (click)="veiwAllPicks()"> Veiw all </span>
     </h4>
     <div class="products-scroller">
-      <div class="product" *ngFor="let product of pickedProducts" (click)="viewMore(product)">
-        <img [src]="product.FeaturedImageUrl" alt="">
+      <div class="product" *ngFor="let product of pickedProducts">
+        <img [src]="product.FeaturedImageUrl" alt="" (click)="viewMore(product)">
         <p>
           {{product.Name}}
 
@@ -32,6 +31,10 @@
           <span class="price" *ngIf="product.OnSale">
             <del> {{product.RegularPrice | currency:'R'}}</del> <br>
             {{product.SalePrice | currency:'R'}}
+          </span>
+
+          <span class="company-name" *ngIf="product.Company && product.Company.Name" (click)="gotoComapny(product)">
+            By {{product.Company.Name}}
           </span>
 
         </p>
@@ -44,9 +47,25 @@
     <h4>
       Recently added products
     </h4>
-    <div class="products-scroller">
-      <div class="product" *ngFor="let product of newProducts" (click)="viewMore(product)">
-        <img [src]="product.FeaturedImageUrl" alt="">
+
+    <div class="left-scrolls pc-only">
+
+      <button  (click)="scroll(-1)">
+        <span class="material-icons">
+          arrow_back_ios
+          </span>
+          
+      </button>
+
+      <button  (click)="scroll(1)">
+        <span class="material-icons">
+          arrow_forward_ios
+          </span>
+      </button>
+    </div>
+    <div class="products-scroller" id="justAdded">
+      <div class="product" *ngFor="let product of newProducts">
+        <img [src]="product.FeaturedImageUrl" alt="" (click)="viewMore(product)">
         <p>
           {{product.Name}}
 
@@ -58,6 +77,10 @@
             {{product.SalePrice | currency:'R'}}
           </span>
 
+          <span class="company-name" *ngIf="product.Company && product.Company.Name" (click)="gotoComapny(product)">
+            By {{product.Company.Name}}
+          </span>
+
         </p>
       </div>
     </div>
@@ -66,19 +89,19 @@
 
   <div class="picked" *ngIf="allOtherProducts && allOtherProducts.length">
     <h4>
-     All products
+      All products
     </h4>
- 
+
     <div class="products">
       <div class="product" *ngFor="let product of allOtherProducts; let i = index">
         <div class="image">
           <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
         </div>
-  
-        <div class="product-details" (click)="viewMore(product)">
+
+        <div class="product-details">
           <p>
             {{product.Name}}
-  
+
             <span class="price" *ngIf="!product.OnSale">
               {{product.RegularPrice | currency:'R'}}
             </span>
@@ -86,11 +109,15 @@
               <del> {{product.RegularPrice | currency:'R'}}</del> <br>
               {{product.SalePrice | currency:'R'}}
             </span>
-  
+
+            <span class="company-name" *ngIf="product.Company && product.Company.Name" (click)="gotoComapny(product)">
+              By {{product.Company.Name}}
+            </span>
+
           </p>
         </div>
-  
-  
+
+
       </div>
     </div>
   </div>
@@ -98,5 +125,5 @@
 
 
 
- 
+
 </div>

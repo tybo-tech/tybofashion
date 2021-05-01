@@ -16,7 +16,7 @@ export interface Product {
   PriceTo: number;
   Description: string;
   ProductSlug: string;
-  CatergoryId: number;
+  CatergoryId: any;
   ParentCategoryId?: number;
   CategoryName: string;
   ParentCategoryName?: string;

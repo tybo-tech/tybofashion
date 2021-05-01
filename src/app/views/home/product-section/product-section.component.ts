@@ -29,7 +29,9 @@ export class ProductSectionComponent implements OnInit {
   unisexCategory: Category;
   pickedProducts: Product[];
   newProducts: Product[];
-  allOtherProducts: Product[];;
+  allOtherProducts: Product[]; yPosition: number;
+  newInScrollTo = 0;
+  ;
 
   constructor(
     private homeShopService: HomeShopService,
@@ -42,18 +44,41 @@ export class ProductSectionComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.user = this.accountService.currentUserValue;
+
     this.uxService.uxNavHistoryObservable.subscribe(data => {
       this.navHistory = data;
     })
 
     this.loadCategories();
+
+
+    this.uxService.pageYPositionObservable.subscribe(data => {
+      this.yPosition = data || 0;
+    });
+
+
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      if (data) {
+        this.navHistory = data;
+        window.scrollTo(0, this.navHistory.ScrollToYPositoin || 0);
+      }
+    });
+
+
   }
 
   viewMore(product: Product) {
     if (product) {
+      window.scroll(0, 0);
       this.homeShopService.updateProductState(product);
-      this.uxService.keepNavHistory(null);
+      this.uxService.keepNavHistory({
+        BackToAfterLogin: '/',
+        BackTo: '/',
+        ScrollToProduct: null,
+        ScrollToYPositoin: this.yPosition
+      });
       this.router.navigate(['shop/product', product.ProductSlug])
     }
   }
@@ -137,5 +162,21 @@ export class ProductSectionComponent implements OnInit {
       this.parentCategories.map(x => x.Class = ['']);
       category.Class = ['active'];
     }
+  }
+
+  gotoComapny(product: Product) {
+    window.scroll(0, 0);
+    if (product.Company) {
+      this.router.navigate([product.Company.Slug || product.CompanyId]);
+      return;
+    }
+    this.router.navigate([product.CompanyId]);
+  }
+  scroll(e) {
+    this.newInScrollTo += e * 1000;
+    document.getElementById("justAdded").scroll(this.newInScrollTo, 0)
+  }
+  veiwAllPicks(){
+    this.goto(`home/collections/picks`)
   }
 }

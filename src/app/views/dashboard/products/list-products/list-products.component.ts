@@ -44,7 +44,6 @@ export class ListProductsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
-    // this.productService.getProducts(this.user.CompanyId);
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading products, please wait.' })
     this.productService.getProductsSync(this.user.CompanyId).subscribe(data => {
       this.products = data;

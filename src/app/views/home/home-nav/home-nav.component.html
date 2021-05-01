@@ -13,9 +13,10 @@
       </span>
     </div>
 
-    <div class="logo col" *ngIf="logoUx" (click)="goto('')">
-      <img *ngIf="logoUx.Name" [src]="logoUx.LogoUrl" alt="">
-      <img *ngIf="!logoUx.Name" [src]="logoUx.LogoUrl" style="width: auto; height: 2.5em;" alt="">
+    <div class="logo col" (click)="goto('')">
+      <!-- <img *ngIf="logoUx.Name" [src]="logoUx.LogoUrl" alt="">
+      <img *ngIf="!logoUx.Name" [src]="logoUx.LogoUrl" style="width: auto; height: 2.5em;" alt=""> -->
+      <img   src="assets/images/common/logoblack2.png" style="width: auto; height: 2.5em;" alt="">
     </div>
 
 
@@ -30,11 +31,11 @@
           Men's collection
         </a>
       </div>
-      <div class="division">
+      <!-- <div class="division">
         <a (click)="goto('home/on-sale')" style="color: red;">
           Sale
         </a>
-      </div>
+      </div> -->
       <div class="division">
         <a (click)="goto('home/shops')">
           Shops

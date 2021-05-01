@@ -192,4 +192,10 @@ h3 {
   cursor: pointer;
 }
 
+.sub-collections{
+    animation: sildeDown .5s ease-out 0s;
+  animation-fill-mode: backwards;
+  overflow: hidden;
+}
+
 

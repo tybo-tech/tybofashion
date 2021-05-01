@@ -1,16 +1,28 @@
 @import '../../../../assets/styles/color';
 
+.dasboard {
+  max-width: $max-width;
+  margin: .5em auto;
+
+
+  @media only screen and (max-width: 600px) {
+    max-width: auto;
+    width: 100%;
+
+  }
+}
+
 .main {
-  display: grid;
-  grid-template-columns: 17em auto;
-  max-width: 100em;
+  // display: grid;
+  // grid-template-columns: 17em auto;
+  // max-width: 100em;
   margin: .5em auto;
   // height: 100vh;
   // overflow-y: scroll;
 
   @media only screen and (max-width: 600px) {
-    grid-template-columns: 100%;
-    max-width: auto;
+    // grid-template-columns: 100%;
+    // max-width: auto;
     width: 100%;
   }
 }
@@ -85,7 +97,7 @@
   h3 {
     width: 100%;
     text-align: center;
-    color:  $pop-darker;
+    color: $pop-darker;
   }
 }
 

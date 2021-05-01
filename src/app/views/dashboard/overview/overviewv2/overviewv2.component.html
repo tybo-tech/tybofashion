@@ -1,24 +1,37 @@
-<div class="main" *ngIf="company && products">
+<div class="top-bar-conatiner">
+
+  <div class="top-bar" *ngIf="user && user.Company && products">
+    <div class="menu-back">
+      <span class="material-icons">
+        menu
+      </span>
+    </div>
+
+
+    <div class="name">
+      Dashboard
+    </div>
+
+    <div class="btn-menu">
+
+    </div>
+  </div>
+</div>
+
+<div class="main" *ngIf="user && user.Company && products">
   <div class="company-profile">
     <div class="cdp">
-      <img [src]="company.Dp" alt="">
+      <img [src]="user.Company.Dp" alt="">
     </div>
 
     <div class="details">
       <h3>
-        {{company.Name}}
-        <span class="block" *ngIf="company.Description">{{company.Description}} <br> <br></span>
-        <!-- <span class="block">{{allProducts.length}} Products in this shop.</span> -->
-        <span class="block" *ngIf="shopOwner && shopOwner.UserId">Shop owner: <b>{{shopOwner.Name}}</b></span>
+        {{user.Company.Name}}
+        <span class="block" *ngIf="user.Company.Description">{{user.Company.Description}} <br> <br></span>
+
         <span class="block col-2-of-2">
-          <span class="block follow" *ngIf="liked == 'no'" (click)="onLike('yes')">Follow</span>
-          <span class="block follow" *ngIf="liked == 'yes'" (click)="onLike('no')">Following</span>
-          <span class="block follow contact"  *ngIf="shopOwner && shopOwner.UserId" (click)="goto('home/messages/0/'+ shopOwner.UserId)">
-            <span class="material-icons">
-              textsms
-              </span>
-            Contact shop owner
-          </span>
+          <span class="block follow" (click)="goto('company-profile')">Edit company</span>
+          <!-- <span class="block follow" (click)="goto('company-profile')">Following</span> -->
         </span>
       </h3>
     </div>
@@ -32,7 +45,9 @@
       Men's collection
     </div>
   </div> -->
-  <div class="catergories" *ngIf="catergories">
+
+
+  <!-- <div class="catergories" *ngIf="catergories">
     <button class="catergory" (click)="all()">
       All ({{allProducts.length}})
     </button>
@@ -41,17 +56,29 @@
       {{catergory.Name}}
     </button>
 
-  </div>
+  </div> -->
+  <h3 class="heading">
+   Orders overview
+  </h3>
 
+  <app-statistics></app-statistics>
 
+  <h3 class="heading">
+    My products
+  </h3>
 
   <div class="products" *ngIf="products">
+
     <div class="product" *ngFor="let product of products; let i = index">
       <div class="image">
-        <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
+        <img [src]="product.FeaturedImageUrl" *ngIf="product.FeaturedImageUrl" alt="Awesome Sunglasses"
+          (click)="view(product)">
+        <img *ngIf="!product.FeaturedImageUrl" src="assets/images/common/image-holder.svg" alt=""
+          (click)="view(product)">
+
       </div>
 
-      <div class="product-details" (click)="viewMore(product)">
+      <div class="product-details" (click)="view(product)">
         <p>
           {{product.Name}}
 
@@ -63,8 +90,8 @@
             {{product.SalePrice | currency:'R'}}
           </span>
 
-          <!-- <span class="company-name" *ngIf="product.Company && product.Company.Name">
-            By {{product.Company.Name}}
+          <!-- <span class="company-name" *ngIf="product.Company && product.user.Company.Name">
+            By {{product.user.Company.Name}}
           </span> -->
 
         </p>
@@ -91,4 +118,3 @@
 
   </div>
 </div>
-

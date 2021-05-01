@@ -6,7 +6,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 3em;
+  border-bottom: 1px solid $grey;
+
+  // height: 3em;
+  background: $white;
   .top-bar {
     padding: .3em 1em;
     background: $white;
@@ -14,10 +17,8 @@
     margin: 0;
     border-radius: 0;
     grid-template-columns: 3% 45% auto;
-    max-width: 100em;
+    max-width: $max-width;
     margin: 0 auto;
-    border: 1px solid $cloud;
-    border-bottom: 1px solid $grey;
     @media only screen and (max-width: 600px) {
       grid-template-columns: 5% auto;
       width: 100%;
@@ -80,7 +81,7 @@
   margin: 0;
   border-radius: 0;
   grid-template-columns: 3% 45% auto;
-  max-width: 100em;
+  max-width: $max-width;
   margin: 0 auto;
   border: 1px solid $cloud;
   border-bottom: 1px solid $grey;

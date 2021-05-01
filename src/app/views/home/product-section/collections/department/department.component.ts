@@ -53,6 +53,11 @@ export class DepartmentComponent implements OnInit {
 
   viewMore(product: Product) {
     if (product) {
+      this.uxService.keepNavHistory({
+        BackToAfterLogin: '',
+        BackTo: '',
+        ScrollToProduct: null
+      });
       this.homeShopService.updateProductState(product);
       this.uxService.keepNavHistory(null);
       this.router.navigate(['shop/product', product.ProductSlug])
@@ -90,14 +95,14 @@ export class DepartmentComponent implements OnInit {
       if (products && products.length) {
         this.allProducts = products;
         const parent = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === this.parentCategoryId);
-        const unisex = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === 'Unisex');
         this.products = this.allProducts;
         if (parent && parent.ParentCategory) {
           this.parentCategory = parent.ParentCategory;
           this.products = this.allProducts.filter(x => x.ParentCategoryGuid === this.parentCategory.CategoryId);
         }
+        const unisex = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === 'Unisex');
         if (unisex && unisex.ParentCategory) {
-          this.allUxisexProducts = this.allProducts.filter(x => x.ParentCategoryGuid ===  unisex.ParentCategory.CategoryId);
+          this.allUxisexProducts = this.allProducts.filter(x => x.ParentCategoryGuid === unisex.ParentCategory.CategoryId);
         }
         let i = 0;
         this.products.forEach(product => {
@@ -147,6 +152,15 @@ export class DepartmentComponent implements OnInit {
       this.parentCategories.map(x => x.Class = ['']);
       category.Class = ['active'];
     }
+  }
+
+  gotoComapny(product:Product){
+    window.scroll(0,0);
+    if(product.Company){
+      this.router.navigate([product.Company.Slug || product.CompanyId]);
+      return;
+    }
+    this.router.navigate([product.CompanyId]);
   }
 
 }

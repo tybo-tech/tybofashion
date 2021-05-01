@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { Category, NavigationModel, User } from 'src/models';
-import { AccountService } from 'src/services';
+import { AccountService, ProductService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { UxService } from 'src/services/ux.service';
 
@@ -15,15 +16,18 @@ export class HomeSideNavComponent implements OnInit {
   showMobileNav = true;
   @Output() showMobileMenuEvent: EventEmitter<any> = new EventEmitter<any>();
   categories: Category[];
+  subCatergories: Category[];
   navItems: NavigationModel[];
   selectedCategory: Category;
   @Input() showExistShop: boolean;
   user: User;
+  parentCategory: Category;
   constructor(
     private router: Router,
     private homeShopService: HomeShopService,
     private uxService: UxService,
     private accountService: AccountService,
+    private productService: ProductService,
 
   ) { }
 
@@ -62,7 +66,7 @@ export class HomeSideNavComponent implements OnInit {
         this.selectedCategory = this.categories && this.categories.length && this.categories[0];
       }
     });
-
+    // this.loadCategories();
 
   }
 
@@ -112,4 +116,52 @@ export class HomeSideNavComponent implements OnInit {
 
 
 
+
+  tabParentCategories(category: Category) {
+    console.log(category);
+    if (category) {
+      this.subCatergories.map(x => x.Class = ['']);
+      category.Class = ['active'];
+    }
+  }
+
+  loadCategories(name: string) {
+    if (this.parentCategory && this.parentCategory.Name === name && this.subCatergories) {
+      this.subCatergories = [];
+      this.parentCategory = undefined;
+      return;
+    }
+    this.subCatergories = [];
+    this.parentCategory = undefined;
+    this.productService.productListObservable.subscribe(products => {
+      if (products && products.length) {
+        const parentCategories = products.map(x => x.ParentCategory);
+        this.parentCategory = parentCategories.find(x => x.Name === name);
+        if (this.parentCategory) {
+          const categories = products.map(x => x.Category);
+          categories.forEach(item => {
+            if (item.ParentId === this.parentCategory.CategoryId && !this.subCatergories.find(x => x.CategoryId === item.CategoryId)) {
+              this.subCatergories.push(item);
+            }
+
+          });
+        }
+
+        // this.currentCategory = this.parentCategories.find(x => x.Name === "Unisex");
+        // this.products = this.allProducts.filter(x => x.PickId);
+      }
+
+    });
+  }
+
+  tapChildCategory(category: any) {
+    if (category && category.CategoryId) {
+      this.goto(`home/collections/${category.CategoryId}`);
+      return;
+    }
+
+    //string
+    this.goto(`home/collections/${category}`)
+
+  }
 }

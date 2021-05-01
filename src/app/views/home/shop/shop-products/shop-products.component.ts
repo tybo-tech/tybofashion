@@ -5,12 +5,13 @@ import { Company } from 'src/models/company.model';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { Promotion } from 'src/models/promotion.model';
 import { NavHistoryUX } from 'src/models/UxModel.model';
-import { AccountService } from 'src/services';
+import { AccountService, UserService } from 'src/services';
 import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
 import { ProductService } from 'src/services/product.service';
 import { UxService } from 'src/services/ux.service';
+import { ADMIN, INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-shop-products',
@@ -35,6 +36,7 @@ export class ShopProductsComponent implements OnInit {
   parentCategories: Category[] = [];
   catergories: Category[] = [];
   tertiaryCategories: Category[] = [];
+  shopOwner: User;
 
   constructor(
     private homeShopService: HomeShopService,
@@ -45,6 +47,7 @@ export class ShopProductsComponent implements OnInit {
     private companyService: CompanyService,
     private interactionService: InteractionService,
     private accountService: AccountService,
+    private userService: UserService,
 
   ) {
     this.activatedRoute.params.subscribe(r => {
@@ -64,12 +67,23 @@ export class ShopProductsComponent implements OnInit {
 
 
   }
+  getShopOwner(){
+      if (this.company) {
+      this.userService.getUsersStync(this.company.CompanyId, ADMIN).subscribe(data => {
+        if (data && data.length) {
+          this.shopOwner = data[0];
+        }
+      });
+    } 
+
+  }
   getCompany() {
     this.companyService.getCompanyById(this.shopSlug).subscribe(data => {
       if (data && data.CompanyId) {
         this.company = data;
         this.loadCategories();
         this.getInteractions();
+        this.getShopOwner();
       }
     });
   }
@@ -130,6 +144,12 @@ export class ShopProductsComponent implements OnInit {
         Description: this.company.Description,
         InteractionStatus: "Valid",
         ImageUrl: this.company.Dp,
+        SourceType: "",
+        SourceName: "",
+        SourceDp: "",
+        TargetType: "",
+        TargetName: "",
+        TargetDp: "",
         CreateUserId: this.user.UserId,
         ModifyUserId: this.user.UserId,
         StatusId: 1
@@ -156,6 +176,7 @@ export class ShopProductsComponent implements OnInit {
     const interactionSearchModel: InteractionSearchModel = {
       InteractionSourceId: this.user.UserId,
       InteractionTargetId: this.company.CompanyId,
+      InteractionType: INTERRACTION_TYPE_LIKE,
       StatusId: 1
     }
     this.interactionService.getInteractions(interactionSearchModel).subscribe(data => {
@@ -176,8 +197,8 @@ export class ShopProductsComponent implements OnInit {
 
     this.productService.productListObservable.subscribe(products => {
       if (products && products.length) {
-        this.allProducts = products;
-        this.products = this.allProducts.filter(x => x.CompanyId === this.company.CompanyId);
+        this.products = products.filter(x => x.CompanyId === this.company.CompanyId);
+        this.allProducts = products.filter(x => x.CompanyId === this.company.CompanyId);
         this.products.forEach(product => {
           if (!catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
             if (product.Category) {
@@ -212,4 +233,5 @@ export class ShopProductsComponent implements OnInit {
       category.Class = ['active'];
     }
   }
+
 }

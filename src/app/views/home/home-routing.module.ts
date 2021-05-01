@@ -33,6 +33,9 @@ import { HomeToolbarNavigationComponent } from './home-toolbar-navigation/home-t
 import { HomeComponent } from './home.component';
 import { ProductSectionCardComponent, ProductSectionComponent, ProductSectionDetailComponent } from './product-section';
 import { AllCollectionsComponent } from './product-section/collections/all-collections/all-collections.component';
+import { BreadComponent } from './product-section/collections/bread/bread.component';
+import { ChatComponent } from './product-section/collections/chat/chat.component';
+import { MessagesComponent } from './product-section/collections/chat/messages/messages.component';
 import { CollectionsComponent } from './product-section/collections/collections.component';
 import { DepartmentComponent } from './product-section/collections/department/department.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
@@ -80,6 +83,8 @@ const routes: Routes = [
       { path: 'private/order-details/:id', component: ViewOrderComponent },
       { path: 'home/view-my-order/:id', component: ViewMyOrderComponent },
       { path: 'home/shop-for/:id', component: DepartmentComponent },
+      { path: 'home/chat/:id/:userId/:userToId', component: ChatComponent },
+      { path: 'home/messages/:traceId/:targetId', component: MessagesComponent },
 
     ]
 
@@ -132,7 +137,10 @@ export const declarations = [
   WishListComponent,
   ViewOrderComponent,
   ViewMyOrderComponent,
-  DepartmentComponent
+  DepartmentComponent,
+  BreadComponent,
+  ChatComponent,
+  MessagesComponent
 
 ];
 

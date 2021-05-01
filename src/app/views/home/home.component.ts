@@ -52,21 +52,21 @@ export class HomeComponent implements OnInit {
 
     this.uxService.navBarLogoObservable.subscribe(data => {
       this.showExistShop = data && data.Name;
-  });
+    });
 
-  this.uxService.uxLoadingPopObservable.subscribe(data => {
-     
-    const id = setTimeout(() => {
-      this.loadingUx = data;
-    }, 0);
-  });
+    this.uxService.uxLoadingPopObservable.subscribe(data => {
 
-  this.uxService.uxMessagePopObservable.subscribe(data => {
-    this.message = data;
-    const id = setTimeout(() => {
-      this.message = null;
-    }, 3000);
-  });
+      const id = setTimeout(() => {
+        this.loadingUx = data;
+      }, 0);
+    });
+
+    this.uxService.uxMessagePopObservable.subscribe(data => {
+      this.message = data;
+      const id = setTimeout(() => {
+        this.message = null;
+      }, 3000);
+    });
   }
 
   onNavItemClicked(categoryId: string) {
@@ -103,19 +103,18 @@ export class HomeComponent implements OnInit {
     this.user = null;
     this.accountService.updateUserState(null);
   }
-  totop(){
-    window.scroll(0,0);
-    console.log(window.screenY);
-    
+  totop() {
+    window.scroll(0, 0);
   }
 
-  @HostListener('window:scroll', ['$event']) onScrollEvent($event){
-  if(window.pageYOffset > 500){
-    this.showScrollUp = true;
-  }else{
-    this.showScrollUp = false;
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
+    this.uxService.updatePageYPositionState(window.pageYOffset);
+    if (window.pageYOffset > 500) {
+      this.showScrollUp = true;
+    } else {
+      this.showScrollUp = false;
+    }
   }
-  } 
 }
 
 

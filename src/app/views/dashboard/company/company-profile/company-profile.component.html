@@ -71,8 +71,8 @@
         <input *ngIf="isEditMode" type="text" [(ngModel)]="user.Company.Phone" class="txt-edit">
         <div class="value" *ngIf="!isEditMode">{{user.Company.Phone}}</div>
 
-        <label>Company Email</label>
-        <input *ngIf="isEditMode" type="text" [(ngModel)]="user.Company.Email" class="txt-edit">
+        <label>Company Email(Cannot be changed)</label>
+        <input *ngIf="isEditMode" type="email" disabled [(ngModel)]="user.Company.Email" class="txt-edit">
         <div class="value" *ngIf="!isEditMode">{{user.Company.Email}}</div>
 
         <label>Company Address</label>

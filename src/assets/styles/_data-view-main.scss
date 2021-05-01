@@ -84,10 +84,9 @@
   .picked {
     h4 {
       padding: 1em;
-      font-style: italic;
-      color: $hotpink;
+      color: $charcoal;
       font-size: 1.8em;
-      text-transform: uppercase;
+      text-transform: capitalize;
       display: grid;
       grid-template-columns: 90% auto;
       @media only screen and (max-width: 600px) {
@@ -144,4 +143,14 @@
     }
   }
 
+}
+
+
+.company-name{
+  display: block;
+  color: $darker-grey;
+  cursor: pointer;
+  &:hover{
+    color: $pop-darker;
+  }
 }

@@ -5,6 +5,7 @@ import { Interaction, InteractionSearchModel } from 'src/models/interaction.mode
 import { AccountService } from 'src/services';
 import { InteractionService } from 'src/services/Interaction.service';
 import { UxService } from 'src/services/ux.service';
+import { INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-wish-list',
@@ -50,13 +51,14 @@ export class WishListComponent implements OnInit {
     const interactionSearchModel: InteractionSearchModel = {
       InteractionSourceId: this.user.UserId,
       InteractionTargetId: '',
+      InteractionType: INTERRACTION_TYPE_LIKE,
       StatusId: 1
     }
     this.interactionService.getInteractionsBySource(interactionSearchModel).subscribe(data => {
       if (data && data.length) {
         this.interactions = data;
       }
-    })
+    });
 
   }
   select(interaction: Interaction) {

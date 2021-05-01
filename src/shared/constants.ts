@@ -20,6 +20,10 @@ export const STOCK_CHANGE_DECREASE ='Decrease';
 export const PRODUCT_TYPE_STOCK ='Stock product';
 export const PRODUCT_TYPE_JIT ='Just in time';
 export const PRODUCT_ORDER_LIMIT_MAX =999999;
+export const INTERRACTION_TYPE_LIKE ='Like';
+export const INTERRACTION_TYPE_CHAT ='Chat';
+export const COMPANY_DESCRIPTION ='Hey there! I am using Tybo Fashion.';
+
 
 export const SEND_EMAIL_RESET_PASSWORD  = 'https://app.tybo.co.za/api/email/email-reset-password-link.php';
 export const SEND_EMAIL_ACTIVATE_ACCOUNT = 'https://app.tybo.co.za/api/email/email-welcome-activate-account.php';

@@ -55,12 +55,15 @@ import { SuperCompanyPageComponent } from './super/super-companies/super-company
 import { AllUsersComponent } from './users/all-users/all-users.component';
 import { SuperProductsPicksComponent } from './super/category/super-products-picks/super-products-picks.component';
 import { SuperPickDetailsComponent } from './super/category/super-products-picks/super-pick-details/super-pick-details.component';
+import { Overviewv2Component } from './overview/overviewv2/overviewv2.component';
+import { StatisticsComponent } from './overview/overviewv2/statistics/statistics.component';
 
 const routes: Routes = [
   {
     path: '', component: DashboardComponent,
     children: [
-      { path: '', component: OverviewComponent },
+      // { path: '', component: OverviewComponent },
+      { path: '', component: Overviewv2Component },
       // { path: '', component: ListProductsComponent },
       { path: 'customer/:id', component: CustomerComponent },
       { path: 'product/:id', component: ProductComponent },
@@ -163,6 +166,8 @@ export const declarations: Array<any> = [
   SuperPickDetailsComponent,
   // pipes
   SearchProductPipe,
+  Overviewv2Component,
+  StatisticsComponent
 
 ];
 @NgModule({

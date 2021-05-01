@@ -18,6 +18,7 @@ export class HomeNavComponent implements OnInit {
   selectedCategory: Category;
   allCategories: Category[];
   parentCategories: Category[];
+  subCatergories: Category[] = [];
   logoUx: any;
   carttItems = 0;
   allProducts: Product[]
@@ -164,6 +165,7 @@ export class HomeNavComponent implements OnInit {
   }
 
   goto(url: string) {
+    this.totop();
     this.router.navigate([url]);
     // if (url === '') {
     //   this.loadData();
@@ -242,7 +244,9 @@ export class HomeNavComponent implements OnInit {
     }
   }
 
-
+  totop() {
+    window.scroll(0, 0);
+  }
 
 
 }
