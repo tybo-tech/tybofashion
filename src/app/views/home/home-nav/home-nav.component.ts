@@ -181,7 +181,10 @@ export class HomeNavComponent implements OnInit {
     if (this.allProducts && this.searchString) {
       this.searchString = this.searchString.toLocaleLowerCase();
       const matchingProducts = this.allProducts.filter(x => {
-        if (x.Name && x.Name.toLocaleLowerCase().includes(this.searchString)) {
+        if (
+          x.Name && x.Name.toLocaleLowerCase().includes(this.searchString)
+          || x.Description && x.Description.toLocaleLowerCase().includes(this.searchString)
+        ) {
           return x;
         }
       });

@@ -336,4 +336,14 @@ export class VeiwJobCardComponent implements OnInit {
       this.router.navigate(['admin/dashboard/view-invoice', this.job.JobId, order.OrderType]);
     }
   }
+
+  addNewCustomer() {
+    this.uxService.keepNavHistory({
+      BackToAfterLogin: `admin/dashboard/job-card/${this.JobId}`,
+      BackTo: `admin/dashboard/job-card/${this.JobId}`,
+      ScrollToProduct: null
+    });
+    this.router.navigate(['admin/dashboard/customer/add']);
+
+  }
 }

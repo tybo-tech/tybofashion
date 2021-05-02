@@ -1,14 +1,6 @@
+  
   <div class="nav" *ngIf="isAdmin">
-    <!-- <div class="logo">
-      <img src="assets/images/common/dash-logo.png" alt="">
-     
-    </div> -->
-
-    <div class="logo pointer" (click)="list('company-profile')">
-      <img *ngIf="user.Company.Dp" [src]="user.Company.Dp" alt="">
-      <img *ngIf="!user.Company.Dp" src="assets/images/common/newlogo.png" alt="">
-    </div>
-    <ul>
+    <ul (click)="toggleNav()">
       <li>
         <a routerLink="/admin/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
           <span class="material-icons">
@@ -82,10 +74,8 @@
   </div>
 
   <div class="nav" *ngIf="isSuper">
-    <div class="logo pointer" (click)="list('company-profile')">
-      <img src="assets/images/common/logo.png" alt="">
-    </div>
-    <ul>
+  
+    <ul (click)="toggleNav()">
       <li>
         <a routerLink="/admin/dashboard/super-categories" routerLinkActive="active-link"
           [routerLinkActiveOptions]="{exact: true}">

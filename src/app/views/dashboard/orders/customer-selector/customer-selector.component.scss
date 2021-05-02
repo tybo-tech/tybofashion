@@ -1,15 +1,15 @@
 @import '../../../../../assets/styles/color';
 
-.list-selector {
-  background: rgba(0, 0, 0, 0.377);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 400000;
-  width: 100%;
-  height: 100%;
-  color: $black;
-  overflow-y: scroll;
+.form-item {
+  // background: rgba(0, 0, 0, 0.377);
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // z-index: 400000;
+  // width: 100%;
+  // height: 100%;
+  // color: $black;
+  // overflow-y: scroll;
 
   .items {
     padding-bottom: 4em;

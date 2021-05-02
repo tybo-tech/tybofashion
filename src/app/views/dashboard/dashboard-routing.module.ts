@@ -57,6 +57,7 @@ import { SuperProductsPicksComponent } from './super/category/super-products-pic
 import { SuperPickDetailsComponent } from './super/category/super-products-picks/super-pick-details/super-pick-details.component';
 import { Overviewv2Component } from './overview/overviewv2/overviewv2.component';
 import { StatisticsComponent } from './overview/overviewv2/statistics/statistics.component';
+import { ProductListCardsComponent } from './products/product-list-cards/product-list-cards.component';
 
 const routes: Routes = [
   {
@@ -167,7 +168,8 @@ export const declarations: Array<any> = [
   // pipes
   SearchProductPipe,
   Overviewv2Component,
-  StatisticsComponent
+  StatisticsComponent,
+  ProductListCardsComponent
 
 ];
 @NgModule({

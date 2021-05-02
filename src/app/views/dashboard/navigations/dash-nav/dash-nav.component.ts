@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/models';
 import { AccountService } from 'src/services';
+import { UxService } from 'src/services/ux.service';
 import { ADMIN, SUPER } from 'src/shared/constants';
 
 @Component({
@@ -17,6 +18,7 @@ export class DashNavComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
+    private uxService: UxService,
 
 
   ) { }
@@ -30,19 +32,21 @@ export class DashNavComponent implements OnInit {
     this.isAdmin = this.user.UserType === ADMIN;
     this.isSuper = this.user.UserType === SUPER;
     if (this.isSuper) {
-      // this.router.navigate([`/admin/dashboard/super-categories`]);
     }
   }
   toggleNav() {
-    this.showNav = !this.showNav
+    this.uxService.hideHomeSideNav();
+    window.scroll(0, 0);
   }
   list(item) {
     this.router.navigate([`admin/dashboard/${item}`]);
   }
 
-  
+
   logout() {
     this.accountService.updateUserState(null);
     this.router.navigate(['']);
   }
+
+
 }

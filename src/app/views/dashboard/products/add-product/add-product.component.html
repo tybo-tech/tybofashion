@@ -1,23 +1,12 @@
 <app-loader *ngIf="showLoader"></app-loader>
 
 <div class="data-view-main" *ngIf="product">
-  <!-- <h3 class="header-label">
-    Product images.
-  </h3>
-  <div class="basic">
-    <app-images *ngIf="product" [images]="product.Images" (onUploadFinished)="saveImage($event)"
-      (deleteImageEvent)="deleteImage($event)" (setMianImageEvent)="setMianImage($event)"
-      (showImageEvent)="showImage($event)"></app-images>
-    <div class="notes">
-      <i> Tap on the image to set as main picture</i>
-    </div>
-  </div> -->
-  <h3 class="header-label">
-    Product info.
-  </h3>
 
   <div class="basic">
-    <!-- <div class="basic" style="display: none;"> -->
+    <h3 class="header-label">
+      Product info.
+    </h3>
+
     <div class="no-child">
       <div class="black-label">
         Name
@@ -81,7 +70,7 @@
     <div class="no-child med">
       <div class="black-label">
         <p>
-          Sub catergory 
+          Sub catergory
         </p>
       </div>
       <div class="link" (click)="name()">
@@ -200,11 +189,12 @@
   </div>
 
 
-  <h3 class="header-label">
-    Product options.
-  </h3>
+
 
   <div class="basic">
+    <h3 class="header-label">
+      Product options.
+    </h3>
     <div class="no-child col-3">
       <div class="black-label">
         Colours
@@ -260,11 +250,12 @@
   </div>
 
 
-  <h3 class="header-label">
-    Product images.
-  </h3>
-  <div class="basic">
-    <div class="" *ngIf="colors">
+
+  <div class="basic" *ngIf="colors">
+    <h3 class="header-label">
+      Product images.
+    </h3>
+    <div class="" >
       <div *ngFor="let option of colors.ProductVariationOptions" class="color-section"
         [ngStyle]="{'border-color': option.Description}">
         <div class="color-grid">
@@ -292,37 +283,41 @@
       </div>
     </div>
 
-    <div class="notes">
+    <!-- <div class="notes">
       <i> Tap on the image to set as main picture</i>
+    </div> -->
+  </div>
+
+
+  <div class="basic" *ngIf="product && product.ProductCombinations && product.IsJustInTime != 'Just in time'">
+    <h3 class="header-label">
+      Product variations.
+    </h3>
+
+    <app-product-combinations [product]="product">
+    </app-product-combinations>
+  </div>
+  <div class="basic">
+    <div class="ctas">
+
+      <div class="cta">
+        <button class="mat-primary checkout cancel" [disabled]="!product.Name" mat-button color="primary"
+          (click)="back()">
+          Cancel
+        </button>
+      </div>
+  
+      <div class="cta">
+        <button class="mat-primary checkout" [disabled]="!product.Name" mat-button color="primary"
+          (click)="saveProduct()">
+          Save product
+        </button>
+      </div>
     </div>
   </div>
 
 
 
-  <h3 class="header-label" *ngIf="product && product.ProductCombinations  && product.IsJustInTime != 'Just in time'">
-    Product variations.
-  </h3>
-
-  <app-product-combinations *ngIf="product && product.ProductCombinations && product.IsJustInTime != 'Just in time'"
-    [product]="product">
-  </app-product-combinations>
-
-  <div class="ctas">
-
-    <div class="cta">
-      <button class="mat-primary checkout cancel" [disabled]="!product.Name" mat-button color="primary"
-        (click)="back()">
-        Cancel
-      </button>
-    </div>
-
-    <div class="cta">
-      <button class="mat-primary checkout" [disabled]="!product.Name" mat-button color="primary"
-        (click)="saveProduct()">
-        Save product
-      </button>
-    </div>
-  </div>
 
 </div>
 

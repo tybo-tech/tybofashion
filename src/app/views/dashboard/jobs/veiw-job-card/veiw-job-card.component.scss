@@ -200,3 +200,27 @@ textarea {
     padding-bottom: 3em;
   }
 }
+
+.cloud{
+  background: $cloud;
+  button{
+    background: $pop;
+  }
+}
+
+.heading{
+  padding: 1em;
+  margin: 0;
+  margin-bottom: 3em;
+  border-bottom: 1px solid $grey;
+  span{
+    position: relative;
+    left: 3em;
+    padding: .2em 1em;
+    text-align: center;
+    background: $pop;
+    border-radius: .2em;
+    cursor: pointer;
+    color: $black;
+  }
+}

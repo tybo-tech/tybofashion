@@ -1,24 +1,21 @@
 @import '../../../../../assets/styles/color';
 
 .nav {
-  width: 94%;
-  background: $white;
+  width: 20%;
+  animation: moveInLeft .2s ease-out 0s;
+  animation-fill-mode: backwards;
+  left: 0;
+  top: 0;
   height: 100vh;
-  // height: 100%;
-  box-sizing: border-box;
-  margin:0;
-  padding: 1em;
-  border-radius: 0;
-  border: 1px solid $cloud;
+  overflow-y: scroll;
+  padding-bottom: 2em;
+  z-index: 50020000000;
+  position: fixed;
+  background: $white;
 
   @media only screen and (max-width: 600px) {
-    // position: fixed;
-    // width: 80%;
-    // top: 0;
-    // left: 0;
-    // z-index: 1000;
-    // height: 100%;
-    display: none;
+    width: 70%;
+    display: block;
   }
 
   .logo {

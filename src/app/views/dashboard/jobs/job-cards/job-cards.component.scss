@@ -11,8 +11,8 @@
 
 
 .cards {
-  height: 90vh;
-  overflow-y: scroll;
+  // height: 90vh;
+  // overflow-y: scroll;
 
   @media only screen and (max-width: 600px) {
     padding-top: 4em;
@@ -23,7 +23,7 @@
 
 .product-item {
   grid-template-columns: 60% auto;
-  width: 45%;
+  width: 100%;
 
   .item {
     &:last-child {
@@ -86,3 +86,4 @@ pre {
 .no-data{
   margin: .5em 1em;
 }
+

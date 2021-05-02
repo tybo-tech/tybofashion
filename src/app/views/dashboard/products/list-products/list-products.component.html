@@ -1,197 +1,22 @@
-<app-loader [showLoader]="showLoader" *ngIf="showLoader"></app-loader>
+<div class="top-bar-conatiner">
 
-<div class="body success-modal">
-  <div class="top-bar-conatiner">
-
-    <div class="top-bar" *ngIf="products">
-      <div class="menu-back">
-        <span class="material-icons" (click)="back()">
-          chevron_left
-        </span>
-      </div>
-
-
-      <div class="name">
-        Products ({{products.length}})
-      </div>
-
-      <div class="btn-menu">
-
-      </div>
-    </div>
-  </div>
-
-  <div class="main-list" *ngIf="products && products.length">
-    <div>
-      <div class="filters">
-        <div class="selects">
-
-          <div class="form-item search">
-            <input type="search" [(ngModel)]="search" name="" id="" placeholder="🔎 filter...">
-          </div>
-          <div class="form-item" *ngIf="parentCategories && parentCategories.length">
-            <select [(ngModel)]="parentCategoryGuid" (change)="selectCategory($event.target.value)">
-              <option value="">All</option>
-              <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
-            </select>
-          </div>
-
-          <div class="form-item" *ngIf="chilndrenCategories && chilndrenCategories.length">
-            <select [(ngModel)]="categoryGuid" (change)="selectSubCategory($event.target.value)">
-              <option value="">All</option>
-              <option *ngFor="let cc of chilndrenCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
-            </select>
-          </div>
-
-
-        </div>
-      </div>
-      <div class="product-item" *ngFor="let item of products  | searchproduct: search" (click)="view(item)">
-        <div class="item">
-          <div class="icon" *ngIf="item.FeaturedImageUrl">
-            <div class="user-dp-image">
-              <img [src]="item.FeaturedImageUrl" alt="">
-            </div>
-          </div>
-
-          <div class="icon" *ngIf="!item.FeaturedImageUrl">
-            <div class="user-dp-image">
-              <img src="assets/images/common/image-holder.svg" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <p>
-            <b>{{item.Name}}</b>
-            <span class="cat">
-              {{item.ParentCategoryName}} | {{item.CategoryName}}
-            </span>
-            <span class="cat">
-              {{item.IsJustInTime}}
-            </span>
-
-            <span class="price">
-              {{item.RegularPrice  | currency:'R'}}
-            </span>
-
-          </p>
-        </div>
-
-        <div class="option link">
-          <span *ngIf="item.IsJustInTime != 'Just in time'"> {{item.TotalStock}} In stock</span>
-          <span *ngIf="item.IsJustInTime == 'Just in time'"> {{item.OrderLimit}} Max. orders</span>
-          <span class="material-icons icon-more">
-            chevron_right
-          </span>
-        </div>
-      </div>
-
-      <div class="p6"></div>
+  <div class="top-bar" *ngIf="products">
+    <div class="menu-back">
+      <span class="material-icons" (click)="back()">
+        chevron_left
+      </span>
     </div>
 
-  </div>
 
-  <div class="" *ngIf="products && !products.length">
-    <div class="no-data">
-      <h1>
-        You don't have products yet.
-      </h1>
-      <img src="assets/images/common/products.svg" alt="">
-      <p>
-        To create an order you need to have products in the system. Click the button below to create a new product </p>
-
-      <button class="more" (click)="add()">Add product</button>
-    </div>
-  </div>
-
-
-  <div (click)="add()" class="add" *ngIf="products && products.length">
-    Add product
-  </div>
-
-</div>
-
-
-
-<div class="quick-add" *ngIf="showAdd && newProduct">
-  <div class="form">
-    <h1>
-      Add new product.
-    </h1>
-
-
-    <div class="form-item">
-      <label for="">Product name</label>
-      <input type="text" name="" id="" [(ngModel)]="newProduct.Name" placeholder="Enter product name.">
+    <div class="name pointer"  (click)="back()">
+      Back to dashboard 
     </div>
 
-    <div class="form-item">
-      <label for=""><b>Product stock type.</b></label>
-      <select [(ngModel)]="newProduct.IsJustInTime">
-        <option value="Stock product">Stock product</option>
-        <option value="Just in time">Just in time</option>
-      </select>
-    </div>
-    <div class="form-item" *ngIf="newProduct.IsJustInTime == 'Just in time'">
-      <label for=""><b>Estimated shipping days, from the order date.</b></label>
-      <select [(ngModel)]="newProduct.EstimatedDeliveryDays">
-        <option value="1">1 Day</option>
-        <option value="2">2 Days</option>
-        <option value="3">3 Days</option>
-        <option value="4">4 Days</option>
-        <option value="5">5 Days</option>
-        <option value="6">6 Days</option>
-        <option value="7">7 Days</option>
-        <option value="8">8 Days</option>
-        <option value="9">9 Days</option>
-        <option value="10">10 Days</option>
-        <option value="11">11 Days</option>
-        <option value="12">12 Days</option>
-        <option value="13">13 Days</option>
-        <option value="14">14 Days</option>
-        <option value="-1"> Other</option>
-      </select>
+    <div class="btn-menu">
 
-    </div>
-
-    <div class="form-item" *ngIf="newProduct.EstimatedDeliveryDays == -1">
-      <label for="">Enter your own shipping days</label>
-      <input type="number" name="" id="" [(ngModel)]="newProduct.OtherEstimatedDeliveryDays"
-        placeholder="Enter number of days, e.ge. 7">
-    </div>
-
-    <div class="form-item" *ngIf="newProduct.IsJustInTime == 'Just in time'">
-      <label for=""><b>Product order limit.</b></label>
-      <select [(ngModel)]="newProduct.OrderLimit">
-        <option [value]="PRODUCT_ORDER_LIMIT_MAX">Not limited</option>
-        <option value="1">1 Product</option>
-        <option value="2">2 Products</option>
-        <option value="3">3 Products</option>
-        <option value="4">4 Products</option>
-        <option value="5">5 Products</option>
-        <option value="6">6 Products</option>
-        <option value="7">7 Products</option>
-        <option value="8">8 Products</option>
-        <option value="9">9 Products</option>
-        <option value="10">10 Products</option>
-        <option value="11">11 Products</option>
-        <option value="12">12 Products</option>
-        <option value="13">13 Products</option>
-        <option value="14">14 Products</option>
-        <option value="-1"> Other</option>
-      </select>
-
-    </div>
-
-    <div class="form-item" *ngIf="newProduct.OrderLimit == -1">
-      <label for="">Enter your own order limit</label>
-      <input type="number" name="" id="" [(ngModel)]="newProduct.OtherOrderLimit"
-        placeholder="Enter number of days, e.ge. 7">
-    </div>
-
-    <div class="form-item">
-      <button (click)="saveProduct()" [disabled]="!newProduct.Name">Next</button>
-      <div class="link" (click)="showAdd = false">Cancel</div>
     </div>
   </div>
 </div>
+
+
+<app-product-list-cards></app-product-list-cards>

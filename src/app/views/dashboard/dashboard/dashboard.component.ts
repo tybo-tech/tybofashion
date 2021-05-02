@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { User } from 'src/models/user.model';
 import { LoaderUx } from 'src/models/UxModel.model';
@@ -16,29 +16,51 @@ export class DashboardComponent implements OnInit {
   message: string;
   loading: boolean
   loadingUx: LoaderUx;
+  showMenu: boolean;
+  showScrollUp: boolean;
   constructor(
     private accountService: AccountService,
-    private UxService: UxService,
+    private uxService: UxService,
   ) { }
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
-    this.UxService.uxMessagePopObservable.subscribe(data => {
+    this.uxService.uxMessagePopObservable.subscribe(data => {
       this.message = data;
       const id = setTimeout(() => {
         this.message = null;
       }, 3000);
     });
-    this.UxService.uxLoadingPopObservable.subscribe(data => {
-     
+    this.uxService.uxLoadingPopObservable.subscribe(data => {
+
       const id = setTimeout(() => {
         this.loadingUx = data;
       }, 0);
     });
+
+    this.uxService.uxHomeSideNavObservable.subscribe(data => {
+      this.showMenu = data;
+    })
   }
 
   onTabChanged(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
   }
+  menu() {
+    this.showMenu = !this.showMenu;
+  }
+  totop() {
+    window.scroll(0, 0);
+  }
 
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
+    this.uxService.updatePageYPositionState(window.pageYOffset);
+    if (window.pageYOffset > 500) {
+      this.showScrollUp = true;
+    } else {
+      this.showScrollUp = false;
+    }
+  }
 }
+
+

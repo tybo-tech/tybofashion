@@ -1,22 +1,4 @@
-<div class="top-bar-conatiner">
 
-  <div class="top-bar" *ngIf="user && user.Company && products">
-    <div class="menu-back">
-      <span class="material-icons">
-        menu
-      </span>
-    </div>
-
-
-    <div class="name">
-      Dashboard
-    </div>
-
-    <div class="btn-menu">
-
-    </div>
-  </div>
-</div>
 
 <div class="main" *ngIf="user && user.Company && products">
   <div class="company-profile">
@@ -58,63 +40,14 @@
 
   </div> -->
   <h3 class="heading">
-   Orders overview
+    Orders overview <span  (click)="goto('create-order')">New order</span>
   </h3>
 
   <app-statistics></app-statistics>
 
-  <h3 class="heading">
-    My products
-  </h3>
-
-  <div class="products" *ngIf="products">
-
-    <div class="product" *ngFor="let product of products; let i = index">
-      <div class="image">
-        <img [src]="product.FeaturedImageUrl" *ngIf="product.FeaturedImageUrl" alt="Awesome Sunglasses"
-          (click)="view(product)">
-        <img *ngIf="!product.FeaturedImageUrl" src="assets/images/common/image-holder.svg" alt=""
-          (click)="view(product)">
-
-      </div>
-
-      <div class="product-details" (click)="view(product)">
-        <p>
-          {{product.Name}}
-
-          <span class="price" *ngIf="!product.OnSale">
-            {{product.RegularPrice | currency:'R'}}
-          </span>
-          <span class="price" *ngIf="product.OnSale">
-            <del> {{product.RegularPrice | currency:'R'}}</del> <br>
-            {{product.SalePrice | currency:'R'}}
-          </span>
-
-          <!-- <span class="company-name" *ngIf="product.Company && product.user.Company.Name">
-            By {{product.user.Company.Name}}
-          </span> -->
-
-        </p>
-      </div>
 
 
-    </div>
-  </div>
-</div>
+  <app-product-list-cards></app-product-list-cards>
 
 
-<div class="quick-add" *ngIf="showAdd">
-  <div class="form">
-    <h3>
-      Please login or sign up to like the product.
-    </h3>
-
-    <div class="form-item">
-      <button (click)="goto('home/sign-in')">Login</button>
-      <div class="or">Or</div>
-      <button (click)="goto('home/sign-up')">Sign up</button>
-      <div class="link" (click)="showAdd = false">Cancel</div>
-    </div>
-
-  </div>
 </div>

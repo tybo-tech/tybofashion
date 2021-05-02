@@ -9,6 +9,10 @@
   background: $cloud;
   padding: 2em .1em;
 
+  @media only screen and (max-width: 600px) {
+    padding: 1em 0;
+    background: $white;
+  }
 
 }
 
@@ -20,6 +24,12 @@
   position: relative;
   animation: menuSlide .5s ease-out 0s;
   animation-fill-mode: backwards;
+
+  @media only screen and (max-width: 600px) {
+    margin: 0;
+    border-radius: 0;
+
+  }
 
   h1 {
     color: $black;
@@ -51,7 +61,7 @@
 .logo-side {
   display: grid;
   margin-bottom: 0;
-  background: $cloud;
+  background: $white;
 
   .logo {
     text-align: center;
@@ -170,17 +180,24 @@
 }
 
 
-.shop-link{
+.shop-link {
   display: grid;
   grid-template-columns: 10em auto;
   border-bottom: 1px solid $cloud;
   padding: 1em 0;
-  p{
+
+  p {
     padding: 1em 0;
   }
-  input{
+
+  input {
     padding: .2em;
     margin: .5em .1em;
     top: .3em;
   }
+}
+
+label {
+  display: block;
+  margin-top: 1em;
 }

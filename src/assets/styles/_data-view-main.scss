@@ -3,21 +3,21 @@
   padding-bottom: 4em;
   margin: 0;
   background: $cloud;
-  overflow-y: scroll;
-  height: 96vh;
+  margin-top: 4em;
 
   @media only screen and (max-width: 600px) {
     padding: 0;
     height: auto;
+    margin-top: 0;
   }
 
   .basic {
     background: $white;
-    margin: .4em 0;
-    border-radius: .5em;
+    margin: 2em auto;
+    // border-radius: .5em;
     color: $black;
     padding: 1em;
-    width: 50%;
+    max-width: $max-width/2;
 
 
 
@@ -75,7 +75,8 @@
       padding: 1em;
       cursor: pointer;
       font-weight: 600;
-      &:hover{
+
+      &:hover {
         background: $pop-darker;
       }
     }
@@ -89,12 +90,15 @@
       text-transform: capitalize;
       display: grid;
       grid-template-columns: 90% auto;
+
       @media only screen and (max-width: 600px) {
         grid-template-columns: 80% auto;
       }
-      span{
+
+      span {
         display: block;
-        &:last-child{
+
+        &:last-child {
           text-align: center;
           background: $pop;
           color: $black;
@@ -104,8 +108,8 @@
           padding: .65em;
           font-style: normal;
           cursor: pointer;
-      
-          &:hover{
+
+          &:hover {
             background: $pop-darker;
           }
         }
@@ -146,11 +150,12 @@
 }
 
 
-.company-name{
+.company-name {
   display: block;
   color: $darker-grey;
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     color: $pop-darker;
   }
 }

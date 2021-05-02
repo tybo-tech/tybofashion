@@ -21,10 +21,11 @@
     </div>
   </div>
 
-  <h2 class="header-label">
-    Customer
-  </h2>
-  <div class="section-card" *ngIf="order && order.Customer">
+  
+  <div class="section-card mt5" *ngIf="order && order.Customer">
+    <h2 class="header-label">
+      Customer
+    </h2>
     <div class="user-profile">
       <div class="icon" *ngIf="order.Customer.Dp">
         <img *ngIf="order.Customer.Dp" [src]="order.Customer.Dp" alt="">
@@ -64,12 +65,10 @@
   </div>
 
 
-  <h2 class="header-label">
-    Ordered Products
-  </h2>
+
   <div class="section-card">
     <h1>
-      Order Products
+      Ordered Products
       <span *ngIf="order && order.Orderproducts && !order.Orderproducts.length" (click)="selectProduct()">
         Add product to order
       </span>
@@ -92,10 +91,12 @@
 
 
 
-  <h2 class="header-label">
-    Shipping method
-  </h2>
+
   <div class="section-card">
+
+    <h2 class="header-label">
+      Shipping method
+    </h2>
 
     <div class="shippings" *ngIf="shippings &&  shippings.length">
 
@@ -135,6 +136,21 @@
 
 
 
+      <div class="ctas">
+
+        <div class="cta">
+          <button class="mat-primary checkout cancel" mat-button color="primary" (click)="abort()">
+            Abort
+          </button>
+        </div>
+        <div class="cta">
+          <button class="mat-primary checkout " mat-button color="primary" (click)="checkout()"
+            [disabled]="!order || !order.Orderproducts || !order.Orderproducts.length">
+            Checkout
+          </button>
+        </div>
+      </div>
+
 
     </div>
 
@@ -144,21 +160,6 @@
   <div class="pb"></div>
 
 
-
-  <div class="ctas">
-
-    <div class="cta">
-      <button class="mat-primary checkout cancel" mat-button color="primary" (click)="abort()">
-        Abort
-      </button>
-    </div>
-    <div class="cta">
-      <button class="mat-primary checkout " mat-button color="primary" (click)="checkout()"
-        [disabled]="!order || !order.Orderproducts || !order.Orderproducts.length">
-        Checkout
-      </button>
-    </div>
-  </div>
 
 
 </div>

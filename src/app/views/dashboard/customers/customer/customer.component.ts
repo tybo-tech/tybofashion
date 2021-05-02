@@ -7,6 +7,10 @@ import { ModalModel } from 'src/models/modal.model';
 import { OrderService } from 'src/services';
 import { Customer } from 'src/models/customer.model';
 import { CustomerService } from 'src/services/customer.service';
+import { NavHistoryUX } from 'src/models/UxModel.model';
+import { UxService } from 'src/services/ux.service';
+import { JobService } from 'src/services/job.service';
+import { Job } from 'src/models/job.model';
 
 @Component({
   selector: 'app-customer',
@@ -22,6 +26,8 @@ export class CustomerComponent implements OnInit {
   user: any;
   selectedIndex = 0;
   heading: string;
+  navHistory: NavHistoryUX;
+
   modalModel: ModalModel = {
     heading: undefined,
     body: [],
@@ -29,12 +35,15 @@ export class CustomerComponent implements OnInit {
     routeTo: 'admin/dashboard/customers',
     img: undefined
   };
+  job: Job;
   constructor(
     private activatedRoute: ActivatedRoute,
     private customerService: CustomerService,
     private router: Router,
     private accountService: AccountService,
     private orderService: OrderService,
+    private jobService: JobService,
+    private uxService: UxService,
     private _snackBar: MatSnackBar
 
   ) {
@@ -75,7 +84,9 @@ export class CustomerComponent implements OnInit {
       };
       this.heading = `Adding new customer`;
     }
-
+    this.uxService.uxNavHistoryObservable.subscribe(data => {
+      this.navHistory = data;
+    })
   }
 
   back() {
@@ -123,6 +134,20 @@ export class CustomerComponent implements OnInit {
             order.Customer = data;
             order.CustomerId = data.CustomerId;
             this.orderService.updateOrderState(order);
+          }
+
+          if (this.navHistory && this.navHistory.BackToAfterLogin) {
+            this.job = this.jobService.currentjobValue;
+            if(this.job){
+              this.job.Customer = data;
+              this.job.CustomerId = data.CustomerId;
+              this.jobService.update(this.job).subscribe(data => {
+                this.uxService.updateMessagePopState('Customer Selected.');
+                this.router.navigate([this.navHistory.BackToAfterLogin]);
+                return;
+              });
+            }
+           
           }
         }
       });

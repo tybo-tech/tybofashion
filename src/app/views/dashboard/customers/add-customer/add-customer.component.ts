@@ -18,6 +18,7 @@ import { CUSTOMER } from 'src/shared/constants';
 })
 export class AddCustomerComponent implements OnInit {
   @Input() customer: Customer;
+  @Input() customerName: string;
   @Output() addingUserFinished: EventEmitter<Customer> = new EventEmitter();
 
   // <app-add-customer [user]="user">

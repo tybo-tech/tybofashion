@@ -1,20 +1,16 @@
-<div class="data-view-main" *ngIf="product">
-  <div class="basic">
-
-    <div class="no-child" *ngFor="let item of product.ProductCombinations; let i = index">
-      <div class="black-label">
-        {{item.CombinationString}}
-      </div>
-      <div class="link" (click)="showStock(item)">
-        {{item.AvailabelStock}} - IN Stock
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
+<span *ngIf="product">
+  <div class="no-child" *ngFor="let item of product.ProductCombinations; let i = index">
+    <div class="black-label">
+      {{item.CombinationString}}
     </div>
-
+    <div class="link" (click)="showStock(item)">
+      {{item.AvailabelStock}} - IN Stock
+      <span class="material-icons">
+        chevron_right
+      </span>
+    </div>
   </div>
-</div>
+</span>
 
 
 

@@ -47,7 +47,7 @@
 
   span.label {
     font-weight: 500;
-    
+
     margin-bottom: 1em;
     color: $primary;
   }
@@ -149,8 +149,8 @@
   background: $white;
   margin: 1em 0;
   border-radius: .5em;
-  height: 86vh;
-  overflow-y: scroll;
+  // height: 86vh;
+  // overflow-y: scroll;
   border-radius: 1em;
 
   @media only screen and (max-width: 600px) {
@@ -165,7 +165,7 @@
 
     margin: .8em 0;
     padding: .8em;
-    width: 34%;
+    width: 100%;
     margin: 0;
 
     @media only screen and (max-width: 600px) {
@@ -184,7 +184,7 @@
       border-radius: .5em;
       margin-bottom: .5em;
       padding: 1em 0;
-      
+
       color: $black;
       // padding: .4em;
     }
@@ -208,19 +208,21 @@
   .more {
 
 
-    width:14em;
-    bottom: 0;
-    left: 0em;
+    width: 100%;
+    padding: 1em;
+    display: block;
+    margin: 1em auto;
+    width: 96%;
 
-    @media only screen and (max-width: 600px) {
-      width: 100%;
-      height: 2.5em;
-      bottom: 0;
-      padding: 0;
-      left: 0;
-      position: fixed;
-      bottom: 0;
-    }
+    // @media only screen and (max-width: 600px) {
+    //   width: 100%;
+    //   height: 2.5em;
+    //   bottom: 0;
+    //   padding: 0;
+    //   left: 0;
+    //   position: fixed;
+    //   bottom: 0;
+    // }
   }
 
   .user-dp {
@@ -234,13 +236,19 @@
     }
   }
 
-  .preview {
+  .preview,
+  .upload-preview {
     display: block;
     text-align: left;
+    text-align: center;
 
-    @media only screen and (max-width: 600px) {
+    .material-icons {
       text-align: center;
+      font-size: 5.4em;
+      cursor: pointer;
     }
+
+    @media only screen and (max-width: 600px) {}
 
     img {
       // width: 100%;

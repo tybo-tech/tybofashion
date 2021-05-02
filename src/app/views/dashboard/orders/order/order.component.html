@@ -28,20 +28,22 @@
 
     
 
-  <div class="ctas" *ngIf="order && order.Orderproducts &&order.Orderproducts.length">
 
-    <div class="cta">
-      <button class="mat-primary checkout " mat-button color="primary" (click)="print()">
-        Print invoice
-      </button>
-    
+
+  <div class="section-card mt5" *ngIf="order && order.Customer">
+    <div class="ctas" *ngIf="order && order.Orderproducts &&order.Orderproducts.length">
+
+      <div class="cta">
+        <button class="mat-primary checkout " mat-button color="primary" (click)="print()">
+          Print invoice
+        </button>
+      
+      </div>
     </div>
-  </div>
-  <h2 class="header-label">
-    Customer
-  </h2>
-  <div class="section-card" *ngIf="order && order.Customer">
 
+    <h2 class="header-label">
+      Customer
+    </h2>
     <div class="user-profile">
       <div class="icon" *ngIf="order.Customer.Dp">
         <img *ngIf="order.Customer.Dp" [src]="order.Customer.Dp" alt="">
@@ -79,11 +81,11 @@
   </div>
 
   <span *ngIf="isAdmin && order &&  order.Company">
-    <h2 class="header-label">
-      Company
-    </h2>
+   
     <div class="section-card" *ngIf="order && order.Company">
-
+      <h2 class="header-label">
+        Company
+      </h2>
       <div class="user-profile">
         <div class="icon" *ngIf="order.Company.Dp">
           <img *ngIf="order.Company.Dp" [src]="order.Company.Dp" alt="">
@@ -113,11 +115,11 @@
     </div>
   </span>
 
-  <h2 class="header-label">
-    Ordered Products
-  </h2>
-  <div class="section-card">
 
+  <div class="section-card">
+    <h2 class="header-label">
+      Ordered Products
+    </h2>
 
     <div class="more-details" *ngIf="order && order.Orderproducts && order.Orderproducts.length">
       <app-order-cart [order]="order" [hideDelete]="true"></app-order-cart>
@@ -147,11 +149,11 @@
   </div>
 
   <!-- </div> -->
-  <h2 class="header-label">
-    Order Tracking
-  </h2>
-  <div class="section-card tracking">
 
+  <div class="section-card tracking">
+    <h2 class="header-label">
+      Order Tracking
+    </h2>
     <app-order-tracking [order]="order"></app-order-tracking>
     <div class="more-details">
 

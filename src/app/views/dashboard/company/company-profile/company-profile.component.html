@@ -46,7 +46,7 @@
       </h2>
       <div class="inputs">
 
-        <div class="shop-link">
+        <!-- <div class="shop-link">
           <div class="">
             <p>
               {{baseUrl}}/
@@ -55,10 +55,14 @@
           <div class="">
             <input *ngIf="isEditMode" type="text" [(ngModel)]="user.Company.Slug" class="txt-edit">
           </div>
-        </div>
+        </div> -->
         <label>Company Name</label>
         <input *ngIf="isEditMode" type="text" [(ngModel)]="user.Company.Name" class="txt-edit">
         <div class="value" *ngIf="!isEditMode">{{user.Company.Name}}</div>
+
+        <label>Bio/About shop</label>
+        <textarea *ngIf="isEditMode"  [(ngModel)]="user.Company.Description" class="txt-edit"></textarea>
+        <div class="value" *ngIf="!isEditMode">{{user.Company.Description}}</div>
 
 
         <!-- 

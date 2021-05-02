@@ -4,25 +4,30 @@
 
   select,
   input {
-    background: $white;
-    text-align: right;
+    background: $cloud;
+    text-align: left;
     width: 7em;
-    color: $pop-darker;
+    color: $charcoal;
     font-weight: 600;
+    width: 80%;
+    padding: 1em;
+    margin-bottom: 2em;
   }
 
   input {
-    text-align: right;
+    text-align: left;
     width: 100%;
     padding-right: .4em;
     margin-right: 0;
+    background: $cloud;
     // right: -3px;
   }
 }
 
 .no-child {
   display: grid;
-  grid-template-columns: 30% auto;
+  // grid-template-columns: 30% auto;
+  grid-template-columns: 100%;
   border-bottom: 1px solid $cloud;
 
   .black-label {
@@ -340,11 +345,15 @@
 }
 
 textarea {
-  color: $pop-darker;
   font-family: 'Jost' !important;
   font-weight: 600;
-  text-align: right;
   line-height: 1;
+  text-align: left;
+  color: $charcoal;
+  padding: 1em;
+  background: $cloud;
+  border: 1px solid $grey;
+  height:10em;
 
   &::placeholder {
     color: $grey;
@@ -372,7 +381,7 @@ textarea {
       text-align: right;
     }
 
-    .col-btn{
+    .col-btn {
       width: 10em;
       background: #e5e9035b;
       color: $black;
@@ -383,4 +392,11 @@ textarea {
       cursor: pointer;
     }
   }
+}
+
+
+.ctas{
+  width: 100%;
+  padding: 0;
+  background: $white;
 }

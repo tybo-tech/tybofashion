@@ -1,47 +1,49 @@
-<div class="data-view-main add-screen " *ngIf="job">
-  <div class="top-bar-conatiner">
+<div class="top-bar-conatiner">
 
-    <div class="top-bar">
-      <div class="menu-back">
-        <span class="material-icons link" (click)="back()">
-          keyboard_arrow_left
+  <div class="top-bar">
+    <div class="menu-back">
+      <span class="material-icons link" (click)="back()">
+        keyboard_arrow_left
+      </span>
+    </div>
+
+
+    <div class="name link tal" (click)="back()">
+      Jobs
+    </div>
+    <div class="name">
+      Job
+    </div>
+  </div>
+</div>
+
+<div class="data-view-main" *ngIf="job">
+
+  <div class="basic">
+    <div class="tittle" *ngIf="job.JobId">
+      <div class="icon">
+        <img src="assets/images/common/job.svg" alt="">
+      </div>
+
+      <div class="data">
+        {{job.Tittle}}
+        <span class="created due" *ngIf="job.DueDate">
+          Due by {{job.DueDate | date: 'mediumDate'}}
+        </span>
+        <span class="created" *ngIf="job.CreateDate">
+          Created on {{job.CreateDate | date: 'mediumDate'}}
         </span>
       </div>
 
-
-      <div class="name link tal" (click)="back()">
-        Jobs
-      </div>
-      <div class="name">
-        Job
-      </div>
     </div>
   </div>
 
 
-  <div class="tittle" *ngIf="job.JobId">
-    <div class="icon">
-      <img src="assets/images/common/job.svg" alt="">
-    </div>
 
-    <div class="data">
-      {{job.Tittle}}
-      <span class="created due" *ngIf="job.DueDate">
-        Due by {{job.DueDate | date: 'mediumDate'}}
-      </span>
-      <span class="created" *ngIf="job.CreateDate">
-        Created on {{job.CreateDate | date: 'mediumDate'}}
-      </span>
-    </div>
-
-  </div>
-
-  <h3 class="header-label">
-    Customer
-  </h3>
-
-
-  <div class="basic" *ngIf="job.JobId">
+  <div class="basic">
+    <h3 class="header-label">
+      Customer
+    </h3>
     <div class="no-child" *ngIf="!job.Customer">
       <div>
         No customer
@@ -74,81 +76,50 @@
         <span class="address">
           {{job.Customer.AddressLineHome}}
         </span>
+        <span class="address link pointer " style="text-align: left;" (click)="showAddCustomer = true">
+          Change customer
+        </span>
       </div>
     </div>
+
+  
   </div>
 
 
-  <!-- <h3 class="header-label">
-    Job Options
-  </h3>
+
+  <div class="basic">
+    <h3 class="header-label">
+      Job items
+    </h3>
 
 
-  <div class="basic" *ngIf="job">
-    <div class="no-child">
-      <div class="black-label">
-        Estimates
-      </div>
-      <div class="link" (click)="estimate()">
-        {{totalEstamate  | currency:'R'}}
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
-    </div>
-    <div class="no-child">
-      <div class="black-label">
-        Invoices
-      </div>
-      <div class="link" (click)="invoice()" *ngIf="!jobOrder">
-        NONE
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
-      <div class="link" (click)="viewInvoice(jobOrder)" *ngIf="jobOrder">
-        {{jobOrder.Status}}
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
-    </div>
-
-    <div class="no-child">
-      <div class="black-label">
-        Qoutes
-      </div>
-      <div class="link" (click)="quote()" *ngIf="!jobQoute">
-        NONE
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
-      <div class="link" (click)="viewInvoice(jobQoute)" *ngIf="jobQoute">
-        {{jobQoute.Status}}
-        <span class="material-icons">
-          chevron_right
-        </span>
-      </div>
-    </div>
-
-  </div> -->
-
-  <h3 class="header-label">
-    Job items
-  </h3>
-
-  <app-job-item *ngIf="job && jobItems" [job]="job" [jobItems]="jobItems" [jobId]="job.JobId" [customer]="job.Customer"></app-job-item>
-
-
-  <div class="ctas">
-
-    <div class="cta">
-      <button class="mat-primary checkout " mat-button color="primary" (click)="saveJob()">
-        Save job
-      </button>
-    </div>
+    <app-job-item *ngIf="job && jobItems" [job]="job" [jobItems]="jobItems" [jobId]="job.JobId"
+      [customer]="job.Customer">
+    </app-job-item>
   </div>
+
+  <div class="basic cloud">
+    <button class="mat-primary checkout " mat-button color="primary" (click)="saveJob()">
+      Save job
+    </button>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="data-view-main add-screen " *ngIf="job">
+
+
+
 
   <h3 class="header-label" style="display: none;">
     Tasks
@@ -249,6 +220,7 @@
     </h3>
 
     <div class="form-item">
+      <button class="primary" (click)="addNewCustomer()"> Add new customer</button>
       <div class="product-item" *ngFor="let item of users" (click)="selectCust(item)">
         <div class="item">
           <div class="icon" *ngIf="item.Dp">

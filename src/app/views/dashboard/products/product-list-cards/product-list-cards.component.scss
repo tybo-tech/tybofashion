@@ -1,0 +1,21 @@
+@import '../../../../../assets/styles/color';
+
+.heading{
+    padding: 1em;
+    margin: 0;
+    margin-top: 3em;
+    // border-top: 1px solid $grey;
+    span{
+      position: relative;
+      left: 3em;
+      padding: .2em 1em;
+      text-align: center;
+      background: $pop;
+      border-radius: .2em;
+      cursor: pointer;
+    }
+}
+
+.product{
+  cursor: pointer;
+}

@@ -9,8 +9,8 @@
       </div>
 
 
-      <div class="name">
-        {{heading}}
+      <div  class="name pointer"  (click)="back()">
+      Back to list
       </div>
       <div class="share">
         <span [cdkCopyToClipboard]="fullLink" class="material-icons" (click)="share()">

@@ -1,13 +1,27 @@
-<!-- <div class="main nav-cols">
+<div class="top-bar-conatiner">
 
-  <div>
-    <app-dash-nav></app-dash-nav>
-  </div>
-  <div class="body">
-    <router-outlet></router-outlet>
-  </div>
+  <div class="top-bar" *ngIf="user && user.Company">
+    <div class="menu-back" (click)="menu()">
+      <span class="material-icons">
+        menu
+      </span>
+    </div>
 
-</div> -->
+
+    <div class="name">
+      Dashboard
+    </div>
+
+    <div class="btn-menu">
+
+    </div>
+  </div>
+</div>
+
+
+<div class="overlay" *ngIf="showMenu" (click)="menu()"></div>
+<app-dash-nav *ngIf="showMenu"></app-dash-nav>
+
 
 
 <div class="dasboard">
@@ -36,3 +50,8 @@
     </h3>
   </div>
 </div>
+<button *ngIf="showScrollUp" class="scroll-top" (click)="totop()">
+  <span class="material-icons">
+    arrow_circle_up
+    </span>
+</button>

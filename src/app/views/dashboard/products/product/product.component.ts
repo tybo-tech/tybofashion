@@ -48,6 +48,7 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scroll(0, 0)
     this.productService.productObservable.subscribe(data => {
       this.product = data;
       if (this.product) {
