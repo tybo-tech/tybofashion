@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product, User } from 'src/models';
-import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
+import { Order, Product, User } from 'src/models';
+import { ProductService, AccountService, CompanyCategoryService, OrderService } from 'src/services';
 import { UxService } from 'src/services/ux.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class Overviewv2Component implements OnInit {
   allProducts: Product[];
   user: User;
   showAdd:boolean;
+
   constructor(
     private productService: ProductService,
     private accountService: AccountService,
@@ -34,6 +35,7 @@ export class Overviewv2Component implements OnInit {
       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
     })
     // this.loadCategories();
+
   }
   loadCategories() {
     throw new Error('Method not implemented.');

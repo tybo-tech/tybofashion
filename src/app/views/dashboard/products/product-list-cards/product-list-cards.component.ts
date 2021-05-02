@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product, User } from 'src/models';
+import { Category, Product, User } from 'src/models';
 import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
 import { UxService } from 'src/services/ux.service';
 import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK } from 'src/shared/constants';
@@ -15,7 +15,7 @@ export class ProductListCardsComponent implements OnInit {
   products: Product[];
   allProducts: Product[];
   user: User;
-  showAdd:boolean;
+  showAdd: boolean;
   newProduct: Product;
   PRODUCT_ORDER_LIMIT_MAX = PRODUCT_ORDER_LIMIT_MAX;
 
@@ -25,7 +25,7 @@ export class ProductListCardsComponent implements OnInit {
     private companyCategoryService: CompanyCategoryService,
     private router: Router,
     private uxService: UxService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
@@ -105,6 +105,18 @@ export class ProductListCardsComponent implements OnInit {
 
       }
     });
+
+  }
+
+
+  tapChildCategory(category: Category) {
+    if (category) {
+      this.products = this.products = this.allProducts.filter(x => x.CategoryGuid === category.CategoryId);
+    }
+
+  }
+  all() {
+    this.products = this.products = this.allProducts;
 
   }
 
