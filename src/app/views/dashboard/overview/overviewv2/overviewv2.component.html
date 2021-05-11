@@ -1,5 +1,3 @@
-
-
 <div class="main" *ngIf="user && user.Company && products">
   <div class="company-profile">
     <div class="cdp">
@@ -9,7 +7,15 @@
     <div class="details">
       <h3>
         {{user.Company.Name}}
-        <span class="block" *ngIf="user.Company.Description">{{user.Company.Description}} <br> <br></span>
+        <span class="block lnk">
+         <a  (click)="gotoShop()"> {{companyLink}}</a>
+          <span class="material-icons" style="left: 2em;"  [cdkCopyToClipboard]="companyLink" (click)="copy()">
+            share
+            </span>
+            
+
+        </span>
+        <span class="block black" *ngIf="user.Company.Description">{{user.Company.Description}} <br> <br></span>
 
         <span class="block col-2-of-2">
           <span class="block follow" (click)="goto('company-profile')">Edit company</span>
@@ -40,7 +46,7 @@
 
   </div> -->
   <h3 class="heading">
-    Orders overview <span  (click)="goto('create-order')">New order</span>
+    Orders overview <span (click)="goto('create-order')">New order</span>
   </h3>
 
   <app-statistics></app-statistics>

@@ -7,20 +7,26 @@
     <div class="details">
       <h3>
         {{company.Name}}
-        <span class="block" *ngIf="company.Description">{{company.Description}} <br> <br></span>
-        <!-- <span class="block">{{allProducts.length}} Products in this shop.</span> -->
+        <span class="block lnk" *ngIf="user && user.CompanyId === company.CompanyId && user.UserType === ADMIN"
+          (click)="gotoDashboard()">Go to dashboard</span>
+        <span class="block black line-break" [innerHtml]="company.Description"></span>
         <span class="block" *ngIf="shopOwner && shopOwner.UserId">Shop owner: <b>{{shopOwner.Name}}</b></span>
         <span class="block col-2-of-2">
           <span class="block follow" *ngIf="liked == 'no'" (click)="onLike('yes')">Follow</span>
           <span class="block follow" *ngIf="liked == 'yes'" (click)="onLike('no')">Following</span>
-          <span class="block follow contact"  *ngIf="shopOwner && shopOwner.UserId" (click)="goto('home/messages/0/'+ shopOwner.UserId)">
+          <span class="block follow contact" *ngIf="shopOwner && shopOwner.UserId"
+            (click)="goto('home/messages/0/'+ shopOwner.UserId)">
             <span class="material-icons">
               textsms
-              </span>
+            </span>
             Contact shop owner
           </span>
         </span>
       </h3>
+
+
+
+
     </div>
   </div>
   <!-- 
@@ -91,4 +97,3 @@
 
   </div>
 </div>
-

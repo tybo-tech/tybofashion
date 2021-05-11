@@ -8,13 +8,10 @@
     </div>
 
 
-    <div class="name">
-      Dashboard
+    <div class="name pointer" (click)="goto('user-profile')">
+      Hi , {{user.Name}}
     </div>
 
-    <div class="btn-menu">
-
-    </div>
   </div>
 </div>
 
@@ -25,7 +22,7 @@
 
 
 <div class="dasboard">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
 
 
@@ -53,5 +50,5 @@
 <button *ngIf="showScrollUp" class="scroll-top" (click)="totop()">
   <span class="material-icons">
     arrow_circle_up
-    </span>
+  </span>
 </button>

@@ -6,7 +6,7 @@ import { Email, User, UserModel } from 'src/models';
 import { Company } from 'src/models/company.model';
 import { ModalModel } from 'src/models/modal.model';
 import { AccountService, EmailService, UploadService, UserService } from 'src/services';
-import { ADMIN, IMAGE_DONE } from 'src/shared/constants';
+import { ADMIN, CUSTOMER, IMAGE_DONE, SUPER } from 'src/shared/constants';
 
 @Component({
   selector: 'app-sell-with-us',
@@ -26,6 +26,7 @@ export class SellWithUsComponent implements OnInit {
   signUpSpan = ''
   socialUser: SocialUser;
   loggedIn: boolean;
+  showLogin:boolean;
   modalModel: ModalModel = {
     heading: undefined,
     body: [],
@@ -34,6 +35,8 @@ export class SellWithUsComponent implements OnInit {
     img: undefined
   };
   modalImage: string;
+  email: any;
+  password: any;
   constructor(
     private router: Router,
     private accountService: AccountService,
@@ -220,4 +223,28 @@ export class SellWithUsComponent implements OnInit {
   signOut(): void {
     this.authService.signOut();
   }
+
+  OnLogin() {
+    const email = this.email;
+    const password =  this.password;
+    this.accountService.login({ email, password }).subscribe(user => {
+      debugger
+      if (user && user.UserId) {
+        this.accountService.updateUserState(user);
+    
+        if (user.UserType === ADMIN) {
+          this.router.navigate(['admin/dashboard']);
+        }
+        if (user.UserType === SUPER) {
+          this.router.navigate(['admin/dashboard']);
+        }
+        if (user.UserType === CUSTOMER) {
+          this.router.navigate(['']);
+        }
+      }
+
+    });
+  }
+
+
 }

@@ -37,6 +37,7 @@ export class ShopProductsComponent implements OnInit {
   catergories: Category[] = [];
   tertiaryCategories: Category[] = [];
   shopOwner: User;
+  ADMIN = ADMIN;
 
   constructor(
     private homeShopService: HomeShopService,
@@ -67,14 +68,14 @@ export class ShopProductsComponent implements OnInit {
 
 
   }
-  getShopOwner(){
-      if (this.company) {
+  getShopOwner() {
+    if (this.company) {
       this.userService.getUsersStync(this.company.CompanyId, ADMIN).subscribe(data => {
         if (data && data.length) {
           this.shopOwner = data[0];
         }
       });
-    } 
+    }
 
   }
   getCompany() {
@@ -233,5 +234,7 @@ export class ShopProductsComponent implements OnInit {
       category.Class = ['active'];
     }
   }
-
+  gotoDashboard() {
+    this.router.navigate(['admin/dashboard'])
+  }
 }

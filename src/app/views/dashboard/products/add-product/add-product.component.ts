@@ -5,6 +5,7 @@ import { Category, CompanyCategory, Product, User } from 'src/models';
 import { Images } from 'src/models/images.model';
 import { ProductVariation } from 'src/models/product.variation.model';
 import { ProductVariationOption } from 'src/models/product.variation.option.model';
+import { BreadModel } from 'src/models/UxModel.model';
 import { AccountService, CompanyCategoryService, ProductService, UploadService } from 'src/services';
 import { ImagesService } from 'src/services/images.service';
 import { ProductVariationService } from 'src/services/product-variation.service';
@@ -83,6 +84,8 @@ export class AddProductComponent implements OnInit {
   newCatergory: Category;
   sizes: ProductVariation;
   colors: ProductVariation;
+  items: BreadModel[];
+
   constructor(
     private router: Router,
     private productService: ProductService,
@@ -107,6 +110,20 @@ export class AddProductComponent implements OnInit {
         }
         this.loadOptions();
 
+        this.items = [
+          {
+            Name: 'Dashboard',
+            Link: '/admin/dashboard'
+          },
+          {
+            Name: 'Products',
+            Link: '/admin/dashboard/products'
+          },
+          {
+            Name: this.product.Name,
+            Link: null
+          }
+        ];
       }
     })
     if (this.existingProduct && this.existingProduct.ProductId) {
@@ -169,6 +186,7 @@ export class AddProductComponent implements OnInit {
       }
     });
     this.loadOptions();
+
   }
   name() { }
   loadOptions() {

@@ -1,9 +1,11 @@
-<div class="main-list _super" *ngIf="variations && variations.length && product">
+<div class="data-view-main" *ngIf="variations && variations.length && product">
+  <div class="basic variation"  *ngFor="let variation of variations">
+    <h3 class="header-label">
+      Choose {{variation.Name}}(s)
+    </h3>
 
-  <div class="variation" *ngFor="let variation of variations">
-    Product {{variation.Name}}(s)
 
-
+    
     <div class="variations" *ngIf="variation.Name == 'Size'">
       <button class="btn-size" *ngFor="let item of variation.VariationsOptions" (click)="select(item, variation.Name)"
         [ngClass]="item.Class">
@@ -12,7 +14,8 @@
 
     <div class="variations" *ngIf="variation.Name == 'Color'">
       <button class="btn-color" *ngFor="let item of variation.VariationsOptions"
-        [ngStyle]="{'background-color':item.Description, 'background-image': item.ImageUrl? 'url(' + item.ImageUrl + ')' : 'none'}" (click)="select(item, variation.Name)" [ngClass]="item.Class">
+        [ngStyle]="{'background-color':item.Description, 'background-image': item.ImageUrl? 'url(' + item.ImageUrl + ')' : 'none'}"
+        (click)="select(item, variation.Name)" [ngClass]="item.Class">
         <span *ngIf="item.Class && item.Class.length" class="selected-color">
         </span>
         <span *ngIf="!item.Class || !item.Class.length" class="not-selected-color">
@@ -30,6 +33,32 @@
         (change)="uploadFile(file.files)" style="display:none;position: fixed;">
 
     </div>
+
+
+    <!-- <pre>
+      {{variations | json}}
+    </pre> -->
+  </div>
+
+  <div class="basic">
+   
+  <div class="actions">
+    <button (click)="back()">Back to product</button>
+    <button class="save" (click)="saveProduct()">Save</button>
+  </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 
+<div class="main-list _super" *ngIf="variations && variations.length && product">
+
+  <div class="variation" *ngFor="let variation of variations">
+    Product {{variation.Name}}(s)
+
 
   </div>
 
@@ -72,6 +101,6 @@
       <button (click)="addVariationOption()" [disabled]="!newOption.Name || !newOption.Description">Save</button>
       <div class="link" (click)="showAddColor = false">Cancel</div>
     </div>
-   
+
   </div>
-</div>
+</div> -->

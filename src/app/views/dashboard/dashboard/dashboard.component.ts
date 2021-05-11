@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 import { User } from 'src/models/user.model';
 import { LoaderUx } from 'src/models/UxModel.model';
 import { AccountService } from 'src/services/account.service';
@@ -21,6 +22,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private uxService: UxService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -52,7 +54,9 @@ export class DashboardComponent implements OnInit {
   totop() {
     window.scroll(0, 0);
   }
-
+  goto(item) {
+    this.router.navigate([`admin/dashboard/${item}`]);
+  }
   @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
     this.uxService.updatePageYPositionState(window.pageYOffset);
     if (window.pageYOffset > 500) {

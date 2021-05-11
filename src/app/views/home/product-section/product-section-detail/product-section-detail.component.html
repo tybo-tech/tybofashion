@@ -1,7 +1,7 @@
-<div *ngIf="product && order" class="all">
+<div *ngIf="product && order" id="top" class="all">
 
 
-  <div class="product-section-container" >
+  <div class="product-section-container">
 
     <div class="top-bar-conatiner">
 
@@ -28,11 +28,11 @@
           </span>
         </div>
 
-     
+
 
         <span [cdkCopyToClipboard]="fullLink" class="material-icons love share" (click)="share()">
           share
-        </span> 
+        </span>
 
         <div class="col cart">
           <mat-icon [matBadge]="carttItems" matBadgeColor="pink" (click)="cart()">shopping_bag</mat-icon>
@@ -44,7 +44,7 @@
     <div class="product-grid" style="grid-template-columns: 100%;">
       <app-bread [items]="items"></app-bread>
 
-      </div>
+    </div>
 
     <div class="product-grid" style="padding-top: 0;">
       <div class="images">
@@ -116,8 +116,27 @@
           <div class=""></div>
         </div>
 
-        <br>
-        <div class="details description" *ngIf="product.Description">
+
+        <div class="action box-shadow">
+          <div class="">
+            <p>
+              Qty:
+            </p>
+          </div>
+          <select name="" [(ngModel)]="selectedQuantiy" id="">
+            <option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]" [value]="item">{{item}}</option>
+          </select>
+
+          <button class="mat-primary add-to-cart btn-pop" [disabled]="product.TotalStock == 0" mat-button
+            color="primary" (click)="addCart(product)">
+            <span class="material-icons cart-icon">
+              add_shopping_cart
+            </span>
+            Add to cart
+          </button>
+        </div>
+
+        <div class="details description line-break" *ngIf="product.Description">
           <p>
             <span class="label">Description</span>
             {{product.Description}}
@@ -189,46 +208,28 @@
             </span>
           </p>
         </div>
-        <div class="pc-only pclikes" >
+        <div class="pc-only pclikes">
           <div class="share">
             <span class="material-icons love" *ngIf="liked == 'no'" (click)="onLike('yes')">
               favorite_border
             </span>
-  
-  
+
+
             <span class="material-icons love loved" *ngIf="liked == 'yes'" (click)="onLike('no')">
               favorite
             </span>
           </div>
-  
-       
-  
+
+
+
           <span [cdkCopyToClipboard]="fullLink" class="material-icons love share" (click)="share()">
             share
-          </span> 
-        </div>
-
-        <div class="action box-shadow">
-          <div class="">
-           <p>
-            Qty:
-           </p>
-          </div>
-          <select name="" [(ngModel)]="selectedQuantiy" id="">
-            <option *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]" [value]="item">{{item}}</option>
-          </select>
-
-          <button class="mat-primary add-to-cart btn-pop" [disabled]="product.TotalStock == 0" mat-button
-            color="primary" (click)="addCart(product)">
-            <span class="material-icons cart-icon">
-              add_shopping_cart
-              </span>
-            Add to cart
-          </button>
+          </span>
         </div>
 
 
-       
+
+
 
 
 
@@ -262,6 +263,9 @@
         Aramex, Paxi and More
       </p>
     </div>
+
+    <app-product-slider [products]="otherproducts" [tittle]="tittle"></app-product-slider>
+
 
 
     <div class="devider"></div>

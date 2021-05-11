@@ -1244,3 +1244,17 @@ del {
 
   }
 }
+
+
+.black{
+  color: $black !important;
+}
+.lnk{
+  color: $tertiary !important;
+  cursor: pointer;
+  font-weight: 500;
+  padding: .75em 0;
+}
+
+.line-break { white-space: pre-wrap;}
+

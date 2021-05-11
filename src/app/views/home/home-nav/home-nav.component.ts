@@ -78,8 +78,10 @@ export class HomeNavComponent implements OnInit {
 
 
   loadAllProducts() {
+    this.uxService.showLoader();
     this.productService.getAllActiveProductsSync().subscribe(data => {
       if (data) {
+        this.uxService.hideLoader();
         this.products = data
         this.allProducts = data;
         this.productService.updateProductListState(this.allProducts);

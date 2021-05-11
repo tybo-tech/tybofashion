@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Product } from '../_models';
 
 @Pipe({
   name: 'searchproductbycatergory'
 })
 export class SearchProductByCatergoryPipe implements PipeTransform {
 
-  transform(products: Product[], val: any): any {
+  transform(products: any, val: any): any {
 
     if (!val) { return products; }
     if (!products) { return []; }

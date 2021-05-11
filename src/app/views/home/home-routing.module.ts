@@ -8,6 +8,7 @@ import { SignInComponent } from 'src/app/account/sign-in';
 import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/social-login.component';
 import { SignUpComponent } from 'src/app/account/sign-up';
 import { SignUpModalComponent } from 'src/app/account/sign-up-modal/sign-up-modal.component';
+import { TextarealinebreakpipePipe } from 'src/app/_pipes/textarealinebreakpipe.pipe';
 import { MyOrdersComponent } from '../dashboard/orders/my-orders/my-orders.component';
 import { ViewMyOrderComponent } from '../dashboard/orders/view-order/view-my-order/view-my-order.component';
 import { ViewOrderComponent } from '../dashboard/orders/view-order/view-order.component';
@@ -40,6 +41,7 @@ import { CollectionsComponent } from './product-section/collections/collections.
 import { DepartmentComponent } from './product-section/collections/department/department.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
+import { ProductSliderComponent } from './product-section/product-section-detail/product-slider/product-slider.component';
 import { ShopComponent } from './shop';
 import { ShopNavComponent } from './shop-nav/shop-nav.component';
 import { ShopSideNavComponent } from './shop-nav/shop-side-nav/shop-side-nav.component';
@@ -140,7 +142,9 @@ export const declarations = [
   DepartmentComponent,
   BreadComponent,
   ChatComponent,
-  MessagesComponent
+  MessagesComponent,
+  TextarealinebreakpipePipe,
+  ProductSliderComponent
 
 ];
 

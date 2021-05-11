@@ -207,11 +207,11 @@
 
   .action {
     width: 100%;
-    margin: 4em 0;
+    margin: 1em 0;
     display: block;
     position: relative;
     padding: .5em;
-    
+
 
 
     display: grid;
@@ -228,22 +228,23 @@
       font-weight: 600;
       padding: 1em;
     }
-    @media only screen and (max-width: 600px) {
-      position: fixed;
-      bottom: 0;
-      border-radius: 0;
-      left: 0;
-      width: 100%;
-      z-index: 10000;
-      margin: 0;
-      background: $cloud;
-      width: 100%;
-   
-      padding: .5em;
-      text-align: center;
-      box-shadow: $box-shadow;
 
-   
+    @media only screen and (max-width: 600px) {
+      // position: fixed;
+      // bottom: 0;
+      // border-radius: 0;
+      // left: 0;
+      // width: 100%;
+      // z-index: 10000;
+      // margin: 0;
+      // background: $cloud;
+      // width: 100%;
+
+      // padding: .5em;
+      // text-align: center;
+      // box-shadow: $box-shadow;
+
+
     }
 
     button {
@@ -551,17 +552,22 @@ img {
   color: $red;
 }
 
-.cart-icon{
+.cart-icon {
   font-size: 1.5em;
   left: -.5em;
 }
 
-.pclikes{
+.pclikes {
   display: grid;
   grid-template-columns: 2em auto;
   padding: 0;
   margin: 0;
-  span{
+
+  @media only screen and (max-width: 600px) {
+    display: none-;
+  }
+
+  span {
     cursor: pointer;
   }
 }

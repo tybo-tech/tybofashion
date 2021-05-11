@@ -175,7 +175,7 @@ export class ProductVariationsComponent implements OnInit {
             VariationId: varaition.VariationId,
             VariationOptionId: option.VariationOptionId,
             VariationName: varaition.Name,
-            ImageUrl: option.ImageUrl,
+            ImageUrl: option.ImageUrl || '',
             ShowOnline: 'show',
             Description: option.Description,
             OptionName: option.Name,
@@ -221,12 +221,14 @@ export class ProductVariationsComponent implements OnInit {
       variationOption.Class = [];
       variationOption.IsSelected = false;
       variationOption.StatusId = 2;
+      debugger
       if (this.checkIfVaritionIsSelected(variationOption.VariationOptionId)) {
         if (confirm("This color will be deleted press ok to confirm.")) {
           if (this.product.ProductCombinations && this.product.ProductCombinations.length) {
             const combinationToDelete =
               this.product.ProductCombinations.filter(x => x.CombinationString.toLocaleLowerCase().includes(`- ${variationOption.Name.toLocaleLowerCase()}`) 
               || x.CombinationString.toLocaleLowerCase().includes(`${variationOption.Name.toLocaleLowerCase()} -`)
+              || x.CombinationString.toLocaleLowerCase() === (`${variationOption.Name.toLocaleLowerCase()}`)
               );
             if (combinationToDelete.length) {
               combinationToDelete.map(x => x.StatusId = 2);

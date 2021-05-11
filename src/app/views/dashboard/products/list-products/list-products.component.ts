@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Category } from 'src/models/category.model';
 import { Product } from 'src/models/product.model';
 import { User } from 'src/models/user.model';
+import { BreadModel } from 'src/models/UxModel.model';
 import { CompanyCategoryService } from 'src/services';
 import { AccountService } from 'src/services/account.service';
 import { ProductService } from 'src/services/product.service';
@@ -32,6 +33,7 @@ export class ListProductsComponent implements OnInit {
   allProducts: Product[];
   showLoader;
   showAdd: boolean;
+  items: BreadModel[];
   PRODUCT_ORDER_LIMIT_MAX = PRODUCT_ORDER_LIMIT_MAX;
   constructor(
     private productService: ProductService,
@@ -43,6 +45,17 @@ export class ListProductsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.items = [
+      {
+        Name: 'Dashboard',
+        Link: '/admin/dashboard'
+      },
+      {
+        Name: 'Products',
+        Link: null
+      },
+
+    ];
     this.user = this.accountService.currentUserValue;
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading products, please wait.' })
     this.productService.getProductsSync(this.user.CompanyId).subscribe(data => {

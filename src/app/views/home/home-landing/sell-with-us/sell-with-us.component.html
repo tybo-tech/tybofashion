@@ -31,12 +31,12 @@
         Get a full dashboard to manage your products, orders, invoices, jobs, tasks, and people.
       </p>
       <p>
-        Oh! and the nice thing is you only pay 10% of the total order amount each time
+        Oh! and the nice thing is you only pay <b>8% of the total order amount</b> each time
         <i> the customer purchase online. </i> That's all, no monthly fees, no hidden fees.
       </p>
       <div class="actions">
         <button (click)="add()">Start your shop</button>
-        <button class="login" (click)="login()">Login</button>
+        <button class="login" (click)="showLogin = true">Login</button>
       </div>
 
 
@@ -99,6 +99,48 @@
       <button (click)="save()" *ngIf="signUpStep === 2"
         [disabled]="!newUser.Email || !newUser.Name || !newUser.Password">Go to my dashboard</button>
       <div class="link" (click)="showAdd = false">Cancel</div>
+    </div>
+
+
+
+    <app-customer-feedback *ngIf="modalModel && modalModel.heading" [modalModel]="modalModel"></app-customer-feedback>
+
+  </div>
+</div>
+
+
+
+
+<div class="quick-add" *ngIf="showLogin">
+  <div class="form">
+    <h3>
+      Login to your account
+    </h3>
+
+    <div class="social">
+      <button class="btn-google" (click)="signInWithGoogle()"> Login with Google</button>
+      <button class="btn-google btn-facebook" (click)="signInWithFB()"> Login with Facebook</button>
+    </div>
+    <div class="or">
+      Or sign in with email
+    </div>
+
+
+    <div class="form-item">
+      <label for="">Your email</label>
+      <input type="text" name="" id="" [(ngModel)]="email" placeholder="Enter youremail.">
+    </div>
+    <div class="form-item">
+      <label for="">Your password</label>
+      <input type="password" name="" id="" [(ngModel)]="password" placeholder="Enter your password.">
+    </div>
+
+
+
+    <div class="form-item">
+      <button (click)="OnLogin()" [disabled]="!email || !password">Login</button>
+
+      <div class="link" (click)="showLogin = false">Cancel</div>
     </div>
 
 

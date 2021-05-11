@@ -27,6 +27,7 @@ export class MessagesComponent implements OnInit {
   targetId: any;
   targetName = '';
   activeExistingChat: boolean;
+  url: string;
 
   constructor(
     private router: Router,
@@ -50,6 +51,7 @@ export class MessagesComponent implements OnInit {
       if (this.targetId && Number(this.trackId) == 0) {
         this.activeChat();
       };
+      this.url = `home/messages/${this.trackId}/${this.targetId}`
     });
   }
 
@@ -61,8 +63,8 @@ export class MessagesComponent implements OnInit {
       this.getInteractions();
     } else {
       this.uxService.keepNavHistory({
-        BackToAfterLogin: '/home/messages',
-        BackTo: '/home/messages',
+        BackToAfterLogin: this.url,
+        BackTo: this.url,
         ScrollToProduct: null,
       });
       this.showAdd = true;

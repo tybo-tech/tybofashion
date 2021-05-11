@@ -1,7 +1,7 @@
 import { AccountService, OrderService, ProductService } from 'src/services';
 import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
 import { Category, Order, Orderproduct, Product, User } from 'src/models';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { ProductVariation } from 'src/models/product.variation.model';
 import { Location } from '@angular/common';
@@ -28,6 +28,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   @Output() checkoutOrShopMoreEvent: EventEmitter<string> = new EventEmitter<string>();
 
   product: Product;
+  otherproducts: Product[] = [];
+  tittle: string;
   productSlug: string;
   totalPrice = 0;
   quantity = 0;
@@ -80,12 +82,26 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   ) {
     this.activatedRoute.params.subscribe(r => {
       this.productSlug = r.id;
+      this.loadScreen();
     });
   }
 
   ngOnInit() {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        window.location.reload();
+      }, 0)
+
+    });
+  }
+
+  loadScreen() {
+    this.items = [];
     this.user = this.accountService.currentUserValue;
-    window.scroll(0, 0);
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
 
     this.productService.getProductSync(this.productSlug).subscribe(data => {
@@ -95,17 +111,24 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
         if (this.product) {
           this.sanitize();
           this.company = this.product.Company;
-          this.items.push({
-            Name: this.company.Name.substr(0,30),
-            Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
-          },
+          this.tittle = `More from ${this.company.Name}`;
+          this.loadCategories();
+          this.items.push(
+            {
+              Name: 'Home',
+              Link: ``
+            },
+            {
+              Name: this.company.Name.substr(0, 30),
+              Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
+            },
 
             // {
             //   Name: this.product.CategoryName.substr(0,50),
             //   Link: `home/collections/picks`
             // },
             {
-              Name: this.product.Name.substr(0,50),
+              Name: this.product.Name.substr(0, 50),
               Link: `shop/product/${this.product.ProductSlug || this.product.ProductId}`
             }
 
@@ -184,7 +207,9 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     // this.updateTotalPrice(this.product.Quantity);
     this.uxService.uxNavHistoryObservable.subscribe(data => {
       this.navHistory = data;
-    })
+    });
+
+
   }
 
   sanitize() {
@@ -453,4 +478,15 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       }
     })
   }
+
+  loadCategories() {
+    this.productService.productListObservable.subscribe(products => {
+      if (products && products.length) {
+        this.otherproducts = products.filter(x => x.CompanyId === this.company.CompanyId);
+      }
+    });
+
+
+  }
+
 }

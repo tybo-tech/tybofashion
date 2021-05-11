@@ -110,12 +110,15 @@ export class SignUpComponent implements OnInit {
 
     this.accountService.register(model).subscribe(user => {
 
-      if (user && user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
-        this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
-      }
+   
 
       if (user && user.UserType === CUSTOMER) {
         this.accountService.updateUserState(user);
+
+        if (user.UserType === CUSTOMER && this.navHistory && this.navHistory.BackToAfterLogin) {
+          this.routeTo.navigate([this.navHistory.BackToAfterLogin]);
+          return;
+        }
 
         if (this.order && this.order.CustomerId === 'checked') {
           this.order.CustomerId = user.UserId;
