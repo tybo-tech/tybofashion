@@ -213,7 +213,7 @@ export class MessagesComponent implements OnInit {
       Message: `${data}`,
       UserFullName: companyName,
       Link: `${environment.BASE_URL}/home/messages/${this.interaction.TraceId}/${this.targetUser.UserId}`,
-      LinkLabel: 'Reply'
+      LinkLabel: 'Reply in Tybo Fashion'
     };
     this.emailService.sendGeneralTextEmail(emailToSend)
       .subscribe(response => {

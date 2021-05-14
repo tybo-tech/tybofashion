@@ -12,7 +12,7 @@ import { CompanyCategoryService } from 'src/services/companycategory.service';
 import { CompanyVariationService } from 'src/services/companyvariation.service';
 import { JobService } from 'src/services/job.service';
 import { UxService } from 'src/services/ux.service';
-import { ADMIN, CUSTOMER, ORDER_TYPE_SALES, PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK, SUPER } from 'src/shared/constants';
+import { ADMIN, CUSTOMER, ORDER_TYPE_SALES, PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK, STATUS_ACTIIVE_STRING, SUPER } from 'src/shared/constants';
 
 @Component({
   selector: 'app-overview',
@@ -163,6 +163,7 @@ export class OverviewComponent implements OnInit {
       OrderLimit: 0,
       SupplierId: '',
       ProductType: '',
+      ProductStatus: STATUS_ACTIIVE_STRING,
       Code: '',
       CompanyId: this.user.CompanyId,
       CreateUserId: this.user.UserId,

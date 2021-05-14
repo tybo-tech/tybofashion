@@ -1,4 +1,6 @@
+
 <div class="main" *ngIf="company && products">
+
   <div class="company-profile">
     <div class="cdp">
       <img [src]="company.Dp" alt="">
@@ -28,16 +30,11 @@
 
 
     </div>
+
   </div>
-  <!-- 
-  <div class="collections">
-    <div class="collection" (click)="goto('home/shop-for/Ladies')">
-      Ladies collection
-    </div>
-    <div class="collection" (click)="goto('home/shop-for/Mens')">
-      Men's collection
-    </div>
-  </div> -->
+<app-show-promotions *ngIf="promotions" [promotions]="promotions" [products]="products"></app-show-promotions>
+
+
   <div class="catergories" *ngIf="catergories">
     <button class="catergory" (click)="all()">
       All ({{allProducts.length}})
@@ -97,3 +94,47 @@
 
   </div>
 </div>
+
+
+
+<!-- <p>
+  {{item.Name}}
+  <span class="sub">
+    {{item.PromoGroup}}
+    <span class="material-icons">
+      fiber_manual_record
+    </span>
+    {{item.PromoType}}
+    <span class="material-icons">
+      fiber_manual_record
+    </span>
+    {{item.DiscountValue}} {{item.DiscountUnits}} Off
+
+
+  </span>
+
+  <span class="sub">
+    {{item.AppliesTo}}
+    <span class="material-icons">
+      fiber_manual_record
+    </span>
+    {{item.MinimumRequirementValue}}   {{item.MinimumRequirements}}
+  </span>
+  <span class="sub">
+    {{item.StartDate  | date: 'mediumDate'}} <b>{{item.StartTime}}</b>
+    <span class="material-icons">
+      trending_flat
+    </span>
+    {{item.FinishDate  | date: 'mediumDate'}} <b>{{item.FinishTime}}</b>
+  </span>
+</p> -->
+
+<!-- 
+ <h2>
+  {{products | json}}
+</h2> 
+
+<p>
+  {{company | json}}
+
+</p> -->

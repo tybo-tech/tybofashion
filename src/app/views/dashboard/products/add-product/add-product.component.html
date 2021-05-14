@@ -1,7 +1,21 @@
-<app-loader *ngIf="showLoader"></app-loader>
 
 <div class="data-view-main" *ngIf="product">
-<app-dashbread [items]="items"></app-dashbread>
+  <app-dashbread [items]="items"></app-dashbread>
+  <div class="actions-linsk">
+    <span class="material-icons" *ngIf="product.ProductStatus != STATUS_TRASHED_STRING"  (click)="delete()">
+      delete
+    </span>
+    <span class="material-icons" *ngIf="product.ProductStatus == STATUS_TRASHED_STRING"  (click)="undelete()">
+      recycling
+    </span>
+
+    <span class="material-icons"  [cdkCopyToClipboard]="productLink" (click)="copy()">
+      share
+    </span>
+
+
+
+  </div>
   <div class="basic">
     <h3 class="header-label">
       Product info.
@@ -186,6 +200,14 @@
         <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
       </div>
     </div>
+    <div class="no-child med" *ngIf="product.IsJustInTime != 'Just in time'">
+      <div class="black-label">
+        Total Stock In Hand
+      </div>
+      <div class="link" (click)="name()">
+        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
+      </div>
+    </div>
   </div>
 
 
@@ -255,7 +277,7 @@
     <h3 class="header-label">
       Product images.
     </h3>
-    <div class="" >
+    <div class="">
       <div *ngFor="let option of colors.ProductVariationOptions" class="color-section"
         [ngStyle]="{'border-color': option.Description}">
         <div class="color-grid">
@@ -306,7 +328,7 @@
           Cancel
         </button>
       </div>
-  
+
       <div class="cta">
         <button class="mat-primary checkout" [disabled]="!product.Name" mat-button color="primary"
           (click)="saveProduct()">

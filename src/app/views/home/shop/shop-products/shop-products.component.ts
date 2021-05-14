@@ -58,7 +58,7 @@ export class ShopProductsComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
-    this.getCompany();
+    this.loadCategories();
 
 
 
@@ -78,16 +78,16 @@ export class ShopProductsComponent implements OnInit {
     }
 
   }
-  getCompany() {
-    this.companyService.getCompanyById(this.shopSlug).subscribe(data => {
-      if (data && data.CompanyId) {
-        this.company = data;
-        this.loadCategories();
-        this.getInteractions();
-        this.getShopOwner();
-      }
-    });
-  }
+  // getCompany() {
+  //   this.companyService.getCompanyById(this.shopSlug).subscribe(data => {
+  //     if (data && data.CompanyId) {
+  //       this.company = data;
+
+  //     }
+  //   });
+
+
+  // }
 
   viewMore(product: Product) {
     if (product) {
@@ -198,29 +198,41 @@ export class ShopProductsComponent implements OnInit {
 
     this.productService.productListObservable.subscribe(products => {
       if (products && products.length) {
-        this.products = products.filter(x => x.CompanyId === this.company.CompanyId);
-        this.allProducts = products.filter(x => x.CompanyId === this.company.CompanyId);
-        this.products.forEach(product => {
-          if (!catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
-            if (product.Category) {
-              catergories.push(product.Category);
-            }
-          }
-          if (!this.parentCategories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
-            if (product.ParentCategory) {
-              this.parentCategories.push(product.ParentCategory);
-            }
-          }
-          if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
-            if (product.TertiaryCategory) {
-              this.tertiaryCategories.push(product.TertiaryCategory);
-            }
-          }
-        });
+        const pro: Product = products.find(x => x.Company && x.Company.Slug === this.shopSlug || x.Company &&  x.Company.CompanyId === this.shopSlug);
+        if (pro) {
+          this.company = pro.Company;
+          this.promotions = this.company.Promotions || [];
+          this.promotions.map(x => x.Style = { background: x.Bg, color: x.Color });
 
-        if (catergories && catergories.length) {
-          this.catergories = catergories;
+          // alert(this.company.Name);
+          this.getInteractions();
+          this.getShopOwner();
+
+          this.products = products.filter(x => x.CompanyId === this.company.CompanyId);
+          this.allProducts = products.filter(x => x.CompanyId === this.company.CompanyId);
+          this.products.forEach(product => {
+            if (!catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
+              if (product.Category) {
+                catergories.push(product.Category);
+              }
+            }
+            if (!this.parentCategories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
+              if (product.ParentCategory) {
+                this.parentCategories.push(product.ParentCategory);
+              }
+            }
+            if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
+              if (product.TertiaryCategory) {
+                this.tertiaryCategories.push(product.TertiaryCategory);
+              }
+            }
+          });
+  
+          if (catergories && catergories.length) {
+            this.catergories = catergories;
+          }
         }
+      
       }
     });
 
@@ -237,4 +249,5 @@ export class ShopProductsComponent implements OnInit {
   gotoDashboard() {
     this.router.navigate(['admin/dashboard'])
   }
+
 }

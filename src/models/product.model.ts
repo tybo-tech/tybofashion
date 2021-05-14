@@ -35,6 +35,7 @@ export interface Product {
   TotalStock: number;
   SupplierId: string;
   ProductType: string;
+  ProductStatus: string;
   Code: string;
   CreateDate?: string;
   CreateUserId: string;
@@ -57,6 +58,7 @@ export interface Product {
   Images?: Images[];
   AllImages?: Images[];
   IsSelected?:boolean;
+  IsSelectedForGet?:boolean;
   HasBeenSelected?:boolean;
   PickId?:string;
 

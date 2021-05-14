@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Category, Product, User } from 'src/models';
 import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
 import { UxService } from 'src/services/ux.service';
-import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK } from 'src/shared/constants';
+import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK, STATUS_ACTIIVE_STRING, STATUS_TRASHED_STRING } from 'src/shared/constants';
 
 @Component({
   selector: 'app-product-list-cards',
@@ -17,7 +17,11 @@ export class ProductListCardsComponent implements OnInit {
   user: User;
   showAdd: boolean;
   newProduct: Product;
+  searchString: string;
   PRODUCT_ORDER_LIMIT_MAX = PRODUCT_ORDER_LIMIT_MAX;
+  STATUS_TRASHED_STRING = STATUS_TRASHED_STRING;
+  trasheddProducts: Product[];
+  activeProducts: Product[];
 
   constructor(
     private productService: ProductService,
@@ -31,12 +35,12 @@ export class ProductListCardsComponent implements OnInit {
     this.user = this.accountService.currentUserValue;
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading products, please wait.' })
     this.productService.getProductsSync(this.user.CompanyId).subscribe(data => {
-      this.products = data;
-      console.log(this.products);
-
-      this.allProducts = data;
-
       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
+      this.allProducts = data || [];
+      this.all();
+      this.trasheddProducts = this.allProducts.filter(product => product.ProductStatus === STATUS_TRASHED_STRING);
+      this.activeProducts = this.allProducts.filter(product => product.ProductStatus === STATUS_ACTIIVE_STRING);
+
     })
     // this.loadCategories();
   }
@@ -80,6 +84,7 @@ export class ProductListCardsComponent implements OnInit {
       OrderLimit: 0,
       SupplierId: '',
       ProductType: '',
+      ProductStatus: STATUS_ACTIIVE_STRING,
       Code: '',
       CompanyId: this.user.CompanyId,
       CreateUserId: this.user.UserId,
@@ -116,8 +121,13 @@ export class ProductListCardsComponent implements OnInit {
 
   }
   all() {
-    this.products = this.products = this.allProducts;
+    this.products = this.allProducts.filter(product => product.ProductStatus === STATUS_ACTIIVE_STRING);
+  }
 
+  filterWith(status: string) {
+    if (status === this.STATUS_TRASHED_STRING) {
+      this.products = this.trasheddProducts;
+    }
   }
 
 }

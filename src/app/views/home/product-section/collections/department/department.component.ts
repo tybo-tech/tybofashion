@@ -12,7 +12,7 @@ import { UxService } from 'src/services/ux.service';
   styleUrls: ['./department.component.scss']
 })
 export class DepartmentComponent implements OnInit {
-
+  searchString:string;
   products: Product[];
   allProducts: Product[];
   user: User;

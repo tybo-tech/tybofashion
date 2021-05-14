@@ -8,6 +8,9 @@ import { SignInComponent } from 'src/app/account/sign-in';
 import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/social-login.component';
 import { SignUpComponent } from 'src/app/account/sign-up';
 import { SignUpModalComponent } from 'src/app/account/sign-up-modal/sign-up-modal.component';
+import { PromotionTextPipe } from 'src/app/_pipes/promotionText.pipe';
+import { SearchCompanyPipe } from 'src/app/_pipes/search-company.pipe';
+import { SearchProductHomePipe } from 'src/app/_pipes/search-product-home.pipe';
 import { TextarealinebreakpipePipe } from 'src/app/_pipes/textarealinebreakpipe.pipe';
 import { MyOrdersComponent } from '../dashboard/orders/my-orders/my-orders.component';
 import { ViewMyOrderComponent } from '../dashboard/orders/view-order/view-my-order/view-my-order.component';
@@ -46,6 +49,7 @@ import { ShopComponent } from './shop';
 import { ShopNavComponent } from './shop-nav/shop-nav.component';
 import { ShopSideNavComponent } from './shop-nav/shop-side-nav/shop-side-nav.component';
 import { ShopProductsComponent } from './shop/shop-products/shop-products.component';
+import { ShowPromotionsComponent } from './shop/shop-products/show-promotions/show-promotions.component';
 
 const routes: Routes = [
   {
@@ -144,7 +148,11 @@ export const declarations = [
   ChatComponent,
   MessagesComponent,
   TextarealinebreakpipePipe,
-  ProductSliderComponent
+  ProductSliderComponent,
+  ShowPromotionsComponent,
+  PromotionTextPipe,
+  SearchCompanyPipe,
+  SearchProductHomePipe
 
 ];
 

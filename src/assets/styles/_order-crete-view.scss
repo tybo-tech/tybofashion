@@ -21,7 +21,7 @@
     background: $white;
     padding: 0;
     display: block;
-    max-width: $max-width/2;
+    max-width: $max-width/$max-width-devider;
     box-shadow: $box-shadow;
     // border: 1px solid $grey;
     border-radius: 0;

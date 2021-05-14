@@ -12,11 +12,24 @@ import { PromotionService } from 'src/services/promotion.service';
 })
 export class PromotionsComponent implements OnInit {
   promotions: Promotion[] = [];
-  scheduledPromotions: Promotion[];
+  allPromotions: Promotion[];
   inactivePromotions: Promotion[];
+  scheduledPromotions: Promotion[];
   showAdd: boolean;
   newPromotion: Promotion;
   user: User;
+  searchString;
+  items = [
+    {
+      Name: 'Dashboard',
+      Link: '/admin/dashboard'
+    },
+    {
+      Name: 'Promotions',
+      Link: null
+    },
+
+  ];
   constructor(
     private promotionService: PromotionService,
     private accountService: AccountService,
@@ -29,6 +42,7 @@ export class PromotionsComponent implements OnInit {
     if (this.user && this.user.CompanyId) {
       this.promotionService.getByCompanyId(this.user.CompanyId, 1).subscribe(data => {
         this.promotions = data || [];
+        this.allPromotions = data || [];
       })
       this.promotionService.getByCompanyId(this.user.CompanyId, 2).subscribe(data => {
         this.scheduledPromotions = data || [];
@@ -42,37 +56,19 @@ export class PromotionsComponent implements OnInit {
     this.router.navigate(['admin/dashboard/promotion', promotion.PromotionId]);
   }
   add() {
-    this.newPromotion = {
-      PromotionId: '',
-      Name: `Promotion ${this.promotions.length + 1}`,
-      CompanyId: this.user.CompanyId,
-      PromoCode: '',
-      PromoType: 'Percentage off',
-      DiscountValue: '0',
-      DiscountUnits: '',
-      AppliesTo: 'All products',
-      MinimumRequirements: 'None',
-      MinimumRequirementValue: '',
-      StartDate: '',
-      FinishDate: '',
-      StartTime: '',
-      FinishTime: '',
-      ImageUrl: '',
-      CreateUserId: this.user.CompanyId,
-      ModifyUserId: this.user.CompanyId,
-      StatusId: 1,
-    }
-    this.showAdd = true
+    // this.showAdd = true
+    this.router.navigate(['admin/dashboard/promotion/add']);
   }
-  back() { 
+  back() {
     this.router.navigate(['admin/dashboard']);
   }
-  savePromotion() {
-    this.promotionService.add(this.newPromotion).subscribe(data => {
-      if (data && data.PromotionId) {
-        this.view(data);
-      }
 
-    })
+
+  all() {
+    this.promotions = this.allPromotions;
+  }
+
+  filterWith(e) {
+    this.promotions = this.inactivePromotions;
   }
 }

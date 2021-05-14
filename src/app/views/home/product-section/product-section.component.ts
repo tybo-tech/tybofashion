@@ -18,6 +18,7 @@ import { UxService } from 'src/services/ux.service';
 export class ProductSectionComponent implements OnInit {
 
   selectedCategory: Category;
+  searchString: string;
   products: Product[];
   allProducts: Product[];
   user: User;
@@ -176,7 +177,7 @@ export class ProductSectionComponent implements OnInit {
     this.newInScrollTo += e * 1000;
     document.getElementById("justAdded").scroll(this.newInScrollTo, 0)
   }
-  veiwAllPicks(){
+  veiwAllPicks() {
     this.goto(`home/collections/picks`)
   }
 }

@@ -44,33 +44,6 @@
 .main-list {
   background: $cloud;
   padding: 1em 0;
-  // overflow-y: scroll;
-  // max-height: 90vh;
-
-  .heading {
-    display: grid;
-    grid-template-columns: 80% auto;
-    padding: 3rem 0;
-    width: $dashboard-body-width;
-
-    h1 {
-      font-weight: 400;
-
-      span {
-        font-weight: 800;
-      }
-    }
-
-    button {
-      width: 10rem;
-
-    }
-
-    div:nth-child(2) {
-      text-align: right;
-      padding-right: .5rem;
-    }
-  }
 
   .items {
     width: $dashboard-body-width;
@@ -893,8 +866,12 @@ span.date {
   display: grid;
   grid-template-columns: 50% auto;
 
+  .black-label {
+    padding: .5em 0
+  }
+
   div {
-    padding: .4em 1em;
+    // padding: .4em 1em;
     font-weight: 500;
     color: $black;
 
@@ -902,11 +879,11 @@ span.date {
       padding: .4em .2em;
     }
 
-    &:last-child {
-      text-align: right;
-      text-transform: uppercase;
-      color: $pop-darker;
-    }
+    // &:last-child {
+    //   text-align: right;
+    //   text-transform: uppercase;
+    //   color: $pop-darker;
+    // }
   }
 }
 
@@ -973,9 +950,9 @@ span.date {
   .form {
     margin: 6em auto;
     padding: 1em;
-    width:auto;
+    width: auto;
     border-radius: 0;
-    max-height:85vh;
+    max-height: 85vh;
     overflow-y: scroll;
     max-width: 60em;
 
@@ -1218,43 +1195,152 @@ del {
 
 
 .heading {
-  padding: 2em 1em;
+  padding: 1em 0;
   margin: 0;
   margin-bottom: 3em;
   border-bottom: 1px solid $grey;
+  display: grid;
+  grid-template-columns: 70% auto;
 
   @media only screen and (max-width: 600px) {
     font-size: .9em;
+  grid-template-columns: 60% auto;
+
 
   }
 
   span {
     position: relative;
-    left: 3em;
-    padding: .2em 1em;
+    padding: .5em;
     text-align: center;
     background: $pop;
     border-radius: .2em;
     cursor: pointer;
     color: $black;
+    font-weight: 400;
+    display: block;
+    width: 98%;
+    margin: 0 auto;
 
-    @media only screen and (max-width: 600px) {
-      left: 2em;
-    }
 
+  }
+
+  span.head {
+    text-align: left;
+    background: none;
+    cursor: default;
+    font-weight: 700;
+    font-size: 1.2em;
   }
 }
 
 
-.black{
+.black {
   color: $black !important;
 }
-.lnk{
+
+.lnk {
   color: $tertiary !important;
   cursor: pointer;
   font-weight: 500;
   padding: .75em 0;
 }
 
-.line-break { white-space: pre-wrap;}
+.line-break {
+  white-space: pre-wrap;
+}
 
+.explain-section {
+  display: block;
+  padding: .2em 1em;
+  color: $darker-grey;
+}
+
+.list {
+  padding: 0 1em;
+
+  .list-item {
+    padding: 1em 0;
+    border-bottom: 1px solid $cloud;
+    cursor: pointer;
+
+    .col {
+      p {
+        font-weight: 600;
+        color: $black;
+
+        .sub {
+          display: block;
+          font-weight: 400;
+          color: $charcoal;
+
+          .material-icons {
+            margin: 0 .4em;
+            top: .1em;
+            position: relative;
+            color: $darker-grey;
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.empty{
+  text-align: center;
+  padding: 2em;
+  color: $darker-grey;
+  span{
+    display: block;
+    font-size: 2.5em;
+    color: $pop;
+    margin: .5em auto;
+  }
+}
+
+
+.filters {
+  .search-box {
+    padding: .5em 1em;
+
+    @media only screen and (max-width: 600px) {
+
+      padding: .5em 0;
+    }
+
+    input {
+      background: $white;
+      margin: .5em 0;
+    }
+
+
+  }
+
+  .tabs {
+
+
+    p {
+      display: grid;
+      margin: .2em 1em;
+      grid-template-columns: repeat(5, 7em);
+      grid-gap: 1em;
+
+      span {
+        display: block;
+        background: $white;
+        padding: .4em .75em;
+        text-align: center;
+        font-size: .7em;
+        font-weight: 600;
+        cursor: pointer;
+        color: $darker-grey;
+      }
+    }
+  }
+}
+
+.cloud{
+  background: $cloud !important;
+}

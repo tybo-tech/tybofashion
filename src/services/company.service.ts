@@ -33,6 +33,9 @@ export class CompanyService {
 
   private companyCategoryBehaviorSubject: BehaviorSubject<CompanyCategory>;
   public companyCategoryObservable: Observable<CompanyCategory>;
+
+  private companyListBehaviorSubject: BehaviorSubject<Company[]>;
+  public companyListObservable: Observable<Company[]>;
   url: string;
 
   constructor(
@@ -60,6 +63,11 @@ export class CompanyService {
     this.companyCategoryBehaviorSubject = new BehaviorSubject<CompanyCategory>(JSON.parse(localStorage.getItem('currentcompanyCategory')));
     this.companyCategoryListObservable = this.companyCategoryListBehaviorSubject.asObservable();
     this.companyCategoryObservable = this.companyCategoryBehaviorSubject.asObservable();
+
+    this.companyListBehaviorSubject =
+      new BehaviorSubject<Company[]>(JSON.parse(localStorage.getItem('companyList')));
+    this.companyListObservable = this.companyListBehaviorSubject.asObservable();
+
     this.url = environment.API_URL;
   }
 
@@ -74,6 +82,16 @@ export class CompanyService {
   updateCategoryState(category: Category) {
     this.systemCategoryBehaviorSubject.next(category);
     localStorage.setItem('systemCategoryBehaviorSubject', JSON.stringify(category));
+  }
+  updateCompanyListState(companyList: Company[]) {
+    this.companyListBehaviorSubject.next(companyList);
+    localStorage.setItem('companyList', JSON.stringify(companyList));
+  }
+
+
+
+  public get geteCompanyListState(): Company[] {
+    return this.companyListBehaviorSubject.value;
   }
 
   updatecompanyCategoryListState(grades: CompanyCategory[]) {
@@ -118,6 +136,20 @@ export class CompanyService {
     return this.http.get<Company[]>(
       `${this.url}/api/company/get-companies.php`
     );
+  }
+  getSuperCompaniesAySync() {
+    this.http.get<Company[]>(
+      `${this.url}/api/company/get-companies.php`
+    ).subscribe(data => {
+      const companyList = this.geteCompanyListState;
+      if (companyList && JSON.stringify(companyList) === JSON.stringify(data)) {
+        // alert("Sale list");
+        return;
+      }
+      else {
+        this.updateCompanyListState(data);
+      }
+    });
   }
   getCompanyById(companyId) {
     return this.http.get<Company>(

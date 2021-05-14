@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'src/services/account.service';
-import { IMAGE_DONE, STATUS_ACTIVE, STATUS_DELETED } from 'src/shared/constants';
+import { IMAGE_DONE } from 'src/shared/constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalModel } from 'src/models/modal.model';
 import { OrderService } from 'src/services';

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category, NavigationModel, Order, Product, User } from 'src/models';
+import { Company } from 'src/models/company.model';
 import { SearchResultModel } from 'src/models/search.model';
 import { AccountService, OrderService, ProductService } from 'src/services';
+import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { NavigationService } from 'src/services/navigation.service';
 import { UxService } from 'src/services/ux.service';
@@ -30,6 +32,8 @@ export class HomeNavComponent implements OnInit {
   products: any;
   catergories: any[];
   tertiaryCategories: any[];
+  shops: Company[];
+  companies: Company[];
   constructor(
     private navigationService: NavigationService,
     private accountService: AccountService,
@@ -38,6 +42,7 @@ export class HomeNavComponent implements OnInit {
     private router: Router,
     private uxService: UxService,
     private productService: ProductService,
+    private companyService: CompanyService,
 
   ) {
 
@@ -50,7 +55,24 @@ export class HomeNavComponent implements OnInit {
     });
 
     // this.loadData();
-    this.loadAllProducts();
+    const data = this.companyService.geteCompanyListState;
+    if (data && data.length) {
+      this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
+    
+    } else {
+
+      this.companyService.companyListObservable.subscribe(data => {
+        if (data && data.length) {
+          this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
+          console.log(this.shops);
+          this.loadAllProducts();
+        }
+      });
+
+    }
+    this.companyService.getSuperCompaniesAySync();
+    this.productService.getAllActiveProductsASync();
+
 
     this.orderService.OrderObservable.subscribe(data => {
       this.order = data;
@@ -73,17 +95,23 @@ export class HomeNavComponent implements OnInit {
     this.uxService.uxHomeSideNavObservable.subscribe(data => {
       this.showMenu = data;
     })
+   
 
   }
 
 
   loadAllProducts() {
-    this.uxService.showLoader();
+    if (!this.products) {
+      this.uxService.showLoader();
+    }
     this.productService.getAllActiveProductsSync().subscribe(data => {
       if (data) {
         this.uxService.hideLoader();
         this.products = data
         this.allProducts = data;
+        this.allProducts.forEach(prod => {
+          prod.Company = this.shops.find(x => x.CompanyId === prod.CompanyId);
+        })
         this.productService.updateProductListState(this.allProducts);
         this.loadCategories(this.allProducts);
       }

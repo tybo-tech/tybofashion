@@ -13,7 +13,7 @@ export class AllShopsComponent implements OnInit {
   shops: Company[];
   showLoader: boolean = true;
   @Output() navAction: EventEmitter<boolean> = new EventEmitter<boolean>();
-
+  searchString: string;
   constructor(
     private router: Router,
     private companyService: CompanyService,
@@ -30,15 +30,19 @@ export class AllShopsComponent implements OnInit {
     this.router.navigate(['']);
   }
   getAllComapnies() {
-    this.companyService.getSuperCompanies().subscribe(data => {
-      this.showLoader = false;
-      if (data && data.length) {
-        this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
-        console.log(this.shops );
+    const data = this.companyService.geteCompanyListState;
+    if (data && data.length) {
+      this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
+    } else {
 
-      }
+      this.companyService.companyListObservable.subscribe(data => {
+        if (data && data.length) {
+          this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
+        }
+      });
 
-    })
+    }
+    this.companyService.getSuperCompaniesAySync();
   }
 
   view(item: Company) {

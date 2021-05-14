@@ -14,7 +14,7 @@
 
 .main {
   background: $cloud;
-  max-width: $max-width/2;
+  max-width: $max-width/$max-width-devider;
   margin: 0 auto;
 
 

@@ -50,17 +50,17 @@
 
     <div class="left-scrolls pc-only">
 
-      <button  (click)="scroll(-1)">
+      <button (click)="scroll(-1)">
         <span class="material-icons">
           arrow_back_ios
-          </span>
-          
+        </span>
+
       </button>
 
-      <button  (click)="scroll(1)">
+      <button (click)="scroll(1)">
         <span class="material-icons">
           arrow_forward_ios
-          </span>
+        </span>
       </button>
     </div>
     <div class="products-scroller" id="justAdded">
@@ -92,8 +92,14 @@
       All products
     </h4>
 
+    <div class="filters">
+      <div class="search-box">
+        <input class="cloud" type="search" [(ngModel)]="searchString" placeholder="🔎 What you are looking for?">
+      </div>
+    </div>
+
     <div class="products">
-      <div class="product" *ngFor="let product of allOtherProducts; let i = index">
+      <div class="product" *ngFor="let product of allOtherProducts  | searchproductshome:searchString;; let i = index">
         <div class="image">
           <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
         </div>

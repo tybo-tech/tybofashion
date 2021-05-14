@@ -9,7 +9,7 @@ import { AccountService } from 'src/services/account.service';
 import { OrderService } from 'src/services/order.service';
 import { ProductService } from 'src/services/product.service';
 import { UxService } from 'src/services/ux.service';
-import { IMAGE_DONE, PRODUCT_TYPE_STOCK } from 'src/shared/constants';
+import { IMAGE_DONE, PRODUCT_TYPE_STOCK, STATUS_ACTIIVE_STRING } from 'src/shared/constants';
 
 @Component({
   selector: 'app-product',
@@ -102,6 +102,7 @@ export class ProductComponent implements OnInit {
         OrderLimit: 0,
         SupplierId: '',
         ProductType: '',
+        ProductStatus: STATUS_ACTIIVE_STRING,
         Code: '',
         CreateDate: '',
         CreateUserId: '',

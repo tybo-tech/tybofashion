@@ -35,7 +35,12 @@
   }
 }
 
- .main{
-   padding-top: 4em;
- }
+.main {
+  padding-top: 4em;
+}
 
+
+
+.bread {
+  max-width: $max-width !important;
+}

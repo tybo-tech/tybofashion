@@ -19,7 +19,11 @@
   </div>
   <div class="product-section col-1-of-1">
     <div class="mt5" *ngIf="shops">
-      <div class="shops" *ngFor="let item of shops" (click)="view(item)">
+
+      <div class="search-box">
+        <input type="search" [(ngModel)]="searchString" placeholder="🔎 Filter by shop">
+      </div>
+      <div class="shops" *ngFor="let item of shops | searchcompany: searchString" (click)="view(item)">
         <div class="shop">
           <div class="icon">
             <img *ngIf="item.Dp" [src]="item.Dp" alt="">

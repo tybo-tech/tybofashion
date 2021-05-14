@@ -10,7 +10,7 @@ import { AccountService, CompanyCategoryService, ProductService, UploadService }
 import { ImagesService } from 'src/services/images.service';
 import { ProductVariationService } from 'src/services/product-variation.service';
 import { UxService } from 'src/services/ux.service';
-import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_STOCK } from 'src/shared/constants';
+import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_STOCK, STATUS_ACTIIVE_STRING, STATUS_TRASHED_STRING } from 'src/shared/constants';
 
 @Component({
   selector: 'app-add-product',
@@ -50,6 +50,7 @@ export class AddProductComponent implements OnInit {
     OrderLimit: 0,
     SupplierId: '',
     ProductType: '',
+    ProductStatus: STATUS_ACTIIVE_STRING,
     Code: '',
     CreateDate: '',
     CreateUserId: '',
@@ -85,7 +86,8 @@ export class AddProductComponent implements OnInit {
   sizes: ProductVariation;
   colors: ProductVariation;
   items: BreadModel[];
-
+  STATUS_TRASHED_STRING = STATUS_TRASHED_STRING;
+  productLink: any;
   constructor(
     private router: Router,
     private productService: ProductService,
@@ -105,6 +107,7 @@ export class AddProductComponent implements OnInit {
     this.productService.productObservable.subscribe(data => {
       if (data) {
         this.product = data;
+        this.productLink = `${environment.BASE_URL}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
         if (!this.product.ShowRemainingItems) {
           this.product.ShowRemainingItems = 6;
         }
@@ -445,5 +448,49 @@ export class AddProductComponent implements OnInit {
       console.log(data);
 
     })
+  }
+
+  delete() {
+    if (confirm("Product will be moved trash, press ok to continue.")) {
+      this.product.ProductStatus = STATUS_TRASHED_STRING;
+      this.productService.update(this.product).subscribe(res => {
+        if (res && res.ProductId) {
+          this.productService.updateProductState(res);
+          this.back();
+        }
+      })
+    }
+
+  }
+  undelete() {
+    if (confirm("Product will be moved out of trash to active, press ok to activate product.")) {
+      this.product.ProductStatus = STATUS_ACTIIVE_STRING;
+      this.productService.update(this.product).subscribe(res => {
+        if (res && res.ProductId) {
+          this.productService.updateProductState(res);
+          // this.back();
+          this.uxService.updateMessagePopState('Product is now active')
+        }
+      })
+    }
+
+  }
+
+  copy() {
+
+    let nav: any;
+    nav = window.navigator;
+    if (nav.share) {
+      nav.share({
+        title: 'Hello there!',
+        text: `Check out this ${this.product.Name}`,
+        url: this.productLink
+        ,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+      this.uxService.updateMessagePopState('Shop LinkCopied to clipboard.');
+    }
   }
 }

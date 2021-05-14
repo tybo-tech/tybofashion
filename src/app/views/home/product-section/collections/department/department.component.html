@@ -21,6 +21,12 @@
     <h4>
       {{parentCategoryId}} collections
     </h4>
+
+    <div class="filters">
+      <div class="search-box">
+        <input class="cloud" type="search" [(ngModel)]="searchString" placeholder="🔎 What you are looking for?">
+      </div>
+    </div>
     <div class="catergories" *ngIf="catergories">
       <button class="catergory" (click)="all()">
         All
@@ -34,8 +40,11 @@
 
 
 
+
+
+
     <div class="products" *ngIf="products">
-      <div class="product" *ngFor="let product of products; let i = index">
+      <div class="product" *ngFor="let product of products | searchproductshome:searchString; let i = index">
         <div class="image">
           <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
         </div>

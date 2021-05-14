@@ -8,7 +8,8 @@
       <h3>
         {{user.Company.Name}}
         <span class="block lnk">
-         <a  (click)="gotoShop()"> {{companyLink}}</a>
+         <a  (click)="gotoShop()"> Go to my shop</a>
+         <!-- <a  (click)="gotoShop()"> {{companyLink}}</a> -->
           <span class="material-icons" style="left: 2em;"  [cdkCopyToClipboard]="companyLink" (click)="copy()">
             share
             </span>

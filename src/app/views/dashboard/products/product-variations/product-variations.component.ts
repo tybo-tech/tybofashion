@@ -36,6 +36,7 @@ export class ProductVariationsComponent implements OnInit {
   showAddColor: boolean;
   selectedVariation: Variation;
   combinations: any[];
+  showAddSize: boolean;
   constructor(
     private accountService: AccountService,
     private companyVariationService: CompanyVariationService,
@@ -94,6 +95,12 @@ export class ProductVariationsComponent implements OnInit {
   toggleShowAddColor(variation: Variation) {
     this.showAddColor = !this.showAddColor;
     this.selectedVariation = variation;
+    this.loadNewOption(variation);
+  }
+  toggleShowAddSize(variation: Variation) {
+    this.showAddSize = !this.showAddSize;
+    this.selectedVariation = variation;
+    this.loadNewOption(variation);
   }
 
   checkIfVaritionIsSelected(id) {
@@ -134,6 +141,7 @@ export class ProductVariationsComponent implements OnInit {
         this.selectedVariation.VariationsOptions.push(data);
         this.select(data, this.selectedVariation.Name);
         this.showAddColor = false;
+        this.showAddSize = false;
       }
 
     });
@@ -143,8 +151,8 @@ export class ProductVariationsComponent implements OnInit {
     this.newOption = {
       VariationOptionId: 0,
       VariationId: variation.VariationId,
-      Name: undefined,
-      Description: undefined,
+      Name: '',
+      Description: '',
       ImageUrl: '',
       CreateUserId: this.user.UserId,
       ModifyUserId: this.user.UserId,
@@ -194,7 +202,10 @@ export class ProductVariationsComponent implements OnInit {
     this.productVariationService.addProductVariationRange(productVariations).subscribe(data => {
       if (data && data.length) {
         productVariationOptions.map(item => {
-          item.ProductVariationId = data.find(x => x.CompanyVariationId === item.VariationId).Id;
+          const match = data.find(x => x.CompanyVariationId === item.VariationId);
+          if (match) {
+            item.ProductVariationId = match.Id;
+          }
           return item;
         });
         this.productVariationService.addProductVariationOptionsRange(productVariationOptions).subscribe(res => {
@@ -221,14 +232,14 @@ export class ProductVariationsComponent implements OnInit {
       variationOption.Class = [];
       variationOption.IsSelected = false;
       variationOption.StatusId = 2;
-      debugger
+
       if (this.checkIfVaritionIsSelected(variationOption.VariationOptionId)) {
         if (confirm("This color will be deleted press ok to confirm.")) {
           if (this.product.ProductCombinations && this.product.ProductCombinations.length) {
             const combinationToDelete =
-              this.product.ProductCombinations.filter(x => x.CombinationString.toLocaleLowerCase().includes(`- ${variationOption.Name.toLocaleLowerCase()}`) 
-              || x.CombinationString.toLocaleLowerCase().includes(`${variationOption.Name.toLocaleLowerCase()} -`)
-              || x.CombinationString.toLocaleLowerCase() === (`${variationOption.Name.toLocaleLowerCase()}`)
+              this.product.ProductCombinations.filter(x => x.CombinationString.toLocaleLowerCase().includes(`- ${variationOption.Name.toLocaleLowerCase()}`)
+                || x.CombinationString.toLocaleLowerCase().includes(`${variationOption.Name.toLocaleLowerCase()} -`)
+                || x.CombinationString.toLocaleLowerCase() === (`${variationOption.Name.toLocaleLowerCase()}`)
               );
             if (combinationToDelete.length) {
               combinationToDelete.map(x => x.StatusId = 2);
@@ -300,8 +311,8 @@ export class ProductVariationsComponent implements OnInit {
   removeOption(variationOptionId) {
     this.productVariationService.deleteProductOption(this.product.ProductId, variationOptionId).subscribe(data => {
       this.uxService.updateMessagePopState('Product option deleted');
-      this.productService.getProductSync(this.product.ProductId).subscribe(data=>{
-        if(data){
+      this.productService.getProductSync(this.product.ProductId).subscribe(data => {
+        if (data) {
           this.product = data;
         }
       })

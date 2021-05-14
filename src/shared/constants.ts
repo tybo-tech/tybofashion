@@ -33,7 +33,9 @@ export const SEND_EMAIL_BILLING = 'https://app.tybo.co.za/api/email/email-billin
 export const COMMON_CONN_ERR_MSG = 'it looks like there is an internet connection problem.';
 export const STATUS_DELETED = 99;
 export const STATUS_PENDING_PAYMENTS = 5;
-export const STATUS_ACTIVE = 1;
+export const STATUS_ACTIIVE = 1;
+export const STATUS_ACTIIVE_STRING = 'Active';
+export const STATUS_TRASHED_STRING = 'Trashed';
 export const STATUS_PENDING_EMAIL_VERIFICATION = 4;
 export const DEFAULT_DATE = '0000-00-00 00:00:00';
 
@@ -61,6 +63,13 @@ export const GET_ORDER_URL = `api/orders/get-order-by-id.php`;
 export const ADD_ORDER_URL = `api/orders/add-order.php`;
 export const PRINT_URL = `api/pdf/inv/i-2.php`;
 export const UPDATE_ORDER_URL = `api/orders/update-order.php`;
+
+
+export const DISCOUNT_TYPES = ['Percentage Off', 'Fixed Amount Off', 'Free Shipping', 'Buy X get Y'];
+export const DISCOUNT_APPLIES_TO = ['All Products', 'Specific Products']; //, 'Specific Collections'
+export const DISCOUNT_MIN_RQS = ['No Minimum Requirements', 'Minimum Purchase Amount', 'Minimum Purchase Quantity'];
+export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Must Enter Promo Code To Get The Discount'];
+export const CURRENCY = 'ZAR';
 
 
 

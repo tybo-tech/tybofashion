@@ -7,6 +7,7 @@ import { Product } from 'src/models/product.model';
 import { Router } from '@angular/router';
 import { Company } from 'src/models/company.model';
 import { Order } from 'src/models';
+import { CompanyService } from './company.service';
 
 
 @Injectable({
@@ -26,8 +27,10 @@ export class ProductService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private companyService: CompanyService,
   ) {
-    this.productListBehaviorSubject = new BehaviorSubject<Product[]>(JSON.parse(localStorage.getItem('ProductsList')) || []);
+    this.productListBehaviorSubject = new BehaviorSubject<Product[]>([]);
+    // this.productListBehaviorSubject = new BehaviorSubject<Product[]>(JSON.parse(localStorage.getItem('ProductsList')) || []);
     this.productBehaviorSubject = new BehaviorSubject<Product>(JSON.parse(localStorage.getItem('currentProduct')) || null);
     this.productListObservable = this.productListBehaviorSubject.asObservable();
     this.productObservable = this.productBehaviorSubject.asObservable();
@@ -37,10 +40,13 @@ export class ProductService {
   public get currentProductValue(): Product {
     return this.productBehaviorSubject.value;
   }
+  public get getProductsListState(): Product[] {
+    return this.productListBehaviorSubject.value;
+  }
 
   updateProductListState(products: Product[]) {
     this.productListBehaviorSubject.next(products);
-    localStorage.setItem('ProductsList', JSON.stringify(products));
+    // localStorage.setItem('ProductsList', JSON.stringify(products));
   }
   updateProductState(product: Product) {
     this.productBehaviorSubject.next(product);
@@ -139,6 +145,30 @@ export class ProductService {
   }
   getAllActiveProductsSync() {
     return this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php`);
+  }
+  getAllActiveProductsASync() {
+    this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php`).subscribe(data => {
+
+      if (data && data.length) {
+        const shops = this.companyService.geteCompanyListState;
+        if (shops && shops.length) {
+          data.map(x => x.Company = shops.find(x => x.CompanyId === x.CompanyId))
+          // data.forEach(prod => {
+          //   prod.Company = shops.find(x => x.CompanyId === prod.CompanyId);
+          // });
+
+
+          const productList = this.getProductsListState;
+          if (productList && JSON.stringify(productList) === JSON.stringify(data)) {
+            return;
+          }
+          else {
+            this.updateProductListState(data);
+          }
+        }
+
+      }
+    });
   }
 
 

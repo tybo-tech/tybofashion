@@ -10,7 +10,7 @@ import { AccountService } from 'src/services/account.service';
 import { ProductService } from 'src/services/product.service';
 import { UserService } from 'src/services/user.service';
 import { UxService } from 'src/services/ux.service';
-import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK } from 'src/shared/constants';
+import { PRODUCT_ORDER_LIMIT_MAX, PRODUCT_TYPE_JIT, PRODUCT_TYPE_STOCK, STATUS_ACTIIVE_STRING } from 'src/shared/constants';
 
 @Component({
   selector: 'app-list-products',
@@ -155,6 +155,7 @@ export class ListProductsComponent implements OnInit {
       OrderLimit: 0,
       SupplierId: '',
       ProductType: '',
+      ProductStatus: STATUS_ACTIIVE_STRING,
       Code: '',
       CompanyId: this.user.CompanyId,
       CreateUserId: this.user.UserId,
