@@ -228,7 +228,6 @@ export class SellWithUsComponent implements OnInit {
     const email = this.email;
     const password =  this.password;
     this.accountService.login({ email, password }).subscribe(user => {
-      debugger
       if (user && user.UserId) {
         this.accountService.updateUserState(user);
     

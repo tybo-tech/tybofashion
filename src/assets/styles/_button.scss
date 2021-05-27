@@ -46,6 +46,14 @@ button {
 .secondary {
   background: $black !important;
   color: $white !important;
+  border:2px solid $black !important;
+
+}
+.tertiary {
+  border:2px solid $black !important;
+  color: $black !important;
+  background: $white !important;
+
 }
 
 button {

@@ -1,6 +1,7 @@
 import { Product } from './product.model';
 
 export interface Category {
+  ProductsImages?: string[];
   CategoryId: string;
   Name: string;
   ParentId: string;

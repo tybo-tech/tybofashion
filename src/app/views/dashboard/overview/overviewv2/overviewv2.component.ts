@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Order, Product, User } from 'src/models';
 import { ProductService, AccountService, CompanyCategoryService, OrderService } from 'src/services';
 import { UxService } from 'src/services/ux.service';
+import { ADMIN, SUPER } from 'src/shared/constants';
 
 @Component({
   selector: 'app-overviewv2',
@@ -16,6 +17,8 @@ export class Overviewv2Component implements OnInit {
   user: User;
   showAdd:boolean;
   companyLink = '';
+  ADMIN= ADMIN;
+  SUPER=SUPER;
 
   constructor(
     private productService: ProductService,

@@ -65,6 +65,15 @@ export class CompanyCategoryService {
   public get currentcompanyCategoryValue(): CompanyCategory {
     return this.companyCategoryBehaviorSubject.value;
   }
+  public get currentAllCategoryList(): Category[] {
+    return this.systemCategoryListBehaviorSubject.value;
+  }
+  public get currentAllParentCategoryList(): Category[] {
+    return this.systemCategoryListBehaviorSubject.value;
+  }
+  public get currentAllChildCategoryList(): Category[] {
+    return this.systemCategoryListBehaviorSubject.value;
+  }
 
   public get currentCategoryValue(): Category {
     return this.systemCategoryBehaviorSubject.value;
@@ -118,11 +127,18 @@ export class CompanyCategoryService {
     this.http.get<Category[]>(
       `${this.url}/api/companycategories/list-system-categories.php?${params}`
     ).subscribe(data => {
-      if (data) {
+      if (data && data.length) {
+        data.sort(function (a, b) {
+          var textA = b.Name.toString();
+          var textB = a.Name.toString();;
+          return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
+        });
         this.updateSystemCategoryListState(data);
       }
     });
   }
+
+
 
   getCategory(categoryId: string) {
     const params = `CategoryId=${categoryId}`;

@@ -3,9 +3,10 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category, Product } from 'src/models';
 import { HomeShopService } from 'src/services/home-shop.service';
-import { TIMER_LIMIT_WAIT } from 'src/shared/constants';
+import { MAX_PAGE_SIZE, TIMER_LIMIT_WAIT } from 'src/shared/constants';
 import { ProductService } from 'src/services/product.service';
 import { BreadModel } from 'src/models/UxModel.model';
+import { CompanyCategoryService } from 'src/services';
 
 @Component({
   selector: 'app-collections',
@@ -24,11 +25,13 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
   parentCategories: any;
   currentCategory: Category;
   allProducts: Product[];
-  products: any[];
+  products: Product[];
   items: BreadModel[];
-
+  nextPage = 999999;
   heading = 'Instagram Picks';
   allUxisexProducts: Product[] = [];
+  showShowMore: boolean;
+  selectedProduct: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,17 +39,76 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
     private productService: ProductService,
     private router: Router,
     private location: Location,
+    private companyCategoryService: CompanyCategoryService,
   ) {
     this.activatedRoute.params.subscribe(r => {
       this.catergoryId = r.id;
-      this.loadCategories();
-      window.scroll(0, 0);
+      if (this.catergoryId === 'picks') {
+        this.getPicks();
+      } else {
+        this.getProducts(9999999999);
+        window.scroll(0, 0);
+
+        this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+          if (data && data.length) {
+            this.currentCategory = data.find(x => x.CategoryId === this.catergoryId);
+          }
+        });
+      }
+
     });
   }
 
   ngOnInit() {
+
   }
 
+  getPicks() {
+
+    this.productService.tyboShopObservable.subscribe(data => {
+      if (data) {
+        if (JSON.stringify(data.Products) !== JSON.stringify(this.products)) {
+          this.allProducts = data.Picked;
+          this.products = data.Picked;
+          if (this.products.length) {
+
+            this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+              if (data && data.length) {
+                this.currentCategory = data.find(x => x.CategoryId === this.products[0].PickId);
+              }
+            });
+          }
+        }
+      }
+    });
+
+    this.productService.getTyboShop(9999999);
+
+  }
+  getProducts(maxId: number) {
+    this.productService.getAllActiveByCategoryId(this.catergoryId, maxId).subscribe(data => {
+      if (data) {
+        this.products = data;
+        this.allProducts = data;
+        this.nextPage = this.products[this.products.length - 1]?.Id || 99999;
+        this.showShowMore = data.length >= MAX_PAGE_SIZE;
+      }
+    });
+  }
+
+
+  loadMore() {
+    this.productService.getAllActiveByCategoryId(this.catergoryId, this.nextPage).subscribe(data => {
+      if (data && data.length) {
+        this.products.push(...data);
+        this.nextPage = data[data.length - 1]?.Id || 99999999;
+        this.showShowMore = data.length >= MAX_PAGE_SIZE;
+      } else {
+        this.showShowMore = false;
+      }
+    });
+
+  }
 
   loadCategories() {
     const catergories = [];
@@ -69,7 +131,7 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
         if (this.currentCategory) {
           this.heading = `Shop ${this.currentCategory.Name}`;
         }
-       
+
         this.products = this.allProducts.filter(x => x.CategoryGuid === this.catergoryId);
         if (this.catergoryId === 'Ladies' || this.catergoryId === 'Mens') {
           this.heading = `${this.catergoryId} collection`;
@@ -130,6 +192,8 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
 
   viewMore(model: Product) {
     if (model) {
+      this.selectedProduct = model;
+      return
       this.homeShopService.updateProductState(model);
       this.homeShopService.updatePageMovesIntroTrueAndScrollOpen();
 

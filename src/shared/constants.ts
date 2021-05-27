@@ -70,6 +70,9 @@ export const DISCOUNT_APPLIES_TO = ['All Products', 'Specific Products']; //, 'S
 export const DISCOUNT_MIN_RQS = ['No Minimum Requirements', 'Minimum Purchase Amount', 'Minimum Purchase Quantity'];
 export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Must Enter Promo Code To Get The Discount'];
 export const CURRENCY = 'ZAR';
+export const COMPANY_TYPE = 'Fashion';
+export const MAX_PAGE_SIZE = 20;
+
 
 
 

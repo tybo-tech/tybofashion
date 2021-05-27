@@ -6,6 +6,7 @@ import { ProductCombination } from './productcombination.model';
 import { VariationOption } from './variation.option.model';
 
 export interface Product {
+  Id?: number;
   ProductId: string;
   CompanyId: string;
   Name: string;
@@ -35,7 +36,7 @@ export interface Product {
   TotalStock: number;
   SupplierId: string;
   ProductType: string;
-  ProductStatus: string;
+  ProductStatus?: string;
   Code: string;
   CreateDate?: string;
   CreateUserId: string;

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product, User, Category } from 'src/models';
 import { NavHistoryUX } from 'src/models/UxModel.model';
-import { ProductService, AccountService } from 'src/services';
+import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { UxService } from 'src/services/ux.service';
+import { MAX_PAGE_SIZE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-department',
@@ -12,7 +13,7 @@ import { UxService } from 'src/services/ux.service';
   styleUrls: ['./department.component.scss']
 })
 export class DepartmentComponent implements OnInit {
-  searchString:string;
+  searchString: string;
   products: Product[];
   allProducts: Product[];
   user: User;
@@ -24,8 +25,12 @@ export class DepartmentComponent implements OnInit {
   parentCategory: Category;
   pickedProducts: Product[];
   newProducts: Product[];
-  parentCategoryId: any;
+  parentCategoryId: string;
   allUxisexProducts: Product[];
+  showShowMore: boolean;
+  nextPage: number;
+  currentCategory: Category;
+  selectedProduct: Product;
 
   constructor(
     private homeShopService: HomeShopService,
@@ -34,12 +39,15 @@ export class DepartmentComponent implements OnInit {
     private router: Router,
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
+    private companyCategoryService: CompanyCategoryService,
 
 
   ) {
     this.activatedRoute.params.subscribe(r => {
       this.parentCategoryId = r.id;
       this.loadCategories();
+      this.getProducts(9999999);
+
     });
   }
 
@@ -51,8 +59,45 @@ export class DepartmentComponent implements OnInit {
 
   }
 
+  getProducts(maxId: number) {
+
+    this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+      if (data && data.length) {
+        this.currentCategory = data.find(x => x.Name.toLocaleLowerCase()
+          === this.parentCategoryId.toLocaleLowerCase()
+          && x.CategoryType === 'Parent'
+        );
+
+        if (this.currentCategory) {
+          this.productService.getAllActiveByParentCategoryId(this.currentCategory.CategoryId, maxId).subscribe(data => {
+            if (data) {
+              this.products = data;
+              this.allProducts = data;
+              this.nextPage = this.products[this.products.length - 1]?.Id || 99999;
+              this.showShowMore = data.length >= MAX_PAGE_SIZE;
+            }
+          });
+        }
+      }
+    });
+
+  }
+  loadMore() {
+    this.productService.getAllActiveByParentCategoryId(this.currentCategory.CategoryId, this.nextPage).subscribe(data => {
+      if (data && data.length) {
+        this.products.push(...data);
+        this.nextPage = data[data.length - 1]?.Id || 99999999;
+        this.showShowMore = data.length >= MAX_PAGE_SIZE;
+      } else {
+        this.showShowMore = false;
+      }
+    });
+
+  }
   viewMore(product: Product) {
     if (product) {
+      this.selectedProduct = product;
+      return
       this.uxService.keepNavHistory({
         BackToAfterLogin: '',
         BackTo: '',
@@ -88,61 +133,11 @@ export class DepartmentComponent implements OnInit {
 
 
   loadCategories() {
-    const catergories = [];
-    this.newProducts = [];
-
-    this.productService.productListObservable.subscribe(products => {
-      if (products && products.length) {
-        this.allProducts = products;
-        const parent = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === this.parentCategoryId);
-        this.products = this.allProducts;
-        if (parent && parent.ParentCategory) {
-          this.parentCategory = parent.ParentCategory;
-          this.products = this.allProducts.filter(x => x.ParentCategoryGuid === this.parentCategory.CategoryId);
-        }
-        const unisex = this.allProducts.find(x => x.ParentCategory && x.ParentCategory.Name === 'Unisex');
-        if (unisex && unisex.ParentCategory) {
-          this.allUxisexProducts = this.allProducts.filter(x => x.ParentCategoryGuid === unisex.ParentCategory.CategoryId);
-        }
-        let i = 0;
-        this.products.forEach(product => {
-          if (!catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
-            if (product.Category) {
-              catergories.push(product.Category);
-            }
-          }
-          if (!this.parentCategories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
-            if (product.ParentCategory) {
-              this.parentCategories.push(product.ParentCategory);
-            }
-          }
-          if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
-            if (product.TertiaryCategory) {
-              this.tertiaryCategories.push(product.TertiaryCategory);
-            }
-          }
-
-        });
-
-        if (catergories && catergories.length) {
-          this.catergories = catergories;
-        }
+    this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+      if (data && data.length) {
+        this.parentCategory = data.find(x => x.Name === this.parentCategoryId);
       }
     });
-    console.log(this.parentCategories);
-    this.parentCategory = this.parentCategories.find(x => x.Name === this.parentCategoryId);
-
-    // this.pickedProducts = this.allProducts.filter(x => x.PickId);
-    const unisexCategory = this.parentCategories.find(x => x.Name === "Unisex");
-    if (unisexCategory) {
-      this.newProducts = this.allProducts.filter(x => x.ParentCategoryGuid === unisexCategory.CategoryId);
-
-    } else {
-      this.newProducts = [];
-
-    }
-
-
 
   }
 
@@ -154,9 +149,9 @@ export class DepartmentComponent implements OnInit {
     }
   }
 
-  gotoComapny(product:Product){
-    window.scroll(0,0);
-    if(product.Company){
+  gotoComapny(product: Product) {
+    window.scroll(0, 0);
+    if (product.Company) {
       this.router.navigate([product.Company.Slug || product.CompanyId]);
       return;
     }

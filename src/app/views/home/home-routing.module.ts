@@ -44,7 +44,9 @@ import { CollectionsComponent } from './product-section/collections/collections.
 import { DepartmentComponent } from './product-section/collections/department/department.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
+import { ProductQuickViewComponent } from './product-section/product-section-detail/product-quick-view/product-quick-view.component';
 import { ProductSliderComponent } from './product-section/product-section-detail/product-slider/product-slider.component';
+import { ShopByCatergoryComponent } from './product-section/product-section-detail/shop-by-catergory/shop-by-catergory.component';
 import { ShopComponent } from './shop';
 import { ShopNavComponent } from './shop-nav/shop-nav.component';
 import { ShopSideNavComponent } from './shop-nav/shop-side-nav/shop-side-nav.component';
@@ -152,7 +154,9 @@ export const declarations = [
   ShowPromotionsComponent,
   PromotionTextPipe,
   SearchCompanyPipe,
-  SearchProductHomePipe
+  SearchProductHomePipe,
+  ShopByCatergoryComponent,
+  ProductQuickViewComponent
 
 ];
 

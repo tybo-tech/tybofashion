@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { Category, NavigationModel, Order, Product, User } from 'src/models';
 import { Company } from 'src/models/company.model';
 import { SearchResultModel } from 'src/models/search.model';
-import { AccountService, OrderService, ProductService } from 'src/services';
+import { AccountService, CompanyCategoryService, OrderService, ProductService } from 'src/services';
 import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { NavigationService } from 'src/services/navigation.service';
 import { UxService } from 'src/services/ux.service';
-import { ORDER_TYPE_SALES } from 'src/shared/constants';
+import { COMPANY_TYPE, ORDER_TYPE_SALES } from 'src/shared/constants';
 
 @Component({
   selector: 'app-home-nav',
@@ -42,7 +42,7 @@ export class HomeNavComponent implements OnInit {
     private router: Router,
     private uxService: UxService,
     private productService: ProductService,
-    private companyService: CompanyService,
+    private companyCategoryService: CompanyCategoryService,
 
   ) {
 
@@ -54,24 +54,6 @@ export class HomeNavComponent implements OnInit {
       this.user = user;
     });
 
-    // this.loadData();
-    const data = this.companyService.geteCompanyListState;
-    if (data && data.length) {
-      this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
-    
-    } else {
-
-      this.companyService.companyListObservable.subscribe(data => {
-        if (data && data.length) {
-          this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
-          console.log(this.shops);
-          this.loadAllProducts();
-        }
-      });
-
-    }
-    this.companyService.getSuperCompaniesAySync();
-    this.productService.getAllActiveProductsASync();
 
 
     this.orderService.OrderObservable.subscribe(data => {
@@ -95,82 +77,19 @@ export class HomeNavComponent implements OnInit {
     this.uxService.uxHomeSideNavObservable.subscribe(data => {
       this.showMenu = data;
     })
-   
 
+    this.getCategories();
   }
 
+  getCategories() {
 
-  loadAllProducts() {
-    if (!this.products) {
-      this.uxService.showLoader();
-    }
-    this.productService.getAllActiveProductsSync().subscribe(data => {
-      if (data) {
-        this.uxService.hideLoader();
-        this.products = data
-        this.allProducts = data;
-        this.allProducts.forEach(prod => {
-          prod.Company = this.shops.find(x => x.CompanyId === prod.CompanyId);
-        })
-        this.productService.updateProductListState(this.allProducts);
-        this.loadCategories(this.allProducts);
+    this.companyCategoryService.getSystemCategories(COMPANY_TYPE, 'All');
+    this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+      if (data && data.length) {
+        this.allCategories = data;
       }
     });
   }
-
-  loadCategories(products: Product[]) {
-    this.catergories = [];
-    this.parentCategories = [];
-    this.tertiaryCategories = [];
-
-    products.forEach(product => {
-      if (!this.catergories.find(x => x && x.CategoryId === product.CategoryGuid)) {
-        if (product.Category) {
-          this.catergories.push(product.Category);
-        }
-      }
-      if (!this.parentCategories.find(x => x && x.CategoryId === product.ParentCategoryGuid)) {
-        if (product.ParentCategory) {
-          this.parentCategories.push(product.ParentCategory);
-        }
-      }
-      if (!this.tertiaryCategories.find(x => x && x.CategoryId === product.TertiaryCategoryGuid)) {
-        if (product.TertiaryCategory) {
-          this.tertiaryCategories.push(product.TertiaryCategory);
-        }
-      }
-    });
-
-
-
-    // this.products.map(x => x.Category = null);
-    // this.products.map(x => x.ParentCategory = null);
-    // this.products.map(x => x.TertiaryCategory = null);
-    const cat = this.homeShopService.getCurrentParentCategoryValue;
-    if (cat) {
-      this.tabParentCategories(cat);
-    } else {
-      this.tabParentCategories(this.parentCategories[0]);
-    }
-
-  }
-
-
-  // loadData() {
-  //   this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
-
-  //   this.homeShopService.getForShop().subscribe(data => {
-  //     if (data && data.length) {
-  //       this.allCategories = data;
-  //       this.parentCategories = this.allCategories;
-  //       this.selectedCategory = this.parentCategories[0];
-
-  //       data = this.homeShopService.createProductClasses(this.allCategories);
-  //       this.homeShopService.updateCategoryListState(this.allCategories);
-  //       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
-  //     }
-  //   });
-  // }
 
   tabParentCategories(category: Category) {
     console.log(category);
@@ -180,19 +99,7 @@ export class HomeNavComponent implements OnInit {
       this.homeShopService.updateParentCategoryState(category);
     }
   }
-  tabChildCategories(category: Category) {
-    if (category && category.IsShop) {
-      category.Class = ['active'];
-      this.homeShopService.updateCategoryState(category);
-      this.goto(`shop/collections/${category.Name}`)
-    }
-    if (category && !category.IsShop) {
-      category.Class = ['active'];
-      this.homeShopService.updateCategoryState(category);
-      this.goto(`home/collections/${category.Name}`)
-    }
-    // this.toggleMenu(false);
-  }
+
 
   goto(url: string) {
     this.totop();

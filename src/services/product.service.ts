@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Company } from 'src/models/company.model';
 import { Order } from 'src/models';
 import { CompanyService } from './company.service';
+import { TyboShopModel } from 'src/models/TyboShop';
 
 
 @Injectable({
@@ -17,8 +18,14 @@ export class ProductService {
 
 
 
+  private shopProductsBehaviorSubject: BehaviorSubject<Product[]>;
+  public shopProductsObservable: Observable<Product[]>;
+
   private productListBehaviorSubject: BehaviorSubject<Product[]>;
   public productListObservable: Observable<Product[]>;
+
+  private tyboShopBehaviorSubject: BehaviorSubject<TyboShopModel>;
+  public tyboShopObservable: Observable<TyboShopModel>;
 
   private productBehaviorSubject: BehaviorSubject<Product>;
   public productObservable: Observable<Product>;
@@ -31,26 +38,48 @@ export class ProductService {
   ) {
     this.productListBehaviorSubject = new BehaviorSubject<Product[]>([]);
     // this.productListBehaviorSubject = new BehaviorSubject<Product[]>(JSON.parse(localStorage.getItem('ProductsList')) || []);
+
     this.productBehaviorSubject = new BehaviorSubject<Product>(JSON.parse(localStorage.getItem('currentProduct')) || null);
     this.productListObservable = this.productListBehaviorSubject.asObservable();
     this.productObservable = this.productBehaviorSubject.asObservable();
+
+    this.shopProductsBehaviorSubject = new BehaviorSubject<Product[]>([]);
+    this.shopProductsObservable = this.shopProductsBehaviorSubject.asObservable();
+
+    this.tyboShopBehaviorSubject =
+      new BehaviorSubject<TyboShopModel>(JSON.parse(localStorage.getItem('TyboShopModel')) || null);
+    this.tyboShopObservable = this.tyboShopBehaviorSubject.asObservable();
+
+
     this.url = environment.API_URL;
   }
 
+  public get currentTyboShopValue(): TyboShopModel {
+    return this.tyboShopBehaviorSubject.value;
+  }
   public get currentProductValue(): Product {
     return this.productBehaviorSubject.value;
   }
   public get getProductsListState(): Product[] {
     return this.productListBehaviorSubject.value;
   }
+  public get getShopProductsState(): Product[] {
+    return this.shopProductsBehaviorSubject.value;
+  }
 
   updateProductListState(products: Product[]) {
     this.productListBehaviorSubject.next(products);
-    // localStorage.setItem('ProductsList', JSON.stringify(products));
+  }
+  updateShopProductState(products: Product[]) {
+    this.shopProductsBehaviorSubject.next(products);
   }
   updateProductState(product: Product) {
     this.productBehaviorSubject.next(product);
     localStorage.setItem('currentProduct', JSON.stringify(product));
+  }
+  updateTyboShopState(tyboShop: TyboShopModel) {
+    this.tyboShopBehaviorSubject.next(tyboShop);
+    localStorage.setItem('TyboShopModel', JSON.stringify(tyboShop));
   }
   add(product: Product) {
     return this.http.post<Product>(`${this.url}/api/product/add-product.php`, product);
@@ -143,33 +172,50 @@ export class ProductService {
 
     })
   }
-  getAllActiveProductsSync() {
-    return this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php`);
-  }
-  getAllActiveProductsASync() {
-    this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php`).subscribe(data => {
+  // getAllActiveProductsSync(maxId:number) {
+  //   return this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php?MaxId=${maxId}`);
+  // }
+  getAllActiveProductsASync(maxId: number) {
+    this.http.get<Product[]>(`${this.url}/api/product/get-all-active-products-for-shop.php?MaxId=${maxId}`).subscribe(data => {
 
       if (data && data.length) {
-        const shops = this.companyService.geteCompanyListState;
-        if (shops && shops.length) {
-          data.map(x => x.Company = shops.find(x => x.CompanyId === x.CompanyId))
-          // data.forEach(prod => {
-          //   prod.Company = shops.find(x => x.CompanyId === prod.CompanyId);
-          // });
-
-
-          const productList = this.getProductsListState;
-          if (productList && JSON.stringify(productList) === JSON.stringify(data)) {
-            return;
-          }
-          else {
-            this.updateProductListState(data);
-          }
-        }
-
+        this.updateProductListState(data);
       }
     });
   }
+  getAllActiveProductsForCompany(companyId: string, maxId: number) {
+    this.http.get<Product[]>(
+      `${this.url}/api/product/get-all-active-products-for-shop-for-company.php?CompanyId=${companyId}&&MaxId=${maxId}`).subscribe(data => {
 
+        if (data && data.length) {
+          this.updateShopProductState(data);
+        }
+      });
+  }
+  getTyboShop(maxId: number) {
+    this.http.get<TyboShopModel>(
+      `${this.url}/api/product/get-all-tybo-shop.php?MaxId=${maxId}`).subscribe(data => {
+
+        if (data) {
+          this.updateTyboShopState(data);
+        }
+      });
+  }
+  getAllActiveByCategoryId(categoryId: string, maxId: number) {
+    return this.http.get<Product[]>(
+      `${this.url}/api/product/get-all-active-products-by-category-id.php?CategoryGuid=${categoryId}&&MaxId=${maxId}`)
+
+  }
+  getAllActiveByParentCategoryId(categoryId: string, maxId: number) {
+    return this.http.get<Product[]>(
+      `${this.url}/api/product/get-all-active-products-by-parent0category-id.php?CategoryGuid=${categoryId}&&MaxId=${maxId}`)
+
+  }
+
+
+  getAllActiveProductsForCompanySync(companyId: string, maxId: number) {
+    return this.http.get<Product[]>(
+      `${this.url}/api/product/get-all-active-products-for-shop-for-company.php?CompanyId=${companyId}&&MaxId=${maxId}`)
+  }
 
 }

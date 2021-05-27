@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category, Product, User } from 'src/models';
 import { Interaction } from 'src/models/interaction.model';
+import { TyboShopModel } from 'src/models/TyboShop';
 import { NavHistoryUX } from 'src/models/UxModel.model';
-import { ProductService, AccountService } from 'src/services';
+import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
 import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
 import { UxService } from 'src/services/ux.service';
+import { MAX_PAGE_SIZE } from 'src/shared/constants';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class ProductSectionComponent implements OnInit {
 
   selectedCategory: Category;
   searchString: string;
-  products: Product[];
+  products: Product[] = [];
   allProducts: Product[];
   user: User;
   navHistory: NavHistoryUX;
@@ -30,8 +32,12 @@ export class ProductSectionComponent implements OnInit {
   unisexCategory: Category;
   pickedProducts: Product[];
   newProducts: Product[];
+  tyboShopModel: TyboShopModel;
   allOtherProducts: Product[]; yPosition: number;
   newInScrollTo = 0;
+  pageNumber: number = 9999999;
+  showShowMore: boolean;
+  selectedProduct: Product;
   ;
 
   constructor(
@@ -40,6 +46,7 @@ export class ProductSectionComponent implements OnInit {
     private uxService: UxService,
     private router: Router,
     private accountService: AccountService,
+    private companyCategoryService: CompanyCategoryService,
 
   ) {
   }
@@ -52,7 +59,7 @@ export class ProductSectionComponent implements OnInit {
       this.navHistory = data;
     })
 
-    this.loadCategories();
+    this.getProducts();
 
 
     this.uxService.pageYPositionObservable.subscribe(data => {
@@ -67,11 +74,53 @@ export class ProductSectionComponent implements OnInit {
       }
     });
 
+    this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
+      if (data && data.length) {
+        this.unisexCategory = data.find(x => x.Name === "Unisex");
+      }
+    });
+  }
+
+
+  getProducts() {
+
+    this.tyboShopModel = this.productService.currentTyboShopValue;
+    this.productService.tyboShopObservable.subscribe(data => {
+      if (data) {
+        if (JSON.stringify(data.Products) !== JSON.stringify(this.products)) {
+          this.tyboShopModel = data;
+          this.products.push(...data.Products);
+          // this.selectedProduct = this.products[0];
+          this.allProducts = data.Products;
+          this.pickedProducts = data.Picked;
+          this.pageNumber = this.products[this.products.length - 1]?.Id || 99999;
+          this.showShowMore = data.Products.length >= MAX_PAGE_SIZE;
+        }
+      }
+    });
+
+    this.productService.getTyboShop(9999999);
+
+  }
+
+  loadMore() {
+    this.productService.getTyboShop(this.pageNumber);
+    // this.productService.getAllActiveByparentCategoryId(this.catergoryId, this.nextPage).subscribe(data => {
+    //   if (data && data.length) {
+    //     this.products.push(...data);
+    //     this.pageNumber = data[data.length - 1]?.Id || 99999999;
+    //     this.showShowMore = data.length >= MAX_PAGE_SIZE;
+    //   } else {
+    //     this.showShowMore = false;
+    //   }
+    // });
 
   }
 
   viewMore(product: Product) {
     if (product) {
+      this.selectedProduct = product;
+      return
       window.scroll(0, 0);
       this.homeShopService.updateProductState(product);
       this.uxService.keepNavHistory({

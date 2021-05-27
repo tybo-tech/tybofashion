@@ -1,8 +1,12 @@
 <div class="main-products">
+  <div class="go-back">
+    <button class="secondary" (click)="back()">Back</button>
+  </div>
   <div class="picked" *ngIf="products" style="padding-top: 0;">
     <app-bread [items]="items"></app-bread>
     <h4>
-      {{heading}}
+      <!-- {{heading}} -->
+      {{currentCategory?.Name}}
     </h4>
     <div class="products">
       <div class="product" *ngFor="let product of products; let i = index">
@@ -31,6 +35,9 @@
 
 
       </div>
+    </div>
+    <div class="next">
+      <button class="primary" *ngIf="showShowMore" (click)="loadMore()">Load more</button>
     </div>
   </div>
 
@@ -69,3 +76,4 @@
   </div>
 
 </div>
+<app-product-quick-view *ngIf="selectedProduct" [selectedProduct] = "selectedProduct" (showProduct)="selectedProduct = null"></app-product-quick-view>

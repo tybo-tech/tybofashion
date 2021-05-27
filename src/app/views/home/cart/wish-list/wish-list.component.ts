@@ -16,7 +16,9 @@ export class WishListComponent implements OnInit {
   user: User;
   interactions: Interaction[] = [];
   showAdd: boolean;
-
+  productsInteractions: Interaction[];
+  shopsInteractions: Interaction[];
+  tab = 1;
   constructor(
     private router: Router,
     private interactionService: InteractionService,
@@ -57,6 +59,8 @@ export class WishListComponent implements OnInit {
     this.interactionService.getInteractionsBySource(interactionSearchModel).subscribe(data => {
       if (data && data.length) {
         this.interactions = data;
+        this.productsInteractions = data.filter(x => x.InteractionBody !== 'Follow');
+        this.shopsInteractions = data.filter(x => x.InteractionBody === 'Follow');
       }
     });
 
@@ -65,7 +69,7 @@ export class WishListComponent implements OnInit {
     this.uxService.keepNavHistory({
       BackToAfterLogin: '/home/wishlist',
       BackTo: '/home/wishlist',
-       ScrollToProduct: null
+      ScrollToProduct: null
     });
     this.router.navigate(['shop/product', interaction.InteractionTargetId]);
   }

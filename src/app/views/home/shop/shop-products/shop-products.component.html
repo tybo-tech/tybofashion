@@ -1,3 +1,10 @@
+<!-- <h1>Shop</h1>
+<h1>Shop</h1>
+<h1>Shop</h1>
+<h1>Shop</h1>
+<h1>Shop</h1>
+<h1>{{company?.Name}}</h1>
+<h1>Shop</h1> -->
 
 <div class="main" *ngIf="company && products">
 
@@ -35,7 +42,7 @@
 <app-show-promotions *ngIf="promotions" [promotions]="promotions" [products]="products"></app-show-promotions>
 
 
-  <div class="catergories" *ngIf="catergories">
+  <!-- <div class="catergories" *ngIf="catergories">
     <button class="catergory" (click)="all()">
       All ({{allProducts.length}})
     </button>
@@ -44,12 +51,16 @@
       {{catergory.Name}}
     </button>
 
+  </div> -->
+
+
+  <div class="filters">
+    <div class="search-box">
+      <input class="" type="search" [(ngModel)]="searchString" placeholder="🔎 Search this shop.">
+    </div>
   </div>
-
-
-
   <div class="products" *ngIf="products">
-    <div class="product" *ngFor="let product of products; let i = index">
+    <div class="product" *ngFor="let product of products | searchproductshome:searchString;; let i = index">
       <div class="image">
         <img [src]="product.FeaturedImageUrl" alt="Awesome Sunglasses" (click)="viewMore(product)">
       </div>
@@ -75,6 +86,10 @@
 
 
     </div>
+  </div>
+
+  <div class="next" *ngIf="showShowMore">
+    <button class="primary" (click)="loadMore()">Load more</button>
   </div>
 </div>
 
@@ -138,3 +153,5 @@
   {{company | json}}
 
 </p> -->
+
+<app-product-quick-view *ngIf="selectedProduct" [selectedProduct] = "selectedProduct" (showProduct)="selectedProduct = null"></app-product-quick-view>

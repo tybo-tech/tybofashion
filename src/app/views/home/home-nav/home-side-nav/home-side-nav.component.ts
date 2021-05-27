@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { Category, NavigationModel, User } from 'src/models';
-import { AccountService, ProductService } from 'src/services';
+import { AccountService, CompanyCategoryService, ProductService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { UxService } from 'src/services/ux.service';
 
@@ -22,39 +22,23 @@ export class HomeSideNavComponent implements OnInit {
   @Input() showExistShop: boolean;
   user: User;
   parentCategory: Category;
+  allCategories: Category[];
   constructor(
     private router: Router,
     private homeShopService: HomeShopService,
     private uxService: UxService,
     private accountService: AccountService,
     private productService: ProductService,
+    private companyCategoryService: CompanyCategoryService,
 
   ) { }
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
-    this.homeShopService.categoryListObservable.subscribe(data => {
+    this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
       if (data) {
         this.categories = data;
-        const currentCategory = this.homeShopService.getCurrentParentCategoryValue || this.categories[0];
-        this.navItems = [];
-        this.categories.forEach(item => {
-          this.navItems.push({
-            Id: item.CategoryId,
-            Label: item.Name,
-            Url: '',
-            ImageUrl: '',
-            Tooltip: '',
-            Class: '',
-          });
-        });
-
-        if (this.homeShopService.getCurrentParentCategoryValue
-          && this.homeShopService.getCurrentParentCategoryValue.CategoryId) {
-          this.navItems.find(x => x.Id === this.homeShopService.getCurrentParentCategoryValue.CategoryId).Class = 'active';
-        } else {
-          this.navItems[0].Class = 'active';
-        }
+        this.allCategories = data;
       }
     });
 
@@ -126,32 +110,15 @@ export class HomeSideNavComponent implements OnInit {
   }
 
   loadCategories(name: string) {
-    if (this.parentCategory && this.parentCategory.Name === name && this.subCatergories) {
-      this.subCatergories = [];
-      this.parentCategory = undefined;
-      return;
-    }
-    this.subCatergories = [];
-    this.parentCategory = undefined;
-    this.productService.productListObservable.subscribe(products => {
-      if (products && products.length) {
-        const parentCategories = products.map(x => x.ParentCategory);
-        this.parentCategory = parentCategories.find(x => x.Name === name);
-        if (this.parentCategory) {
-          const categories = products.map(x => x.Category);
-          categories.forEach(item => {
-            if (item.ParentId === this.parentCategory.CategoryId && !this.subCatergories.find(x => x.CategoryId === item.CategoryId)) {
-              this.subCatergories.push(item);
-            }
-
-          });
-        }
-
-        // this.currentCategory = this.parentCategories.find(x => x.Name === "Unisex");
-        // this.products = this.allProducts.filter(x => x.PickId);
+    if (this.allCategories) {
+      this.parentCategory = this.allCategories.find(x => x.CategoryType === 'Parent'
+        && x.Name.toLocaleLowerCase() === name.toLocaleLowerCase())
+      if (this.parentCategory) {
+        this.subCatergories = this.allCategories.filter(x => x.ParentId
+          === this.parentCategory.CategoryId && x.ProductsImages && x.ProductsImages.length);
       }
+    }
 
-    });
   }
 
   tapChildCategory(category: any) {

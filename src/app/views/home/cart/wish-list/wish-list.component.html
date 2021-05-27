@@ -9,7 +9,7 @@
 
 
       <div class="name">
-        My wishlist
+        My favorites
       </div>
 
       <div class="btn-menu">
@@ -18,10 +18,19 @@
     </div>
   </div>
 
-
-  <div class="product-section col-1-of-1">
+  <div class="tabs">
+    <div class="tab">
+      <button class="secondary" *ngIf="tab == 1" (click)="tab = 1">Products</button>
+      <button class="tertiary" *ngIf="tab == 2" (click)="tab = 1">Products</button>
+    </div>
+    <div class="tab">
+      <button class="tertiary" *ngIf="tab == 1" (click)="tab = 2">Shops</button>
+      <button class="secondary" *ngIf="tab == 2" (click)="tab = 2">Shops</button>
+    </div>
+  </div>
+  <div class="product-section col-1-of-1" *ngIf="tab == 1">
     <div class="mt5" *ngIf="interactions">
-      <div class="shops" *ngFor="let item of interactions" (click)="select(item)">
+      <div class="shops" *ngFor="let item of productsInteractions">
         <div class="shop">
           <div class="icon">
             <img *ngIf="item.ImageUrl" [src]="item.ImageUrl" alt="">
@@ -30,11 +39,43 @@
           <div class="item">
             <h3>
               {{item.Name}}
-              <span class="price">
+              <span class="price" *ngIf="item.InteractionBody != 'Follow'">
                 {{item.Price  | currency:'R'}}
               </span>
-              <span class="cta">
-              View product
+              <span class="cta" *ngIf="item.InteractionBody == 'Follow'" (click)="goto(item.InteractionTargetId)">
+                Go to shop
+              </span>
+              <span class="cta" *ngIf="item.InteractionBody != 'Follow'" (click)="select(item)">
+                View product
+              </span>
+            </h3>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="product-section col-1-of-1" *ngIf="tab == 2">
+    <div class="mt5" *ngIf="interactions">
+      <div class="shops" *ngFor="let item of shopsInteractions">
+        <div class="shop">
+          <div class="icon">
+            <img *ngIf="item.ImageUrl" [src]="item.ImageUrl" alt="">
+            <img *ngIf="!item.ImageUrl" src="assets/images/shop.svg" alt="">
+          </div>
+          <div class="item">
+            <h3>
+              {{item.Name}}
+              <span class="price" *ngIf="item.InteractionBody != 'Follow'">
+                {{item.Price  | currency:'R'}}
+              </span>
+              <span class="cta" *ngIf="item.InteractionBody == 'Follow'" (click)="goto(item.InteractionTargetId)">
+                Go to shop
+              </span>
+              <span class="cta" *ngIf="item.InteractionBody != 'Follow'" (click)="select(item)">
+                View product
               </span>
             </h3>
           </div>

@@ -1,30 +1,28 @@
-import { AccountService, OrderService, ProductService } from 'src/services';
-import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
-import { Category, Order, Orderproduct, Product, User } from 'src/models';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { HomeShopService } from 'src/services/home-shop.service';
-import { ProductVariation } from 'src/models/product.variation.model';
-import { Location } from '@angular/common';
-import { Company } from 'src/models/company.model';
-import { DomSanitizer } from '@angular/platform-browser'
-import { ProductVariationOption } from 'src/models/product.variation.option.model';
-import { Images } from 'src/models/images.model';
-import { CompanyService } from 'src/services/company.service';
-import { UxService } from 'src/services/ux.service';
-import { INTERRACTION_TYPE_LIKE, ORDER_TYPE_SALES } from 'src/shared/constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Order, Orderproduct, Product, User } from 'src/models';
+import { Company } from 'src/models/company.model';
+import { Images } from 'src/models/images.model';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
+import { ProductVariation } from 'src/models/product.variation.model';
+import { ProductVariationOption } from 'src/models/product.variation.option.model';
+import { NavHistoryUX, BreadModel } from 'src/models/UxModel.model';
+import { OrderService, AccountService, ProductService } from 'src/services';
+import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
-import { BreadModel, NavHistoryUX } from 'src/models/UxModel.model';
-
+import { UxService } from 'src/services/ux.service';
+import { ORDER_TYPE_SALES, INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
 
 @Component({
-  selector: 'app-product-section-detail',
-  templateUrl: './product-section-detail.component.html',
-  styleUrls: ['./product-section-detail.component.scss']
+  selector: 'app-product-quick-view',
+  templateUrl: './product-quick-view.component.html',
+  styleUrls: ['./product-quick-view.component.scss']
 })
-export class ProductSectionDetailComponent implements OnInit, OnChanges {
-  @Output() navAction: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class ProductQuickViewComponent implements OnInit {
+  @Input() selectedProduct: Product;
+  @Output() showProduct: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() checkoutOrShopMoreEvent: EventEmitter<string> = new EventEmitter<string>();
 
   product: Product;
@@ -67,10 +65,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private homeShopService: HomeShopService,
     private orderService: OrderService,
-    private location: Location,
     private sanitizer: DomSanitizer,
     private router: Router,
     private accountService: AccountService,
@@ -80,95 +76,84 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
 
 
   ) {
-    this.activatedRoute.params.subscribe(r => {
-      this.productSlug = r.id;
-      this.loadScreen();
-    });
   }
 
   ngOnInit() {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        window.location.reload();
-      }, 0)
-
-    });
+    this.loadScreen();
   }
 
   loadScreen() {
     this.items = [];
     this.user = this.accountService.currentUserValue;
-    this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
-
-    this.productService.getProductSync(this.productSlug).subscribe(data => {
-      if (data && data.ProductId) {
-        this.product = data;
-        this.fullLink = `${this.baseUrl}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
-        if (this.product) {
-          this.sanitize();
-          this.company = this.product.Company;
-          this.tittle = `More from ${this.company.Name}`;
-          this.loadCategories();
-          this.items.push(
-            {
-              Name: 'Home',
-              Link: ``
-            },
-            {
-              Name: this.company.Name.substr(0, 30),
-              Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
-            },
-
-            // {
-            //   Name: this.product.CategoryName.substr(0,50),
-            //   Link: `home/collections/picks`
-            // },
-            {
-              Name: this.product.Name.substr(0, 50),
-              Link: `shop/product/${this.product.ProductSlug || this.product.ProductId}`
+    if (this.selectedProduct) {
+      this.productService.getProductSync(this.selectedProduct.ProductSlug).subscribe(data=>{
+        if(data){
+          this.product = data;
+          this.fullLink = `${this.baseUrl}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
+          if (this.product) {
+            this.sanitize();
+            this.company = this.product.Company;
+            this.tittle = `More from ${this.company.Name}`;
+            // this.loadCategories();
+            this.items.push(
+              {
+                Name: 'Home',
+                Link: ``
+              },
+              {
+                Name: this.company.Name.substr(0, 30),
+                Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
+              },
+    
+              // {
+              //   Name: this.product.CategoryName.substr(0,50),
+              //   Link: `home/collections/picks`
+              // },
+              {
+                Name: this.product.Name.substr(0, 50),
+                Link: `shop/product/${this.product.ProductSlug || this.product.ProductId}`
+              }
+    
+            )
+            if (this.company && this.company.Promotions) {
+              this.product.SalePrice = Number(this.product.RegularPrice) - (Number(this.product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
+              if (Number(this.product.SalePrice) < Number(this.product.RegularPrice)) {
+                this.product.OnSale = true;
+              }
+    
             }
-
-          )
-          if (this.company && this.company.Promotions) {
-            this.product.SalePrice = Number(this.product.RegularPrice) - (Number(this.product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
-            if (Number(this.product.SalePrice) < Number(this.product.RegularPrice)) {
-              this.product.OnSale = true;
+            this.sizes = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Size');
+            this.colors = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Color');
+            if (this.product.Images && this.product.Images.length) {
+              this.product.AllImages = this.product.Images;
+              this.product.Images = [];
+              if (this.product.Images[0]) {
+                this.product.Images[0].Class = ['active'];
+                this.product.FeaturedImageUrl = this.product.Images[0].Url
+              }
+    
+    
+              if (this.colors && this.colors.ProductVariationOptions) {
+                this.colors.ProductVariationOptions.forEach(item => {
+                  item.Images = this.product.AllImages.filter(x => x.OptionId === item.Id);
+                });
+                this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.Images && x.Images.length > 0)
+              }
             }
-
-          }
-          this.sizes = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Size');
-          this.colors = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Color');
-          if (this.product.Images && this.product.Images.length) {
-            this.product.AllImages = this.product.Images;
-            this.product.Images = [];
-            if (this.product.Images[0]) {
-              this.product.Images[0].Class = ['active'];
-              this.product.FeaturedImageUrl = this.product.Images[0].Url
+    
+            if (this.colors && this.colors.ProductVariationOptions && this.colors.ProductVariationOptions.length) {
+              this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.ShowOnline === 'show')
+              this.selectOption(this.colors.ProductVariationOptions[0], 'Coulor');
             }
-
-
-            if (this.colors && this.colors.ProductVariationOptions) {
-              this.colors.ProductVariationOptions.forEach(item => {
-                item.Images = this.product.AllImages.filter(x => x.OptionId === item.Id);
-              });
-              this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.Images && x.Images.length > 0)
+            if (this.sizes && this.sizes.ProductVariationOptions && this.sizes.ProductVariationOptions.length) {
+              this.selectOption(this.sizes.ProductVariationOptions[0], 'Size');
             }
-          }
-
-          if (this.colors && this.colors.ProductVariationOptions && this.colors.ProductVariationOptions.length) {
-            this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.ShowOnline === 'show')
-            this.selectOption(this.colors.ProductVariationOptions[0], 'Coulor');
-          }
-          if (this.sizes && this.sizes.ProductVariationOptions && this.sizes.ProductVariationOptions.length) {
-            this.selectOption(this.sizes.ProductVariationOptions[0], 'Size');
           }
         }
+      })
+   
 
-      }
+
 
 
       this.homeShopService.updatePageMovesIntroTrueFalse(false);
@@ -199,17 +184,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       this.carttItems = this.order.Orderproducts && this.order.Orderproducts.length || 0;
       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
       this.getInteractions();
-    })
-
-
-
-
-    // this.updateTotalPrice(this.product.Quantity);
-    this.uxService.uxNavHistoryObservable.subscribe(data => {
-      this.navHistory = data;
-    });
-
-
+    }
   }
 
   sanitize() {
@@ -263,11 +238,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   onNavItemClicked(event) { }
 
   back() {
-    if (this.navHistory && this.navHistory.BackTo) {
-      this.router.navigate([this.navHistory.BackTo || this.navHistory.BackTo]);
-    } else {
-      this.router.navigate([this.product.CompanyId]);
-    }
+    this.showProduct.emit(false);
   }
   bookmark() { }
 
@@ -479,14 +450,13 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     })
   }
 
-  loadCategories() {
-    this.productService.productListObservable.subscribe(products => {
-      if (products && products.length) {
-        this.otherproducts = products.filter(x => x.CompanyId === this.company.CompanyId);
-      }
-    });
+  // loadCategories() {
+  //   this.productService.productListObservable.subscribe(products => {
+  //     if (products && products.length) {
+  //       this.otherproducts = products.filter(x => x.CompanyId === this.company.CompanyId);
+  //     }
+  //   });
 
 
-  }
-
+  // }
 }

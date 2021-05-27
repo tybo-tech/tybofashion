@@ -1,7 +1,7 @@
 <div class="main-products" *ngIf="products && products.length">
-  <div class="full-image">
-    <img [src]="products[0].ParentCategory.ImageUrl" class="pc-only" alt="">
-    <img [src]="products[0].ParentCategory.PhoneBanner" class="phone-only" alt="">
+  <div class="full-image" *ngIf="parentCategory">
+    <img [src]="parentCategory.ImageUrl" class="pc-only" alt="">
+    <img [src]="parentCategory.PhoneBanner" class="phone-only" alt="">
   </div>
 
 
@@ -16,6 +16,9 @@
       View shops
     </div>
   </div>
+
+  <app-shop-by-catergory *ngIf="parentCategory" [parentId]="parentCategory.CategoryId"></app-shop-by-catergory>
+
 
   <div class="picked">
     <h4>
@@ -71,6 +74,10 @@
 
       </div>
     </div>
+
+    <div class="next">
+      <button class="primary" *ngIf="showShowMore" (click)="loadMore()">Load more</button>
+    </div>
   </div>
 
 
@@ -113,3 +120,4 @@
 
 
 </div>
+<app-product-quick-view *ngIf="selectedProduct" [selectedProduct] = "selectedProduct" (showProduct)="selectedProduct = null"></app-product-quick-view>

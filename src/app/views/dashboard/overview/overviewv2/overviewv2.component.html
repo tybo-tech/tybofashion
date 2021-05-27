@@ -50,11 +50,13 @@
     Orders overview <span (click)="goto('create-order')">New order</span>
   </h3>
 
-  <app-statistics></app-statistics>
+  <app-statistics *ngIf="user && user.UserType === ADMIN"></app-statistics>
 
 
 
-  <app-product-list-cards></app-product-list-cards>
+  <app-product-list-cards *ngIf="user && user.UserType === ADMIN"></app-product-list-cards>
+
+  <app-super-overview *ngIf="user && user.UserType === SUPER"></app-super-overview>
 
 
 </div>

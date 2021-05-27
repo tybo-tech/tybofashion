@@ -79,7 +79,6 @@ export class PromotionTextPipe implements PipeTransform {
     // Buy X get X
     if (promotion.PromoType === this.DISCOUNT_TYPES[3]) {
       sammary = '';
-      debugger
 
       if (promotion.AppliesValue && promotion.AppliesValue.length > 2 && products && products.length) {
         this.selectedProductsIds = JSON.parse(promotion.AppliesValue);

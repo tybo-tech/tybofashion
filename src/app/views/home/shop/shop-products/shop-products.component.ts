@@ -11,7 +11,7 @@ import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
 import { ProductService } from 'src/services/product.service';
 import { UxService } from 'src/services/ux.service';
-import { ADMIN, INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
+import { ADMIN, INTERRACTION_TYPE_LIKE, MAX_PAGE_SIZE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-shop-products',
@@ -20,7 +20,7 @@ import { ADMIN, INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
 })
 export class ShopProductsComponent implements OnInit {
 
-  @Input() promotions: Promotion[];
+  promotions: Promotion[];
   @Output() selectCategoryEvent: EventEmitter<Category> = new EventEmitter<Category>();
   @Output() viewProductEvent: EventEmitter<Product> = new EventEmitter<Product>();
   shopSlug: any;
@@ -38,7 +38,10 @@ export class ShopProductsComponent implements OnInit {
   tertiaryCategories: Category[] = [];
   shopOwner: User;
   ADMIN = ADMIN;
-
+  searchString: string
+  nextPage = 999999;
+  showShowMore: boolean;
+  selectedProduct: Product;
   constructor(
     private homeShopService: HomeShopService,
     private productService: ProductService,
@@ -53,19 +56,50 @@ export class ShopProductsComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe(r => {
       this.shopSlug = r.id;
+      this.user = this.accountService.currentUserValue;
+      this.getProducts(this.nextPage);
+
+
+
+      this.uxService.uxNavHistoryObservable.subscribe(data => {
+        this.navHistory = data;
+      })
+
     });
   }
 
   ngOnInit() {
-    this.user = this.accountService.currentUserValue;
-    this.loadCategories();
 
 
+  }
 
-    this.uxService.uxNavHistoryObservable.subscribe(data => {
-      this.navHistory = data;
-    })
+  getProducts(maxId: number) {
+    this.products = this.productService.getShopProductsState;
+    this.allProducts = this.productService.getShopProductsState;
+    this.productService.shopProductsObservable.subscribe(data => {
+      if (data && data.length) {
+        if (JSON.stringify(data) !== JSON.stringify(this.products)) {
+          this.products = data;
+          this.allProducts = data;
+          this.company = this.products[0].Company;
+          this.nextPage = this.products[this.products.length - 1]?.Id || 99999;
+          this.promotions = this.company.Promotions || [];
+          this.promotions.map(x => x.Style = { background: x.Bg, color: x.Color });
 
+          // alert(this.company.Name);
+          this.getInteractions();
+          this.getShopOwner();
+        } else {
+          this.company = this.products[0].Company;
+          this.nextPage = this.products[this.products.length - 1]?.Id || 99999;
+          this.promotions = this.company.Promotions || [];
+          this.promotions.map(x => x.Style = { background: x.Bg, color: x.Color });
+        }
+        this.showShowMore = data.length >= MAX_PAGE_SIZE;
+      }
+    });
+
+    this.productService.getAllActiveProductsForCompany(this.shopSlug, maxId);
 
   }
   getShopOwner() {
@@ -76,6 +110,17 @@ export class ShopProductsComponent implements OnInit {
         }
       });
     }
+
+  }
+
+  loadMore() {
+    this.productService.getAllActiveProductsForCompanySync(this.shopSlug, this.nextPage).subscribe(data => {
+      if (data && data.length) {
+        this.products.push(...data);
+        this.nextPage = data[data.length - 1]?.Id || 99999999;
+        this.showShowMore = data.length >= MAX_PAGE_SIZE;
+      }
+    });
 
   }
   // getCompany() {
@@ -91,6 +136,8 @@ export class ShopProductsComponent implements OnInit {
 
   viewMore(product: Product) {
     if (product) {
+      this.selectedProduct = product;
+      return
       this.homeShopService.updateProductState(product);
       this.uxService.keepNavHistory(null);
       this.router.navigate(['shop/product', product.ProductSlug])
@@ -135,9 +182,9 @@ export class ShopProductsComponent implements OnInit {
         InteractionId: "",
         InteractionType: "Like",
         InteractionSourceId: this.user.UserId,
-        InteractionTargetId: this.company.CompanyId,
+        InteractionTargetId: this.company.Slug,
         TraceId: '1',
-        InteractionBody: "1",
+        InteractionBody: "Follow",
         Color: '',
         Size: '',
         Price: 0,
@@ -198,7 +245,7 @@ export class ShopProductsComponent implements OnInit {
 
     this.productService.productListObservable.subscribe(products => {
       if (products && products.length) {
-        const pro: Product = products.find(x => x.Company && x.Company.Slug === this.shopSlug || x.Company &&  x.Company.CompanyId === this.shopSlug);
+        const pro: Product = products.find(x => x.Company && x.Company.Slug === this.shopSlug || x.Company && x.Company.CompanyId === this.shopSlug);
         if (pro) {
           this.company = pro.Company;
           this.promotions = this.company.Promotions || [];
@@ -227,12 +274,12 @@ export class ShopProductsComponent implements OnInit {
               }
             }
           });
-  
+
           if (catergories && catergories.length) {
             this.catergories = catergories;
           }
         }
-      
+
       }
     });
 
