@@ -1,10 +1,14 @@
 <div class="main-products">
-  <div class="full-image" *ngIf="unisexCategory">
+
+  <div class="global-tabs">
+    <div class="tab" *ngFor="let item of TABS" [ngClass]="item.Classes" (click)="tab(item)">{{item.Name}}</div>
+  </div>
+  <!-- <div class="full-image" *ngIf="unisexCategory">
     <img [src]="unisexCategory.ImageUrl" class="pc-only" alt="">
     <img [src]="unisexCategory.PhoneBanner" class="phone-only" alt="">
-  </div>
+  </div> -->
 
-
+<!-- 
   <div class="collections">
     <div class="collection" (click)="goto('home/shop-for/Ladies')">
       Ladies collection
@@ -12,7 +16,10 @@
     <div class="collection" (click)="goto('home/shop-for/Mens')">
       Men's collection
     </div>
-  </div>
+  </div> -->
+  <app-shop-by-catergory *ngIf="currentTab.Name === TABS[0].Name && ladiesCategory" [parentId] = "ladiesCategory.CategoryId" [label]="currentTab.Name"></app-shop-by-catergory>
+  <app-shop-by-catergory *ngIf="currentTab.Name === TABS[1].Name && menCategory" [parentId] = "menCategory.CategoryId" [label]="menCategory.Name"></app-shop-by-catergory>
+
 
   <div class="picked" *ngIf="pickedProducts && pickedProducts.length">
     <h4>
@@ -42,7 +49,6 @@
     </div>
   </div>
 
-  <app-shop-by-catergory></app-shop-by-catergory>
 
 
   <div class="picked" *ngIf="products && products.length" style="display: none;">
@@ -86,7 +92,7 @@
 
   <div class="picked" *ngIf="products && products.length">
     <h4>
-      All products
+      Discover fashion
     </h4>
 
     <div class="filters">
@@ -126,7 +132,7 @@
   </div>
 
   <div class="next">
-    <button class="primary" *ngIf="showShowMore" (click)="loadMore()">Load more</button>
+    <button class="primary load-more" *ngIf="showShowMore" (click)="loadMore()">Load more</button>
   </div>
 
 

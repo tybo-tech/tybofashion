@@ -1,9 +1,17 @@
 @import '../../../../../../assets/styles/color';
 
 .main {
-  background: $white;
+  // background: $white;
   margin: 1em 0;
   padding: 1em;
+  padding: 1em $padding;
+  animation: moveInRight .2s ease-out 0s;
+  animation-fill-mode: backwards;
+
+  @media only screen and (max-width: 600px) {
+    padding: 1em 0;
+  }
+
 
   .flexy {
     overflow-x: scroll;
@@ -11,30 +19,60 @@
   }
 
   .list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+
+    @media only screen and (max-width: 600px) {
+      grid-template-columns: repeat(1, 100%);
+      grid-template-columns: repeat(2, 50%);
+      grid-template-columns: repeat(3, 33%);
+
+    }
 
     .catergory {
-      width: 10em;
-      height: 7em;
+      width: 98%;
+      height: 18em;
       //   background: red;
       flex: 0 0 auto;
-      border: 1px solid $cloud;
+      // border: 5px solid $black;
       text-align: center;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       position: relative;
       margin-right: 1em;
+      padding: 0;
+      cursor: pointer;
+      margin: 1em auto;
+      border: 3px solid $white;
+      // background: linear-gradient(135deg, rgba(0, 0, 0, 0.534), rgba(128, 128, 128, 0.383)),;
+
+
+      @media only screen and (max-width: 600px) {
+        width: 96%;
+        height: 8em;
+        margin: .4em 1em;
+      }
 
       span {
         display: block;
-        width: 100%;
-        background: $pop;
-        color: $black;
-        font-weight: 600;
-        position: absolute;
+        width: fit-content;
+        background: #00000034;
+        color: $white;
+        font-weight: 700;
+        position: relative;
         left: 0;
         bottom: 0;
+        font-size: 1.2em;
+        padding: .4em;
+        margin: 7em auto;
+        text-transform: uppercase;
+
+        @media only screen and (max-width: 600px) {
+          margin: 3.5em auto;
+          font-size: .8em;
+
+        }
       }
     }
   }

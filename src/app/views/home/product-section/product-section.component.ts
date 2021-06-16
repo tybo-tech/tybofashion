@@ -9,7 +9,7 @@ import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
 import { UxService } from 'src/services/ux.service';
-import { MAX_PAGE_SIZE } from 'src/shared/constants';
+import { MAX_PAGE_SIZE, TABS } from 'src/shared/constants';
 
 
 @Component({
@@ -18,7 +18,8 @@ import { MAX_PAGE_SIZE } from 'src/shared/constants';
   styleUrls: ['./product-section.component.scss']
 })
 export class ProductSectionComponent implements OnInit {
-
+  TABS = TABS;
+  currentTab = TABS[0];
   selectedCategory: Category;
   searchString: string;
   products: Product[] = [];
@@ -38,6 +39,8 @@ export class ProductSectionComponent implements OnInit {
   pageNumber: number = 9999999;
   showShowMore: boolean;
   selectedProduct: Product;
+  menCategory: Category;
+  ladiesCategory: Category;
   ;
 
   constructor(
@@ -59,7 +62,6 @@ export class ProductSectionComponent implements OnInit {
       this.navHistory = data;
     })
 
-    this.getProducts();
 
 
     this.uxService.pageYPositionObservable.subscribe(data => {
@@ -76,14 +78,16 @@ export class ProductSectionComponent implements OnInit {
 
     this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
       if (data && data.length) {
-        this.unisexCategory = data.find(x => x.Name === "Unisex");
+        this.unisexCategory = data.find(x => x.Name.trim() === "Unisex");
+        this.menCategory = data.find(x => x.Name.trim() === "Mens");
+        this.ladiesCategory = data.find(x => x.Name.trim() === "Ladies");
+        this.getProducts();
       }
     });
   }
 
 
   getProducts() {
-
     this.tyboShopModel = this.productService.currentTyboShopValue;
     this.productService.tyboShopObservable.subscribe(data => {
       if (data) {
@@ -228,5 +232,10 @@ export class ProductSectionComponent implements OnInit {
   }
   veiwAllPicks() {
     this.goto(`home/collections/picks`)
+  }
+  tab(item) {
+    this.currentTab = item;
+    this.TABS.map(x => x.Classes = []);
+    item.Classes = ['active'];
   }
 }

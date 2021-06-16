@@ -50,23 +50,26 @@
         </div>
       </div>
     </div>
-    <div class="no-child med">
-      <div class="black-label">
 
+    <div class="no-child">
+      <div class="black-label">
         <p>
-          Sex
+         Gender
         </p>
       </div>
-      <div class="link" (click)="name()">
-        <select [(ngModel)]="product.ParentCategoryGuid" *ngIf="parentCategories && parentCategories.length"
+      <div class="link" >
+        <div class="link" >
+          <select [(ngModel)]="product.ParentCategoryGuid" *ngIf="parentCategories && parentCategories.length"
           (change)="selectCategory($event.target.value)">
           <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
         </select>
+        </div>
       </div>
     </div>
+  
 
 
-    <div class="no-child med">
+    <div class="no-child">
       <div class="black-label">
         <p>
           Catergory
@@ -80,7 +83,7 @@
         </select>
       </div>
     </div>
-
+<!-- 
     <div class="no-child med">
       <div class="black-label">
         <p>
@@ -94,7 +97,119 @@
           <option *ngFor="let cc of tertiaryCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
         </select>
       </div>
+    </div> -->
+
+    <div class="no-child" *ngIf="product.IsJustInTime != 'Just in time'">
+      <div class="black-label">
+        Total Stock In Hand
+      </div>
+      <div class="link" (click)="name()">
+        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
+      </div>
     </div>
+  </div>
+
+
+
+
+  <div class="basic">
+    <h3 class="header-label">
+      Product options.
+    </h3>
+    <div class="no-child col-3">
+      <div class="black-label">
+        Colours
+      </div>
+      <div class="link"  (click)="toggleSetUpVariations()">
+        <div class="options" *ngIf="colors">
+          <!-- <div *ngFor="let option of colors.ProductVariationOptions">
+            <div *ngIf="!option.ImageUrl || !option.ImageUrl.length" class="option color-btn"
+              [ngStyle]="{background: option.Description}"></div>
+          </div> -->
+          <button class="btn-color" *ngFor="let option of colors.ProductVariationOptions"
+            [ngStyle]="{'background-color':option.Description, 'background-image': option.ImageUrl? 'url(' + option.ImageUrl + ')' : 'none'}"
+            [ngClass]="option.Class">
+          </button>
+        </div>
+
+      </div>
+
+      <div class="action">
+        <span class="material-icons pointer">
+          chevron_right
+        </span>
+      </div>
+    </div>
+    <div class="no-child col-3">
+      <div class="black-label">
+        <p>
+          Sizes
+        </p>
+      </div>
+      <div class="link"  (click)="toggleSetUpVariations()">
+        <div class="options" *ngIf="sizes">
+          <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn">
+            {{option.OptionName}}
+          </div>
+          <div class="option">
+            <span class="material-icons icon-more">
+              chevron_right
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="action">
+        <span class="material-icons pointer">
+          chevron_right
+        </span>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+
+
+  <div class="basic" *ngIf="colors">
+    <h3 class="header-label">
+      Product images.
+    </h3>
+    <div class="">
+      <div *ngFor="let option of colors.ProductVariationOptions" class="color-section"
+        [ngStyle]="{'border-color': option.Description}">
+        <div class="color-grid">
+          <div class="col">
+            <h5>
+              Images for {{option.OptionName}}
+            </h5>
+          </div>
+
+          <div class="col">
+            <div class="col-btn" *ngIf="option.ShowOnline == 'show'" (click)="toggleShowOptionOnline(option,'hide')">
+              Showing online
+            </div>
+            <div class="col-btn" *ngIf="option.ShowOnline == 'hide'" (click)="toggleShowOptionOnline(option,'show')">
+              Hidden online
+            </div>
+          </div>
+        </div>
+        <app-images *ngIf="product" [images]="product.Images" [user]="user" [product]="product" [optionId]="option.Id"
+          (onUploadFinished)="saveImage($event)" (deleteImageEvent)="deleteImage($event)"
+          (setMianImageEvent)="setMianImage($event)" (showImageEvent)="showImage($event)"></app-images>
+      </div>
+      <div class="option">
+
+      </div>
+    </div>
+
+    <!-- <div class="notes">
+      <i> Tap on the image to set as main picture</i>
+    </div> -->
+  </div>
+
+  <div class="basic">
 
     <div class="no-child long">
       <div class="black-label">
@@ -200,116 +315,7 @@
         <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
       </div>
     </div>
-    <div class="no-child med" *ngIf="product.IsJustInTime != 'Just in time'">
-      <div class="black-label">
-        Total Stock In Hand
-      </div>
-      <div class="link" (click)="name()">
-        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
-      </div>
-    </div>
   </div>
-
-
-
-
-  <div class="basic">
-    <h3 class="header-label">
-      Product options.
-    </h3>
-    <div class="no-child col-3">
-      <div class="black-label">
-        Colours
-      </div>
-      <div class="link">
-        <div class="options" *ngIf="colors">
-          <!-- <div *ngFor="let option of colors.ProductVariationOptions">
-            <div *ngIf="!option.ImageUrl || !option.ImageUrl.length" class="option color-btn"
-              [ngStyle]="{background: option.Description}"></div>
-          </div> -->
-          <button class="btn-color" *ngFor="let option of colors.ProductVariationOptions"
-            [ngStyle]="{'background-color':option.Description, 'background-image': option.ImageUrl? 'url(' + option.ImageUrl + ')' : 'none'}"
-            [ngClass]="option.Class">
-          </button>
-        </div>
-
-      </div>
-
-      <div class="action">
-        <span class="material-icons pointer" (click)="toggleSetUpVariations()">
-          chevron_right
-        </span>
-      </div>
-    </div>
-    <div class="no-child col-3">
-      <div class="black-label">
-        <p>
-          Sizes
-        </p>
-      </div>
-      <div class="link" (click)="name()">
-        <div class="options" *ngIf="sizes">
-          <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn">
-            {{option.OptionName}}
-          </div>
-          <div class="option">
-            <span class="material-icons icon-more">
-              chevron_right
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="action">
-        <span class="material-icons pointer" (click)="toggleSetUpVariations()">
-          chevron_right
-        </span>
-      </div>
-    </div>
-
-
-
-
-  </div>
-
-
-
-  <div class="basic" *ngIf="colors">
-    <h3 class="header-label">
-      Product images.
-    </h3>
-    <div class="">
-      <div *ngFor="let option of colors.ProductVariationOptions" class="color-section"
-        [ngStyle]="{'border-color': option.Description}">
-        <div class="color-grid">
-          <div class="col">
-            <h5>
-              Images for {{option.OptionName}}
-            </h5>
-          </div>
-
-          <div class="col">
-            <div class="col-btn" *ngIf="option.ShowOnline == 'show'" (click)="toggleShowOptionOnline(option,'hide')">
-              Showing online
-            </div>
-            <div class="col-btn" *ngIf="option.ShowOnline == 'hide'" (click)="toggleShowOptionOnline(option,'show')">
-              Hidden online
-            </div>
-          </div>
-        </div>
-        <app-images *ngIf="product" [images]="product.Images" [user]="user" [product]="product" [optionId]="option.Id"
-          (onUploadFinished)="saveImage($event)" (deleteImageEvent)="deleteImage($event)"
-          (setMianImageEvent)="setMianImage($event)" (showImageEvent)="showImage($event)"></app-images>
-      </div>
-      <div class="option">
-
-      </div>
-    </div>
-
-    <!-- <div class="notes">
-      <i> Tap on the image to set as main picture</i>
-    </div> -->
-  </div>
-
 
   <div class="basic" *ngIf="product && product.ProductCombinations && product.IsJustInTime != 'Just in time'">
     <h3 class="header-label">

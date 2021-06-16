@@ -1,4 +1,5 @@
 export const CUSTOMER = 'Customer';
+export const COMPANY_EMIAL = 'info@tybofashion.co.za, accounts@tybo.co.za, mrnnmthembu@gmail.com';
 export const IMAGE_CROP_SIZE = 1500;
 export const ADMIN = 'Admin';
 export const SUPER = 'Super';
@@ -72,6 +73,20 @@ export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Mu
 export const CURRENCY = 'ZAR';
 export const COMPANY_TYPE = 'Fashion';
 export const MAX_PAGE_SIZE = 20;
+export const TABS = [
+    {
+        Name: 'Ladies',
+        Classes: ['active'],
+    },
+    {
+        Name: `Mens's`,
+        Classes: [''],
+    },
+    {
+        Name: 'Shops',
+        Classes: [''],
+    }
+];
 
 
 

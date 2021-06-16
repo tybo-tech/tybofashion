@@ -418,21 +418,44 @@
 .notice {
   background: $black;
   color: $pop;
-  text-align: center;
-  padding: .4em;
+  text-align: left;
+  padding: .5em;
+
+  .subs {
+    // display: grid;
+    // grid-template-columns: 6em 6em auto;
+
+    span {
+      display: block;
+      width: fit-content;
+      margin: .2em auto;
+      padding: .35em 1em;
+    }
+
+    .gender {
+      background: $white;
+      color: $black;
+      border-radius: .2em;
+      font-weight: 600;
+    }
+  }
+
 }
 
 
-.sub-carts{
+.sub-carts {
   display: grid;
-  grid-template-columns: repeat(4,20%);
+  grid-template-columns: repeat(4, 20%);
   position: fixed;
   width: 100%;
   background: $charcoal;
   padding: .5em;
-  button{
+
+  button {
     width: 100%;
     display: block;
     width: 12em;
   }
 }
+
+

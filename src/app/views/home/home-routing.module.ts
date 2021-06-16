@@ -22,9 +22,13 @@ import { MyCartComponent } from './cart/my-cart/my-cart.component';
 import { PaymentCancelledComponent } from './cart/payment-cancelled/payment-cancelled.component';
 import { ShopingSuccesfulComponent } from './cart/shoping-succesful/shoping-succesful.component';
 import { WishListComponent } from './cart/wish-list/wish-list.component';
-import { ContactComponent } from './contact/contact.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { FiitingRoomComponent } from './fiiting-room/fiiting-room.component';
+import { AboutComponent } from './general/about/about.component';
+import { ContactComponent } from './general/contact/contact.component';
+import { FooterComponent } from './general/footer/footer.component';
+import { ReturnsPolicyComponent } from './general/returns-policy/returns-policy.component';
+import { TermsComponent } from './general/terms/terms.component';
 import { HomeLandingComponent } from './home-landing';
 import { CustomerDesignComponent } from './home-landing/customer-design/customer-design.component';
 import { HelloPageComponent } from './home-landing/hello-page/hello-page.component';
@@ -42,6 +46,7 @@ import { ChatComponent } from './product-section/collections/chat/chat.component
 import { MessagesComponent } from './product-section/collections/chat/messages/messages.component';
 import { CollectionsComponent } from './product-section/collections/collections.component';
 import { DepartmentComponent } from './product-section/collections/department/department.component';
+import { FeaturedComponent } from './product-section/collections/department/featured/featured.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
 import { ProductQuickViewComponent } from './product-section/product-section-detail/product-quick-view/product-quick-view.component';
@@ -79,7 +84,6 @@ const routes: Routes = [
       { path: 'home/all-collections/:id', component: AllCollectionsComponent },
       { path: 'home/hello-fashion-shop', component: SellWithUsComponent },
       { path: 'home/shops', component: AllShopsComponent },
-      { path: 'home/contact-us', component: ContactComponent },
       { path: 'home/payment-cancelled/:id', component: PaymentCancelledComponent },
       // { path: 'home/payment-cancelled/:id', component: ShopingSuccesfulComponent },  //    for testing only,
       { path: 'home/shopping-succesful/:id', component: ShopingSuccesfulComponent },
@@ -93,6 +97,14 @@ const routes: Routes = [
       { path: 'home/shop-for/:id', component: DepartmentComponent },
       { path: 'home/chat/:id/:userId/:userToId', component: ChatComponent },
       { path: 'home/messages/:traceId/:targetId', component: MessagesComponent },
+
+      //general
+
+      { path: 'home/contact-us', component: ContactComponent },
+      { path: 'home/about', component: AboutComponent },
+      { path: 'home/terms', component: TermsComponent },
+      { path: 'home/returns-policy', component: ReturnsPolicyComponent },
+
 
     ]
 
@@ -156,7 +168,12 @@ export const declarations = [
   SearchCompanyPipe,
   SearchProductHomePipe,
   ShopByCatergoryComponent,
-  ProductQuickViewComponent
+  ProductQuickViewComponent,
+  ReturnsPolicyComponent,
+  AboutComponent,
+  TermsComponent,
+  FooterComponent,
+  FeaturedComponent
 
 ];
 

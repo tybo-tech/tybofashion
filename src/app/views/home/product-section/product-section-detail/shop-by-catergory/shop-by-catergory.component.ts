@@ -12,6 +12,7 @@ export class ShopByCatergoryComponent implements OnInit {
   allCategories: Category[];
   subCatergories: Category[];
   @Input() parentId;
+  @Input() label;
 
   constructor(private companyCategoryService: CompanyCategoryService, private router: Router) { }
 

@@ -149,11 +149,8 @@ export class ProductQuickViewComponent implements OnInit {
               this.selectOption(this.sizes.ProductVariationOptions[0], 'Size');
             }
           }
-        }
-      })
-   
 
-
+          
 
 
       this.homeShopService.updatePageMovesIntroTrueFalse(false);
@@ -184,6 +181,11 @@ export class ProductQuickViewComponent implements OnInit {
       this.carttItems = this.order.Orderproducts && this.order.Orderproducts.length || 0;
       this.uxService.updateLoadingState({ Loading: false, Message: undefined });
       this.getInteractions();
+        }
+      })
+   
+
+
     }
   }
 

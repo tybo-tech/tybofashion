@@ -1,18 +1,25 @@
 <div *ngIf="subCatergories" class="main box-shadow">
-  <h3>
-    Shop by Categories
-  </h3>
-<div class="flexy">
-  <div class="list">
-    <div class="catergory" *ngFor="let catergory of subCatergories; let i = index"
-     (click)="tapChildCategory(catergory)" [ngStyle]="{'background-image': 'url(' + catergory.ProductsImages[0].FeaturedImageUrl + ')'}">
+  <h2 class="cat-label">
     <span>
-      {{catergory.Name}}
+      {{(label + ' Categories') || 'Shop by Categories'}}
     </span>
+
+    <span>
+      <!-- Sell all -->
+    </span>
+  </h2>
+  <div class="flexy">
+    <div class="list">
+      <div class="catergory" *ngFor="let catergory of subCatergories; let i = index"
+        (click)="tapChildCategory(catergory)"
+        [ngStyle]="{'background-image': ' linear-gradient(135deg, rgba(0, 0, 0, 0.634), rgba(128, 128, 128, 0.583)),'+'url(' + catergory.ProductsImages[0].FeaturedImageUrl + ')'}">
+        <span>
+          {{catergory.Name}}
+        </span>
+      </div>
     </div>
   </div>
-</div>
- 
+
 
 
 </div>

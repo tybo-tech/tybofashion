@@ -83,8 +83,17 @@
   }
 
   .picked {
+
+    padding: 1em $padding;
+    box-shadow: $box-shadow;
+    margin: 1.5em 0;
+
+    @media only screen and (max-width: 600px) {
+      padding: 1em 0;
+    }
+
     h4 {
-      padding:1em;
+      padding: 1em;
       color: $charcoal;
       font-size: 1.8em;
       text-transform: capitalize;
@@ -120,11 +129,6 @@
       }
     }
 
-    background: $white;
-    padding: 1em 0;
-    box-shadow: $box-shadow;
-    margin: 1.5em 0;
-
     .products-scroller {
       width: 100%;
       display: flex;
@@ -132,10 +136,14 @@
 
 
       .product {
-        margin: 0 .5em;
+        margin: 1em;
+        background: $white;
+        p{
+          padding: 1em;
+        }
 
         img {
-          height: 15em;
+          height: 25em;
         }
 
         p {

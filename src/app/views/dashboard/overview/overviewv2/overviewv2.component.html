@@ -8,19 +8,17 @@
       <h3>
         {{user.Company.Name}}
         <span class="block lnk">
-         <a  (click)="gotoShop()"> Go to my shop</a>
-         <!-- <a  (click)="gotoShop()"> {{companyLink}}</a> -->
-          <span class="material-icons" style="left: 2em;"  [cdkCopyToClipboard]="companyLink" (click)="copy()">
+          <a (click)="gotoShop()"> Go to my shop</a>
+          <span class="material-icons" style="left: 2em;" [cdkCopyToClipboard]="companyLink" (click)="copy()">
             share
-            </span>
-            
+          </span>
+
 
         </span>
         <span class="block black" *ngIf="user.Company.Description">{{user.Company.Description}} <br> <br></span>
 
         <span class="block col-2-of-2">
           <span class="block follow" (click)="goto('company-profile')">Edit company</span>
-          <!-- <span class="block follow" (click)="goto('company-profile')">Following</span> -->
         </span>
       </h3>
     </div>

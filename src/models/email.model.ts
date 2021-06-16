@@ -11,6 +11,7 @@ export interface EmailModel {
 
 export interface Email {
   Type?: string;
+  From?: string;
   Email: string;
   Subject: string;
   Message: string;
