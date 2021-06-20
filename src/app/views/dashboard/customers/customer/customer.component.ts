@@ -142,7 +142,7 @@ export class CustomerComponent implements OnInit {
               this.job.Customer = data;
               this.job.CustomerId = data.CustomerId;
               this.jobService.update(this.job).subscribe(data => {
-                this.uxService.updateMessagePopState('Customer Selected.');
+                this.uxService.showQuickMessage('Customer Selected.');
                 this.router.navigate([this.navHistory.BackToAfterLogin]);
                 return;
               });

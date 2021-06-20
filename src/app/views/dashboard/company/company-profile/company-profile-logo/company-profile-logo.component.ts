@@ -74,7 +74,7 @@ export class CompanyProfileLogoComponent implements OnInit {
 
   }
   skip() {
-    this.uxService.updateMessagePopState('Ok we will remind you later.');
+    this.uxService.showQuickMessage('Ok we will remind you later.');
     this.back();
   }
   save() {

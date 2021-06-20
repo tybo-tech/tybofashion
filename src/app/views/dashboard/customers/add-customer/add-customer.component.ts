@@ -88,7 +88,7 @@ export class AddCustomerComponent implements OnInit {
     }
     else {
       if (this.checkIfCustomerExist()) {
-        this.uxService.updateMessagePopState('Customer already exist.');
+        this.uxService.showQuickMessage('Customer already exist.');
         this.showGotoCustomer = true;
         return false
       }

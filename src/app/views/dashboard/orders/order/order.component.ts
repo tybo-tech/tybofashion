@@ -92,7 +92,7 @@ export class OrderComponent implements OnInit {
   }
   saveAll() { }
   print() {
-    this.uxService.updateMessagePopState('Invoice downloading ...');
+    this.uxService.showQuickMessage('Invoice downloading ...');
     const url = this.orderService.getInvoiceURL(this.order.OrdersId);
     const win = window.open(url, '_blank');
     win.focus();
@@ -138,7 +138,7 @@ export class OrderComponent implements OnInit {
   }
 
   copy() {
-    this.uxService.updateMessagePopState('Copied to clipboard.')
+    this.uxService.showQuickMessage('Copied to clipboard.')
   }
 
   SendMail() {

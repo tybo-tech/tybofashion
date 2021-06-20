@@ -1,5 +1,7 @@
 @import '../../../../../assets/styles/color';
-
+.overlay{
+  z-index: 50000;
+}
 .side-nav,
 .side-nav-mob {
   border: 1px solid $cloud;

@@ -21,3 +21,7 @@ export interface BreadModel {
   Name: string;
   Link:string
 }
+export interface HomeTabModel {
+  Name: string;
+  Classes:string[];
+}

@@ -304,7 +304,7 @@ export class AddProductComponent implements OnInit {
             this.product.FeaturedImageUrl = this.product.Images[0].Url;
           }
           this.showLoader = false;
-          this.uxService.updateMessagePopState(`New Image uploaded.`);
+          this.uxService.showQuickMessage(`New Image uploaded.`);
           this.productService.updateProductState(this.product);
         }
 
@@ -320,7 +320,7 @@ export class AddProductComponent implements OnInit {
         if (data && data.ImageId) {
           this.showLoader = false;
           this.product.Images.splice(image.Index, 1);
-          this.uxService.updateMessagePopState(`Image deleted.`);
+          this.uxService.showQuickMessage(`Image deleted.`);
         }
 
       })
@@ -382,7 +382,7 @@ export class AddProductComponent implements OnInit {
             this.product.CategoryGuid = data.CategoryId;
           }
           this.categories.push(data);
-          this.uxService.updateMessagePopState(`New category created.`);
+          this.uxService.showQuickMessage(`New category created.`);
           this.newCatergory = undefined;
           this.shoWaddNewCatergory = false;
         }
@@ -469,7 +469,7 @@ export class AddProductComponent implements OnInit {
         if (res && res.ProductId) {
           this.productService.updateProductState(res);
           // this.back();
-          this.uxService.updateMessagePopState('Product is now active')
+          this.uxService.showQuickMessage('Product is now active')
         }
       })
     }
@@ -490,7 +490,7 @@ export class AddProductComponent implements OnInit {
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error));
     } else {
-      this.uxService.updateMessagePopState('Shop LinkCopied to clipboard.');
+      this.uxService.showQuickMessage('Shop LinkCopied to clipboard.');
     }
   }
 }

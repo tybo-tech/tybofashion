@@ -263,7 +263,7 @@ export class CreateOrderComponent implements OnInit {
       this.order.Total = this.Total;
       this.order.Due = this.Total;
       this.orderService.updateOrderState(this.order);
-      this.uxService.updateMessagePopState(`${product.Name} added to bag.`);
+      this.uxService.showQuickMessage(`${product.Name} added to bag.`);
     }
 
   }

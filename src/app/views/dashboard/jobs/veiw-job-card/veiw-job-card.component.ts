@@ -196,14 +196,14 @@ export class VeiwJobCardComponent implements OnInit {
       this.jobService.updateJobWork(jobWork).subscribe(data => {
         console.log(data);
         if (data && data.JobWorkId) {
-          this.uxService.updateMessagePopState('Task updated successfully.')
+          this.uxService.showQuickMessage('Task updated successfully.')
         }
       });
     } else {
       this.jobService.addJobWork(jobWork).subscribe(data => {
         if (data && data.JobWorkId) {
           this.job.Tasks.push(data);
-          this.uxService.updateMessagePopState('Task created successfully.')
+          this.uxService.showQuickMessage('Task created successfully.')
         }
       })
     }
@@ -213,14 +213,14 @@ export class VeiwJobCardComponent implements OnInit {
   saveJob() {
     if (this.job.JobId) {
       this.jobService.update(this.job).subscribe(data => {
-        this.uxService.updateMessagePopState('Job saved successfully.')
+        this.uxService.showQuickMessage('Job saved successfully.')
       });
     }
     else {
       this.jobService.add(this.job).subscribe(data => {
         this.job = data;
         this.job.Tasks = [];
-        this.uxService.updateMessagePopState('Job created successfully.')
+        this.uxService.showQuickMessage('Job created successfully.')
       });
     }
 

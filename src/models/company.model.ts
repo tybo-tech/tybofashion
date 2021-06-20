@@ -1,3 +1,4 @@
+import { Interaction } from "./interaction.model";
 import { Product } from "./product.model";
 import { Promotion } from "./promotion.model";
 
@@ -28,6 +29,8 @@ export interface Company {
   BankAccNo: string;
   BankAccHolder: string;
   BankBranch: string;
-  ProductsCount?: any
+  ProductsCount?: any;
+  Liked?:boolean;
+  Interaction?:Interaction;
 
 }

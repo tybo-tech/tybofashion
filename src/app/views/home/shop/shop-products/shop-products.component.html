@@ -6,8 +6,9 @@
 <h1>{{company?.Name}}</h1>
 <h1>Shop</h1> -->
 
-<div class="main" *ngIf="company && products">
+<div class="main" *ngIf="company">
 
+<div class="holder">
   <div class="company-profile">
     <div class="cdp">
       <img [src]="company.Dp" alt="">
@@ -39,7 +40,8 @@
     </div>
 
   </div>
-<app-show-promotions *ngIf="promotions" [promotions]="promotions" [products]="products"></app-show-promotions>
+</div>
+<app-show-promotions *ngIf="promotions && products" [promotions]="promotions" [products]="products"></app-show-promotions>
 
 
   <!-- <div class="catergories" *ngIf="catergories">

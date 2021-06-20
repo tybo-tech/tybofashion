@@ -3,7 +3,8 @@ import { Product } from "./product.model";
 
 export interface TyboShopModel {
   Picked?: Product[];
-  Products?: Product[];
+  Ladies?: Product[];
+  Mens?: Product[];
   Campanies?: Company[];
   CurrentCompany?: Company;
 }

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms.component.scss']
 })
 export class TermsComponent implements OnInit {
+  label = "Explore our"
 
   constructor() { }
 

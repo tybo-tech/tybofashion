@@ -227,7 +227,7 @@ export class AddPromotionComponent implements OnInit {
     this.promotionService.update(this.promotion).subscribe(data => {
       if (data && data.PromotionId) {
         // this.back();
-        this.uxService.updateMessagePopState('Promotion saved.')
+        this.uxService.showQuickMessage('Promotion saved.')
       }
 
     })
@@ -237,7 +237,7 @@ export class AddPromotionComponent implements OnInit {
     this.promotionService.add(this.promotion).subscribe(data => {
       if (data && data.PromotionId) {
         // this.view(data);
-        this.uxService.updateMessagePopState('Promotion created successfully.')
+        this.uxService.showQuickMessage('Promotion created successfully.')
 
       }
 

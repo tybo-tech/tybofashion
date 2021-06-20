@@ -5,6 +5,7 @@ import { ForgotPasswordComponent, ResetPasswordComponent } from 'src/app/account
 import { ListMyOrdersComponent } from 'src/app/account/list-my-orders/list-my-orders.component';
 import { MyProfileComponent } from 'src/app/account/my-profile/my-profile.component';
 import { SignInComponent } from 'src/app/account/sign-in';
+import { QuickSignInComponent } from 'src/app/account/sign-in/quick-sign-in/quick-sign-in.component';
 import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/social-login.component';
 import { SignUpComponent } from 'src/app/account/sign-up';
 import { SignUpModalComponent } from 'src/app/account/sign-up-modal/sign-up-modal.component';
@@ -25,6 +26,7 @@ import { WishListComponent } from './cart/wish-list/wish-list.component';
 import { CustomerFeedbackComponent } from './customer-feedback/customer-feedback.component';
 import { FiitingRoomComponent } from './fiiting-room/fiiting-room.component';
 import { AboutComponent } from './general/about/about.component';
+import { ButtinSpinnerComponent } from './general/buttin-spinner/buttin-spinner.component';
 import { ContactComponent } from './general/contact/contact.component';
 import { FooterComponent } from './general/footer/footer.component';
 import { ReturnsPolicyComponent } from './general/returns-policy/returns-policy.component';
@@ -47,6 +49,7 @@ import { MessagesComponent } from './product-section/collections/chat/messages/m
 import { CollectionsComponent } from './product-section/collections/collections.component';
 import { DepartmentComponent } from './product-section/collections/department/department.component';
 import { FeaturedComponent } from './product-section/collections/department/featured/featured.component';
+import { ShopByGenderComponent } from './product-section/collections/department/shop-by-gender/shop-by-gender.component';
 import { OnSaleComponent } from './product-section/collections/on-sale/on-sale.component';
 import { ShopCollectionComponent } from './product-section/collections/shop-collection/shop-collection.component';
 import { ProductQuickViewComponent } from './product-section/product-section-detail/product-quick-view/product-quick-view.component';
@@ -173,7 +176,10 @@ export const declarations = [
   AboutComponent,
   TermsComponent,
   FooterComponent,
-  FeaturedComponent
+  FeaturedComponent,
+  ShopByGenderComponent,
+  QuickSignInComponent,
+  ButtinSpinnerComponent
 
 ];
 

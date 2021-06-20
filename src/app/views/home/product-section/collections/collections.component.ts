@@ -67,7 +67,7 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
 
     this.productService.tyboShopObservable.subscribe(data => {
       if (data) {
-        if (JSON.stringify(data.Products) !== JSON.stringify(this.products)) {
+        if (JSON.stringify(data.Picked) !== JSON.stringify(this.products)) {
           this.allProducts = data.Picked;
           this.products = data.Picked;
           if (this.products.length) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HomeNavUx, LoaderUx, NavHistoryUX } from 'src/models/UxModel.model';
+import { HomeNavUx, HomeTabModel, LoaderUx, NavHistoryUX } from 'src/models/UxModel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,15 @@ export class UxService {
   private uxHomeSideNavBehaviorSubject: BehaviorSubject<boolean>;
   public uxHomeSideNavObservable: Observable<boolean>;
 
+  private showQuickLoginBehaviorSubject: BehaviorSubject<boolean>;
+  public showQuickLoginObservable: Observable<boolean>;
+
 
   private pageYPositionBehaviorSubject: BehaviorSubject<number>;
   public pageYPositionObservable: Observable<number>;
+
+  private homeTabBehaviorSubject: BehaviorSubject<HomeTabModel>;
+  public homeTabObservable: Observable<HomeTabModel>;
 
   constructor() {
     this.uxMessagePopBehaviorSubject = new BehaviorSubject<string>(null);
@@ -53,9 +59,15 @@ export class UxService {
     this.uxHomeSideNavBehaviorSubject = new BehaviorSubject<boolean>(null);
     this.uxHomeSideNavObservable = this.uxHomeSideNavBehaviorSubject.asObservable();
 
+    this.showQuickLoginBehaviorSubject = new BehaviorSubject<boolean>(false);
+    this.showQuickLoginObservable = this.showQuickLoginBehaviorSubject.asObservable();
+
 
     this.pageYPositionBehaviorSubject = new BehaviorSubject<number>(null);
     this.pageYPositionObservable = this.pageYPositionBehaviorSubject.asObservable();
+
+    this.homeTabBehaviorSubject = new BehaviorSubject<HomeTabModel>(JSON.parse(localStorage.getItem('HomeTabState')));
+    this.homeTabObservable = this.homeTabBehaviorSubject.asObservable();
 
   }
 
@@ -72,7 +84,13 @@ export class UxService {
       this.pageYPositionBehaviorSubject.next(state);
     }
   }
-  updateMessagePopState(state: string) {
+  updateHomeTabModelState(state: HomeTabModel) {
+    if (state) {
+      this.homeTabBehaviorSubject.next(state);
+      localStorage.setItem('HomeTabState', JSON.stringify(state));
+    }
+  }
+  showQuickMessage(state: string) {
     if (state) {
       this.uxMessagePopBehaviorSubject.next(state);
     }
@@ -89,6 +107,12 @@ export class UxService {
     }
   }
 
+  closeQuickLogin() {
+    this.showQuickLoginBehaviorSubject.next(false);
+  }
+  openTheQuickLogin() {
+    this.showQuickLoginBehaviorSubject.next(true);
+  }
   hideLoader() {
     this.uxLoadingBehaviorSubject.next({ Loading: false, Message: undefined });
   }

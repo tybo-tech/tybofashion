@@ -310,7 +310,7 @@ export class ProductVariationsComponent implements OnInit {
 
   removeOption(variationOptionId) {
     this.productVariationService.deleteProductOption(this.product.ProductId, variationOptionId).subscribe(data => {
-      this.uxService.updateMessagePopState('Product option deleted');
+      this.uxService.showQuickMessage('Product option deleted');
       this.productService.getProductSync(this.product.ProductId).subscribe(data => {
         if (data) {
           this.product = data;
@@ -378,7 +378,7 @@ export class ProductVariationsComponent implements OnInit {
               this.product = response;
               this.productService.updateProductState(this.product);
               this.uxService.updateLoadingState({ Loading: false, Message: undefined });
-              this.uxService.updateMessagePopState('Product variations saved');
+              this.uxService.showQuickMessage('Product variations saved');
               this.back();
               this.closeOptionModalEvent.emit(true);
             }

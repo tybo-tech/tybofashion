@@ -74,7 +74,7 @@ export class JobCardsComponent implements OnInit {
     this.newJob.JobNo = `JOB${this.jobCards.length + 1}`;
     this.jobService.add(this.newJob).subscribe(data => {
       if (data && data.JobId) {
-        // this.uxService.updateMessagePopState('Job created successfully.')
+        // this.uxService.showQuickMessage('Job created successfully.')
         this.view(data);
       }
     });

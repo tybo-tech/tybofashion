@@ -77,7 +77,7 @@ export class ViewCustomRequestComponent implements OnInit {
   saveJob() {
     this.jobService.add(this.newJob).subscribe(data => {
       if (data && data.JobId) {
-        this.uxService.updateMessagePopState('New bob created successfully.')
+        this.uxService.showQuickMessage('New bob created successfully.')
         this.gitToJobDetails(data);
       }
     });

@@ -155,7 +155,7 @@ export class JobEstimateComponent implements OnInit {
   deleteItem(item: JobWork, index: number) {
     this.jobService.deleteJobWork(item.JobWorkId).subscribe(data => {
       if (data && Number(data) === 1) {
-        this.uxService.updateMessagePopState('Item deleted successfully.')
+        this.uxService.showQuickMessage('Item deleted successfully.')
         this.getJob();
       }
     })

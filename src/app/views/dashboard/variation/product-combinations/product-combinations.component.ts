@@ -181,7 +181,7 @@ export class ProductCombinationsComponent implements OnInit {
         });
         this.productService.updateProductState(this.product);
         this.showAdd = false;
-        this.uxService.updateMessagePopState('Stock updated successfully.');
+        this.uxService.showQuickMessage('Stock updated successfully.');
         this.calcuateTotalProductStock();
         this.productCombinationService.updateRange([this.productCombination]).subscribe(updateResponse => {
           console.log(updateResponse);

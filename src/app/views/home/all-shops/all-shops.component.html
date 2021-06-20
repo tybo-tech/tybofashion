@@ -1,45 +1,43 @@
 <div class="main">
-  <div class="top-bar-conatiner">
-    <div class="top-bar">
-      <div class="menu-back">
-        <span class="material-icons" (click)="back()">
-          chevron_left
-        </span>
-      </div>
+  <div class="mt5" *ngIf="shops">
 
-
-      <div class="name">
-        All fashion shops
-      </div>
-
-      <div class="btn-menu">
-
-      </div>
+    <div class="search-box">
+      <input type="search" [(ngModel)]="searchString" placeholder="🔎 Search shops">
     </div>
-  </div>
-  <div class="product-section col-1-of-1">
-    <div class="mt5" *ngIf="shops">
-
-      <div class="search-box">
-        <input type="search" [(ngModel)]="searchString" placeholder="🔎 Filter by shop">
-      </div>
-      <div class="shops" *ngFor="let item of shops | searchcompany: searchString" (click)="view(item)">
-        <div class="shop">
-          <div class="icon">
+    <div class="shops">
+      <div class="shop" *ngFor="let item of plusFours | searchcompany: searchString" >
+        <div class="top-row">
+          <div class="icon" (click)="view(item)">
             <img *ngIf="item.Dp" [src]="item.Dp" alt="">
             <img *ngIf="!item.Dp" src="assets/images/shop.svg" alt="">
           </div>
-          <h3>
+
+          <div class="name" (click)="view(item)">
             {{item.Name}}
-            <span>
-              <a *ngFor="let product of item.GeCategoryNames">
-                {{product.CategoryName}}
-              </a>
-            </span>
-          </h3>
+          </div>
+          <div class="name">
+            <a *ngIf="!item.Liked" (click)="onLike('yes', item)">Follow</a>
+            <a *ngIf="item.Liked" class="following" (click)="onLike('no', item)">Following</a>
+          </div>
         </div>
+
+        <div class="bottom-row" (click)="view(item)">
+          <div class="image" *ngFor="let img of item.GeCategoryNames">
+            <img [src]="img.FeaturedImageUrl" alt="">
+          </div>
+        </div>
+        <!--       
+        <h3>
+         
+          <span>
+            <a *ngFor="let product of item.GeCategoryNames">
+              {{product.CategoryName}}
+            </a>
+          </span>
+        </h3> -->
       </div>
     </div>
-
   </div>
 </div>
+
+<app-quick-sign-in [heading] = "heading"></app-quick-sign-in>

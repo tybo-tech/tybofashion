@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product } from 'src/models/product.model';
+import { Product } from 'src/models';
 
 @Component({
-  selector: 'app-featured',
-  templateUrl: './featured.component.html',
-  styleUrls: ['./featured.component.scss']
+  selector: 'app-shop-by-gender',
+  templateUrl: './shop-by-gender.component.html',
+  styleUrls: ['./shop-by-gender.component.scss']
 })
-export class FeaturedComponent implements OnInit {
+export class ShopByGenderComponent implements OnInit {
 
   @Input() products;
   @Input() label;
@@ -32,4 +32,5 @@ export class FeaturedComponent implements OnInit {
     }
     this.router.navigate([product.CompanyId]);
   }
+
 }

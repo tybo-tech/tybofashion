@@ -108,7 +108,7 @@ export class EditMyProfileComponent implements OnInit {
           // this.modalModel.heading = `Success!`
           // this.modalModel.img = IMAGE_DONE
           // this.modalModel.body.push('Profile updated.');
-          this.uxService.updateMessagePopState('Profile updated successfully.');
+          this.uxService.showQuickMessage('Profile updated successfully.');
 
           this.back();
         }

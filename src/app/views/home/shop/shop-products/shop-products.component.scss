@@ -212,12 +212,11 @@
 
 
 .company-profile {
-  margin: 2em auto;
+  margin:0;
   padding: 1em;
   display: grid;
   grid-template-columns: 8em auto;
   background: $white;
-  margin-top: 4em;
   box-shadow: $box-shadow;
   width: 98%;
 
@@ -320,3 +319,10 @@
   }
 }
 
+
+.holder{
+  background: $white;
+  width: 100%;
+  margin: 0;
+  box-shadow: $box-shadow;
+}

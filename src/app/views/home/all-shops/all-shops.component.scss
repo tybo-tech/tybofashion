@@ -1,122 +1,87 @@
 @import '../../../../assets/styles/color';
-.top-bar-conatiner{
-  display: none;
-  @media only screen and (max-width: 600px) {
-   display: block;
-  }
-}
-.main{
-  background: $white;
-  padding: 1em;
-  border-radius: .5em;
-  margin: .5em;
 
-  @media only screen and (max-width: 600px) {
-    padding: .5em;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    z-index: 100000;
-    padding-top: 5em;
-  }
-
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(5, 20%);
-
-  @media only screen and (max-width: 600px) {
-    grid-template-columns: repeat(2, 50%);
-  }
-
-  .product {
-    background: $white;
-    margin: 1em;
-    border: .7em;
+.main {
+  .shops {
+    .shop {
+      background: $white;
+      margin: 1em auto;
+      padding: 1em;
+      box-shadow: $box-shadow;
 
 
+      .top-row {
+        display: grid;
+        grid-template-columns: 4em 60% auto;
+        padding: .5em;
+        width: 97%;
+        margin: 0 auto;
+        border-bottom: 1px solid $cloud;
 
-    img {
-      width: 100%;
-      border-radius: .5em;
-    }
+        .icon {
+          width: 3em;
+          height: 3em;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+          }
+        }
+
+        .name {
+          padding: .5em;
+          font-weight: 600;
 
 
-    .product-info {
-      color: $black;
-      
-      padding: .7em;
-      line-height: 1;
+          a {
+            background: $black;
+            color: $white;
+            margin: .2em;
+            padding: .4em;
+            text-align: center;
+            display: block;
+            font-size: .75em;
+            font-weight: 500;
+            width: 8em;
+            border: 2px solid $black;
+          }
 
+          a.following{
+            color: $black;
+            background: $white;
+            border: 2px solid $black;
+          }
+        }
+      }
 
-      span {
-        display: block;
-        font-weight: 600;
+      .bottom-row {
+        display: grid;
+        grid-template-columns: repeat(3, 33%);
+        grid-template-columns: repeat(4, 25%);
+        grid-gap: .4em;
         padding: .4em 0;
+
+        .image {
+          width: 100%;
+          // height: 6em;
+          background: $cloud;
+          overflow: hidden;
+          text-align: center;
+          border: 2px solid $cloud;
+
+          img {
+            width: 100%;
+          }
+        }
       }
-    }
 
-
-    .company {
-      font-weight: 600;
-      display: grid;
-      grid-template-columns:.5em 2.5em auto;
-      color: $silver;
-      
-      left: .5em;
-      padding: 0;
-
-      img {
-        width: 2em;
-        top: -.4em;
-      }
     }
   }
-}
 
-
-
-
-.child {
-  margin-bottom: 4em;
-  box-shadow: none;
-}
-
-.product-details p{
-  text-align: left;
-}
-
-.shop{
-  display: grid;
-  grid-template-columns: 6em auto;
-  border-bottom: 1px solid $cloud;
-  padding: 1em;
-  img{
-    width: 5em;
-    margin: .2em auto;
-  }
-
-  h3{
-    padding: .5em 1em;
-    
-    span{
-      display: block;
-      
-      font-weight: 600;
-      color: $darker-grey;
-
-      a{
-        background: $cloud;
-        margin: .4em .25em;
-        border-radius: .25em;
-        padding: .25em;
-        display: block;
-        float: left;
-      }
-    }
+  .search-box {
+    text-align: center;
+   input{
+     width: 98%;
+    background: $white;
+   }
   }
 }

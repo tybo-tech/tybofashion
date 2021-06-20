@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Category, Product, User } from 'src/models';
 import { Interaction } from 'src/models/interaction.model';
 import { TyboShopModel } from 'src/models/TyboShop';
-import { NavHistoryUX } from 'src/models/UxModel.model';
+import { HomeTabModel, NavHistoryUX } from 'src/models/UxModel.model';
 import { ProductService, AccountService, CompanyCategoryService } from 'src/services';
 import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
@@ -32,6 +32,8 @@ export class ProductSectionComponent implements OnInit {
   tertiaryCategories: Category[] = [];
   unisexCategory: Category;
   pickedProducts: Product[];
+  ladiesProducts: Product[] = [];
+  mensProducts: Product[] = [];
   newProducts: Product[];
   tyboShopModel: TyboShopModel;
   allOtherProducts: Product[]; yPosition: number;
@@ -69,6 +71,13 @@ export class ProductSectionComponent implements OnInit {
     });
 
 
+    this.uxService.homeTabObservable.subscribe(data => {
+      this.currentTab = data || TABS[0];
+      this.TABS.map(x => x.Classes = []);
+      this.TABS.find(x => x.Name === this.currentTab.Name).Classes = ['active'];
+    });
+
+
     this.uxService.uxNavHistoryObservable.subscribe(data => {
       if (data) {
         this.navHistory = data;
@@ -91,14 +100,14 @@ export class ProductSectionComponent implements OnInit {
     this.tyboShopModel = this.productService.currentTyboShopValue;
     this.productService.tyboShopObservable.subscribe(data => {
       if (data) {
-        if (JSON.stringify(data.Products) !== JSON.stringify(this.products)) {
+        if (JSON.stringify(data.Ladies) !== JSON.stringify(this.products)) {
           this.tyboShopModel = data;
-          this.products.push(...data.Products);
-          // this.selectedProduct = this.products[0];
-          this.allProducts = data.Products;
+          this.ladiesProducts.push(...data.Ladies);
+          this.mensProducts.push(...data.Mens);
+          // this.allProducts = data.Products;
           this.pickedProducts = data.Picked;
-          this.pageNumber = this.products[this.products.length - 1]?.Id || 99999;
-          this.showShowMore = data.Products.length >= MAX_PAGE_SIZE;
+          this.pageNumber = this.ladiesProducts[this.ladiesProducts.length - 1]?.Id || 99999;
+          this.showShowMore = data.Ladies.length >= MAX_PAGE_SIZE;
         }
       }
     });
@@ -233,9 +242,10 @@ export class ProductSectionComponent implements OnInit {
   veiwAllPicks() {
     this.goto(`home/collections/picks`)
   }
-  tab(item) {
+  tab(item: HomeTabModel) {
     this.currentTab = item;
     this.TABS.map(x => x.Classes = []);
     item.Classes = ['active'];
+    this.uxService.updateHomeTabModelState(item);
   }
 }

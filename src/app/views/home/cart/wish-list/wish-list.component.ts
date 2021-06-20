@@ -61,6 +61,9 @@ export class WishListComponent implements OnInit {
         this.interactions = data;
         this.productsInteractions = data.filter(x => x.InteractionBody !== 'Follow');
         this.shopsInteractions = data.filter(x => x.InteractionBody === 'Follow');
+        if (this.shopsInteractions.length > this.productsInteractions.length) {
+          this.tab = 2;
+        }
       }
     });
 

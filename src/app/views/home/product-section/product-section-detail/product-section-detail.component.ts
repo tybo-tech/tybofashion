@@ -388,7 +388,7 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error));
     } else {
-      this.uxService.updateMessagePopState('Product Link Copied to clipboard.');
+      this.uxService.showQuickMessage('Product Link Copied to clipboard.');
 
     }
   }

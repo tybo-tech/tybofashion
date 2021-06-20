@@ -99,3 +99,8 @@
     margin: .2em auto;
   }
 }
+
+.product-section{
+  animation: moveInRight .2s ease-out 0s;
+  animation-fill-mode: backwards;
+}

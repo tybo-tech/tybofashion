@@ -19,7 +19,7 @@
 
 .cat-label {
   text-transform: uppercase;
-  padding: .5em 1.7em;
+  padding: .5em;
   font-size: 1.2em;
 
   display: grid;
@@ -955,6 +955,7 @@ span.date {
   top: 0;
   left: 0;
 
+
   h3 {
     text-align: center;
     padding: 1em;
@@ -976,6 +977,8 @@ span.date {
     max-height: 85vh;
     overflow-y: scroll;
     max-width: 60em;
+    animation: moveInButton .2s ease-out 0s;
+    animation-fill-mode: backwards;
 
 
     @media only screen and (max-width: 600px) {
@@ -996,13 +999,13 @@ span.date {
       padding: 1em;
     }
 
-    .form-item {
-      width: 90%;
-    }
+    // .form-item {
+    //   width: 90%;
+    // }
 
     button {
       background: $pop;
-      margin: 1.5em 0;
+      margin: .75em 0;
       color: $black;
       padding: 1em;
       border-radius: .4em;
@@ -1367,3 +1370,32 @@ del {
 }
 
 
+
+.pop {
+  position: fixed;
+  background: $secondary;
+  color: $black;
+  padding: 1em;
+  font-weight: 600;
+  width: 90%;
+  left: 5%;
+  bottom: 1rem;
+  border-radius: .5em;
+  box-shadow: $box-shadow;
+  z-index: 9999999999;
+  animation: moveInButton .2s ease-in-out 0s;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 90% auto;
+
+  //   animation-fill-mode: backwards;
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  span {
+    top: 0;
+    margin: 0;
+  }
+}

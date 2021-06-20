@@ -73,6 +73,10 @@ export class ShopProductsComponent implements OnInit {
 
   }
 
+  back(){
+    this.router.navigate(['']);
+  }
+
   getProducts(maxId: number) {
     this.products = this.productService.getShopProductsState;
     this.allProducts = this.productService.getShopProductsState;

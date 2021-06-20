@@ -1,3 +1,5 @@
+import { HomeTabModel } from "src/models/UxModel.model";
+
 export const CUSTOMER = 'Customer';
 export const COMPANY_EMIAL = 'info@tybofashion.co.za, accounts@tybo.co.za, mrnnmthembu@gmail.com';
 export const IMAGE_CROP_SIZE = 1500;
@@ -73,7 +75,10 @@ export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Mu
 export const CURRENCY = 'ZAR';
 export const COMPANY_TYPE = 'Fashion';
 export const MAX_PAGE_SIZE = 20;
-export const TABS = [
+export const INVALID_USER_LOGIN = 'Invalid Request';
+export const USER_ALREADY_EXISTS = 'user already exists';
+export const PASSWORD_INCORRECT = "Password incorrect";
+export const TABS : HomeTabModel[] = [
     {
         Name: 'Ladies',
         Classes: ['active'],

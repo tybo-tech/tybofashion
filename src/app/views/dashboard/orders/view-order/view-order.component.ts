@@ -113,7 +113,7 @@ export class ViewOrderComponent implements OnInit {
   }
 
   print() {
-    this.uxService.updateMessagePopState('Invoice downloading ...');
+    this.uxService.showQuickMessage('Invoice downloading ...');
     const url = this.orderService.getInvoiceURL(this.order.OrdersId);
     const win = window.open(url, '_blank');
     win.focus();

@@ -74,7 +74,7 @@ export class Overviewv2Component implements OnInit {
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error));
     } else {
-      this.uxService.updateMessagePopState('Shop LinkCopied to clipboard.');
+      this.uxService.showQuickMessage('Shop LinkCopied to clipboard.');
     }
   }
 }
