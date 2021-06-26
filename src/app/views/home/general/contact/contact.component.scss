@@ -2,14 +2,14 @@
 
 .section {
   background: #fff;
-  padding: 2.5em 1em;
+  padding: 5.5em 1em;
   margin: 0;
   color: rgb(42, 42, 42);
   margin: 1em 0;
 
   @media only screen and (max-width: 600px) {
 
-    padding: .5em;
+    padding: 8.5em .5em;
   }
 
   h1 {
@@ -97,7 +97,7 @@
 input,
 textarea {
   padding: 1em;
-  margin-bottom: 2em;
+  margin-bottom: 0em;
   border: 3px solid black;
   width: 100%;
 }

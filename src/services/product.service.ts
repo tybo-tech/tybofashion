@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { GET_ALL_PRODUCT_URL, GET_PRODUCTS_FOR_SHOP_URL, GET_PRODUCTS_URL, GET_PRODUCT_URL, PRODUCT_TYPE_JIT } from 'src/shared/constants';
+import { GET_ALL_PRODUCT_URL, GET_PRODUCTS_FOR_SHOP_URL, GET_PRODUCTS_URL, GET_PRODUCT_URL, PRODUCT_TYPE_JIT, SEARCH_PRODUCTS_FOR_SHOP_URL } from 'src/shared/constants';
 import { Product } from 'src/models/product.model';
 import { Router } from '@angular/router';
 import { Company } from 'src/models/company.model';
@@ -101,6 +101,9 @@ export class ProductService {
 
   getProductsSyncForShop(companyId: string) {
     return this.http.get<Company>(`${this.url}/${GET_PRODUCTS_FOR_SHOP_URL}?CompanyId=${companyId}`);
+  }
+  searchProducts(name: string) {
+    return this.http.get<any[]>(`${this.url}/${SEARCH_PRODUCTS_FOR_SHOP_URL}?Name=${name}`);
   }
 
 

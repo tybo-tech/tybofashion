@@ -32,10 +32,13 @@ export interface User {
   Viewing?: boolean;
   PhoneNumber: any;
   Company?: Company;
+  ReferralCode?: string;
+  ParentReferralCode?: string;
 }
 
 
 export interface UserModel {
+  ParentReferralCode?: string;
   Dp?: any;
   AddressUrlHome?: any;
   AddressLineWork?: any;

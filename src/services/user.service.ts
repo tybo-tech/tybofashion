@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User, UserModel } from 'src/models/user.model';
-import { ADD_USER_COMPANY_URL, ADD_USER_URL, GET_ALL_USERS_URL, GET_USERS_URL, GET_USER_URL, UPDATE_USER_URL } from 'src/shared/constants';
+import { ADD_USER_COMPANY_URL, ADD_USER_URL, GET_ALL_USERS_URL, GET_REFFERALS_URL, GET_USERS_URL, GET_USER_URL, UPDATE_USER_URL } from 'src/shared/constants';
 
 
 @Injectable({
@@ -67,6 +67,9 @@ export class UserService {
 
   getUserSync(userId: string) {
     return this.http.get<User>(`${this.url}/${GET_USER_URL}?UserId=${userId}`);
+  }
+  getMyRefferals(code: string) {
+    return this.http.get<User[]>(`${this.url}/${GET_REFFERALS_URL}?ParentReferralCode=${code}`);
   }
   updateUser(user: User) {
     this.http.post<User>(`${this.url}/${UPDATE_USER_URL}`, user).subscribe(data => {

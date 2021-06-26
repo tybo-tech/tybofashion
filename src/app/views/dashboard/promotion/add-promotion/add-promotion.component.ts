@@ -29,10 +29,10 @@ export class AddPromotionComponent implements OnInit {
   selectedProductsIdsForGet: string[] = [];
   showAdd: boolean;
   showAddCustomerGets: boolean;
+  DISCOUNT_GROUP = DISCOUNT_GROUP;
   DISCOUNT_TYPES = DISCOUNT_TYPES;
   DISCOUNT_APPLIES_TO = DISCOUNT_APPLIES_TO;
   DISCOUNT_MIN_RQS = DISCOUNT_MIN_RQS;
-  DISCOUNT_GROUP = DISCOUNT_GROUP;
   CURRENCY = CURRENCY;
   constructor(
     private promotionService: PromotionService,
@@ -121,6 +121,8 @@ export class AddPromotionComponent implements OnInit {
     if (this.promotionId && this.promotionId.length > 5) {
       this.promotionService.get(this.promotionId).subscribe(data => {
         this.promotion = data;
+        this.promotion.StartDate = this.promotion.StartDate.split(' ')[0];
+        this.promotion.FinishDate = this.promotion.FinishDate.split(' ')[0];
         this.heading = `Viewing: ${this.promotion.Name}`;
         this.items.push({
           Name: this.promotion.Name,
@@ -224,19 +226,25 @@ export class AddPromotionComponent implements OnInit {
       this.addNewPromotion();
       return;
     }
+    this.promotion.StartDate = `${this.promotion.StartDate} ${this.promotion.StartTime}:00`;
+    this.promotion.FinishDate = `${this.promotion.FinishDate} ${this.promotion.FinishTime}:00`;
     this.promotionService.update(this.promotion).subscribe(data => {
       if (data && data.PromotionId) {
         // this.back();
-        this.uxService.showQuickMessage('Promotion saved.')
+        this.uxService.showQuickMessage('Promotion saved.');
+        this.ngOnInit();
       }
 
     })
   }
 
   addNewPromotion() {
+    this.promotion.StartDate = `${this.promotion.StartDate} ${this.promotion.StartTime}:00`;
+    this.promotion.FinishDate = `${this.promotion.FinishDate} ${this.promotion.FinishTime}:00`;
     this.promotionService.add(this.promotion).subscribe(data => {
       if (data && data.PromotionId) {
         // this.view(data);
+        this.ngOnInit();
         this.uxService.showQuickMessage('Promotion created successfully.')
 
       }

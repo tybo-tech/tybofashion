@@ -10,9 +10,9 @@ export interface Company {
   CompanyType: string;
   Dp?: any;
   IsDeleted: string;
-  CreateDate: string;
+  CreateDate?: string;
   CreateUserId: string;
-  ModifyDate: string;
+  ModifyDate?: string;
   ModifyUserId: string;
   StatusId: string;
   Products?: Product[];
@@ -32,5 +32,6 @@ export interface Company {
   ProductsCount?: any;
   Liked?:boolean;
   Interaction?:Interaction;
+  Followers?:any[];
 
 }

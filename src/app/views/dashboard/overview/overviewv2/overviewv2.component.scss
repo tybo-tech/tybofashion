@@ -122,22 +122,41 @@
   margin-top: 1em;
 }
 
-.follow{
-    width: 10em !important;
+.follow {
+  width: 10em !important;
 }
 
-.heading{
-    padding: 1em;
+.heading {
+  padding: 1em;
+  margin: 0;
+  margin-top: 3em;
+  border-top: 1px solid $grey;
+
+  span {
+    position: relative;
+    padding: .5em 1em;
+    text-align: center;
+    background: $pop;
+    border-radius: .2em;
+    cursor: pointer;
+  }
+}
+
+
+.top-bar-conatiner{
+  display: block;
+}
+
+.top-bar{
+  .name{
+    padding: 0;
     margin: 0;
-    margin-top: 3em;
-    border-top: 1px solid $grey;
-    span{
+    p{
+      padding: .6em 1em ;
+      margin: 0;
       position: relative;
-      left: 3em;
-      padding: .2em 1em;
-      text-align: center;
-      background: $pop;
-      border-radius: .2em;
-      cursor: pointer;
+      left: 5%;
+      width: 90%;
     }
+  }
 }

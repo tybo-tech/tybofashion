@@ -1,12 +1,22 @@
 <div class="main-products">
   <div class="go-back">
-    <button class="secondary" (click)="back()">Back</button>
+    <div class="col" (click)="back()">
+      <span class="material-icons">
+        arrow_back
+        </span>
+    </div>
+
+    <div class="col">
+      <p>
+        {{currentCategory?.Name}}
+      </p>
+    </div>
   </div>
   <div class="picked" *ngIf="products" style="padding-top: 0;">
     <app-bread [items]="items"></app-bread>
     <h4>
       <!-- {{heading}} -->
-      {{currentCategory?.Name}}
+     
     </h4>
     <div class="products">
       <div class="product" *ngFor="let product of products; let i = index">

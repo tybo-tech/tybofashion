@@ -51,14 +51,15 @@ export class ProductSectionComponent implements OnInit {
     private uxService: UxService,
     private router: Router,
     private accountService: AccountService,
+    private interactionService: InteractionService,
     private companyCategoryService: CompanyCategoryService,
 
   ) {
   }
 
   ngOnInit() {
-
     this.user = this.accountService.currentUserValue;
+    this.interactionService.logHomePage(this.user, 'home page');
 
     this.uxService.uxNavHistoryObservable.subscribe(data => {
       this.navHistory = data;

@@ -28,16 +28,16 @@
       <div class="list-item" *ngFor="let item of promotions" (click)="view(item)">
         <div class="col">
           <p>
-            {{item.Name}}
+            <b>  {{item.PromoType}}</b>
             <span class="sub">
+              {{item.Name}}
+            
+             
               {{item.PromoGroup}}
               <span class="material-icons">
                 fiber_manual_record
               </span>
-              {{item.PromoType}}
-              <span class="material-icons">
-                fiber_manual_record
-              </span>
+           
               {{item.DiscountValue}} {{item.DiscountUnits}}
 
 
@@ -80,13 +80,6 @@
           Back
         </button>
       </div>
-      <!-- 
-  <div class="cta">
-    <button class="mat-primary checkout" [disabled]="!promotion.Name" mat-button color="primary"
-      (click)="savePromotion()">
-      Save Promotion
-    </button>
-  </div> -->
     </div>
   </div>
 </div>

@@ -1,115 +1,20 @@
-
 <div class="data-view-main" *ngIf="product">
   <app-dashbread [items]="items"></app-dashbread>
   <div class="actions-linsk">
-    <span class="material-icons" *ngIf="product.ProductStatus != STATUS_TRASHED_STRING"  (click)="delete()">
+    <span class="material-icons" *ngIf="product.ProductStatus != STATUS_TRASHED_STRING" (click)="delete()">
       delete
     </span>
-    <span class="material-icons" *ngIf="product.ProductStatus == STATUS_TRASHED_STRING"  (click)="undelete()">
+    <span class="material-icons" *ngIf="product.ProductStatus == STATUS_TRASHED_STRING" (click)="undelete()">
       recycling
     </span>
 
-    <span class="material-icons"  [cdkCopyToClipboard]="productLink" (click)="copy()">
+    <span class="material-icons" [cdkCopyToClipboard]="productLink" (click)="copy()">
       share
     </span>
 
 
 
   </div>
-  <div class="basic">
-    <h3 class="header-label">
-      Product info.
-    </h3>
-
-    <div class="no-child">
-      <div class="black-label">
-        Name
-      </div>
-      <div class="link" (click)="name()">
-        <input type="text" [(ngModel)]="product.Name" placeholder="e.g. Floral summer shirts">
-      </div>
-    </div>
-    <div class="no-child">
-      <div class="black-label">
-        Description
-      </div>
-      <div class="link" (click)="name()">
-        <textarea name="" [(ngModel)]="product.Description" placeholder="Enter product description "></textarea>
-      </div>
-    </div>
-
-    <div class="no-child">
-      <div class="black-label">
-        <p>
-          Price <strong>(ZAR)</strong>
-        </p>
-      </div>
-      <div class="link" (click)="name()">
-        <div class="link" (click)="name()">
-          <input type="number" [(ngModel)]="product.RegularPrice" placeholder="Selling price">
-        </div>
-      </div>
-    </div>
-
-    <div class="no-child">
-      <div class="black-label">
-        <p>
-         Gender
-        </p>
-      </div>
-      <div class="link" >
-        <div class="link" >
-          <select [(ngModel)]="product.ParentCategoryGuid" *ngIf="parentCategories && parentCategories.length"
-          (change)="selectCategory($event.target.value)">
-          <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
-        </select>
-        </div>
-      </div>
-    </div>
-  
-
-
-    <div class="no-child">
-      <div class="black-label">
-        <p>
-          Catergory
-        </p>
-      </div>
-      <div class="link" (click)="name()">
-        <select [(ngModel)]="product.CategoryGuid" (change)="catChanged()"
-          *ngIf="chilndrenCategories && chilndrenCategories.length">
-          <option value="add"> ➕ Add new</option>
-          <option *ngFor="let cc of chilndrenCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
-        </select>
-      </div>
-    </div>
-<!-- 
-    <div class="no-child med">
-      <div class="black-label">
-        <p>
-          Sub catergory
-        </p>
-      </div>
-      <div class="link" (click)="name()">
-        <select [(ngModel)]="product.TertiaryCategoryGuid" (change)="catChanged()"
-          *ngIf="tertiaryCategories && tertiaryCategories.length">
-          <option value="add-tertiary"> ➕ Add new</option>
-          <option *ngFor="let cc of tertiaryCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
-        </select>
-      </div>
-    </div> -->
-
-    <div class="no-child" *ngIf="product.IsJustInTime != 'Just in time'">
-      <div class="black-label">
-        Total Stock In Hand
-      </div>
-      <div class="link" (click)="name()">
-        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
-      </div>
-    </div>
-  </div>
-
-
 
 
   <div class="basic">
@@ -120,7 +25,7 @@
       <div class="black-label">
         Colours
       </div>
-      <div class="link"  (click)="toggleSetUpVariations()">
+      <div class="link" (click)="toggleSetUpVariations()">
         <div class="options" *ngIf="colors">
           <!-- <div *ngFor="let option of colors.ProductVariationOptions">
             <div *ngIf="!option.ImageUrl || !option.ImageUrl.length" class="option color-btn"
@@ -134,7 +39,7 @@
 
       </div>
 
-      <div class="action">
+      <div class="action" (click)="toggleSetUpVariations()">
         <span class="material-icons pointer">
           chevron_right
         </span>
@@ -146,7 +51,7 @@
           Sizes
         </p>
       </div>
-      <div class="link"  (click)="toggleSetUpVariations()">
+      <div class="link" (click)="toggleSetUpVariations()">
         <div class="options" *ngIf="sizes">
           <div *ngFor="let option of sizes.ProductVariationOptions" class="option size-btn">
             {{option.OptionName}}
@@ -158,7 +63,7 @@
           </div>
         </div>
       </div>
-      <div class="action">
+      <div class="action" (click)="toggleSetUpVariations()">
         <span class="material-icons pointer">
           chevron_right
         </span>
@@ -208,6 +113,118 @@
       <i> Tap on the image to set as main picture</i>
     </div> -->
   </div>
+
+
+
+
+  <div class="basic" *ngIf="!colors">
+    <h3 class="header-label">
+      Product images.
+      <span>
+        Please choose product color(s) before you can upload images.
+      </span>
+    </h3>
+
+   
+  </div>
+
+
+  <div class="basic">
+    <h3 class="header-label">
+      Product info.
+    </h3>
+
+    <div class="no-child">
+      <div class="black-label">
+        Name
+      </div>
+      <div class="link" (click)="name()">
+        <input type="text" [(ngModel)]="product.Name" placeholder="e.g. Floral summer shirts">
+      </div>
+    </div>
+    <div class="no-child">
+      <div class="black-label">
+        Description
+      </div>
+      <div class="link" (click)="name()">
+        <textarea name="" [(ngModel)]="product.Description" placeholder="Enter product description "></textarea>
+      </div>
+    </div>
+
+    <div class="no-child">
+      <div class="black-label">
+        <p>
+          Price <strong>(ZAR)</strong>
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <div class="link" (click)="name()">
+          <input type="number" [(ngModel)]="product.RegularPrice" placeholder="Selling price">
+        </div>
+      </div>
+    </div>
+
+    <div class="no-child">
+      <div class="black-label">
+        <p>
+          Gender
+        </p>
+      </div>
+      <div class="link">
+        <div class="link">
+          <select [(ngModel)]="product.ParentCategoryGuid" *ngIf="parentCategories && parentCategories.length"
+            (change)="selectCategory($event.target.value)">
+            <option *ngFor="let pc of parentCategories" [ngValue]="pc.CategoryId"> {{pc.Name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="no-child">
+      <div class="black-label">
+        <p>
+          Catergory
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.CategoryGuid" (change)="catChanged()"
+          *ngIf="chilndrenCategories && chilndrenCategories.length">
+          <option value="add"> ➕ Add new</option>
+          <option *ngFor="let cc of chilndrenCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
+        </select>
+      </div>
+    </div>
+    <!-- 
+    <div class="no-child med">
+      <div class="black-label">
+        <p>
+          Sub catergory
+        </p>
+      </div>
+      <div class="link" (click)="name()">
+        <select [(ngModel)]="product.TertiaryCategoryGuid" (change)="catChanged()"
+          *ngIf="tertiaryCategories && tertiaryCategories.length">
+          <option value="add-tertiary"> ➕ Add new</option>
+          <option *ngFor="let cc of tertiaryCategories" [ngValue]="cc.CategoryId"> {{cc.Name}}</option>
+        </select>
+      </div>
+    </div> -->
+
+    <div class="no-child" *ngIf="product.IsJustInTime != 'Just in time'">
+      <div class="black-label">
+        Total Stock In Hand
+      </div>
+      <div class="link" (click)="name()">
+        <input type="number" [(ngModel)]="product.TotalStock" placeholder="Items sellable">
+      </div>
+    </div>
+  </div>
+
+
+
+
 
   <div class="basic">
 

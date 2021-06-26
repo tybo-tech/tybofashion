@@ -203,7 +203,7 @@ export class AddProductComponent implements OnInit {
     }
   }
   saveProduct() {
-    this.product.ProductSlug = this.productService.generateSlug(this.user.Company.Name, this.product.Name, this.product.Code);
+    // this.product.ProductSlug = this.productService.generateSlug(this.user.Company.Name, this.product.Name, this.product.Code);
     if (this.product.ParentCategoryGuid) {
       this.product.ParentCategoryName = this.categories && this.categories.find(x => x.CategoryId === this.product.ParentCategoryGuid).Name;
     }
@@ -267,19 +267,6 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  public uploadFile = (files: FileList) => {
-    if (files.length === 0) {
-      return;
-    }
-
-    Array.from(files).forEach(file => {
-      this.uploadService.resizeImage(file, this.product);
-    });
-
-
-
-
-  }
   onProductVariationChanged(productVariations: ProductVariation[]) {
     if (productVariations && productVariations.length) {
       this.product.ProductVariations = productVariations;

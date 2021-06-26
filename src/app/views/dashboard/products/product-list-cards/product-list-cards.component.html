@@ -127,6 +127,19 @@
         placeholder="Enter number of days, e.ge. 7">
     </div>
 
+
+    <div class="form-item">
+      <label for="">Stock in hand</label>
+      <input type="number" name="" id="" [(ngModel)]="newProduct.TotalStock" placeholder="Stock in hand.">
+    </div>
+
+
+    
+    <div class="form-item">
+      <label for="">Price (<b>ZAR</b>)</label>
+      <input type="number" name="" id="" [(ngModel)]="newProduct.RegularPrice" placeholder="Stock in hand.">
+    </div>
+
     <div class="form-item">
       <button (click)="saveProduct()" [disabled]="!newProduct.Name">Next</button>
       <div class="link" (click)="showAdd = false">Cancel</div>

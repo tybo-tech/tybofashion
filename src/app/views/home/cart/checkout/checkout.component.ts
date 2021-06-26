@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Order, User } from 'src/models';
 import { Shipping, systemShippings } from 'src/models/shipping.model';
 import { AccountService, OrderService } from 'src/services';
+import { InteractionService } from 'src/services/Interaction.service';
 import { ShippingService } from 'src/services/shipping.service';
 import { UxService } from 'src/services/ux.service';
 
@@ -35,6 +36,7 @@ export class CheckoutComponent implements OnInit {
     private router: Router,
     private orderService: OrderService,
     private uxService: UxService,
+    private interactionService: InteractionService,
 
 
   ) {
@@ -44,10 +46,12 @@ export class CheckoutComponent implements OnInit {
 
     this.order = this.orderService.currentOrderValue;
     if (!this.order) {
-      alert('No rder data');
+      // alert('No rder data');
       this.back();
     }
     this.user = this.accountService.currentUserValue;
+    this.interactionService.logHomePage(this.user, 'check out', JSON.stringify(this.order || ''), "ViewCheckoutPage");
+
     if (this.user && !this.order.CustomerId) {
       this.order.CustomerId = this.user.UserId;
     }

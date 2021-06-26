@@ -36,7 +36,7 @@
   border-bottom: 1px solid $cloud;
   padding: 1em;
 
-  
+
   @media only screen and (max-width: 600px) {
     grid-template-columns: 20% auto;
   }
@@ -71,36 +71,56 @@
       }
     }
 
-    .cta{
-        display: block;
-        padding: .1em;
-        text-align: center;
-        width: 9em;
-        border-radius: .3em;
-        font-weight: 400;
-        font-size: .85em;
-        cursor: pointer;
-        background: $pop;
-        color: $black;
-        margin: .5em 0;
+    .cta {
+      display: block;
+      padding: .1em;
+      text-align: center;
+      width: 9em;
+      border-radius: .3em;
+      font-weight: 400;
+      font-size: .85em;
+      cursor: pointer;
+      background: $pop;
+      color: $black;
+      margin: .5em 0;
     }
   }
 
 }
 
 
-.tabs{
+.tabs {
   display: grid;
-  grid-template-columns: repeat(2,11em);
+  grid-template-columns: repeat(2, 11em);
   margin-bottom: 2em;
-  button{
+
+  button {
     width: 90%;
     display: block;
     margin: .2em auto;
   }
 }
 
-.product-section{
+.product-section {
   animation: moveInRight .2s ease-out 0s;
   animation-fill-mode: backwards;
+}
+
+.form-item {
+  p {
+    text-align: center;
+    padding: 1em;
+    
+  }
+
+  padding: 1em;
+
+  button {
+    margin: .5em;
+  }
+}
+
+
+.global-tabs {
+  grid-template-columns: repeat(2, 50%);
 }

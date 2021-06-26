@@ -1,3 +1,27 @@
+
+<div class="overlay" *ngIf="showMenu" (click)="menu()"></div>
+<app-dash-nav *ngIf="showMenu"></app-dash-nav>
+
+
+<div class="top-bar-conatiner">
+
+  <div class="top-bar" *ngIf="user && user.Company">
+    <div class="menu-back" (click)="menu()">
+      <span class="material-icons">
+        menu
+      </span>
+    </div>
+
+
+    <div class="name pointer" >
+    <p (click)="goto('user-profile')">
+      Hi , {{user.Name}}
+    </p>
+    </div>
+
+  </div>
+</div>
+
 <div class="main" *ngIf="user && user.Company && products">
   <div class="company-profile">
     <div class="cdp">

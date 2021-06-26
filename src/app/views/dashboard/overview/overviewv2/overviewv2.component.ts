@@ -19,6 +19,7 @@ export class Overviewv2Component implements OnInit {
   companyLink = '';
   ADMIN= ADMIN;
   SUPER=SUPER;
+  showMenu: boolean;
 
   constructor(
     private productService: ProductService,
@@ -52,7 +53,9 @@ export class Overviewv2Component implements OnInit {
   goto(url) {
     this.router.navigate([`admin/dashboard/${url}`]);
   }
-
+  menu() {
+    this.showMenu = !this.showMenu;
+  }
   view(product: Product) {
     this.productService.updateProductState(product);
     this.router.navigate(['admin/dashboard/product', product.ProductSlug || product.ProductId]);

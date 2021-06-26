@@ -8,8 +8,7 @@ import { User, UserModel } from 'src/models/user.model';
 import { UploadService, UserService } from 'src/services';
 import { AccountService } from 'src/services/account.service';
 import { EmailService } from 'src/services/communication';
-import { ADMIN, CUSTOMER, IMAGE_DONE, SYSTEM } from 'src/shared/constants';
-import { IS_DELETED_FALSE, AWAITING_ACTIVATION } from 'src/shared/status.const';
+import {IMAGE_DONE } from 'src/shared/constants';
 
 @Component({
   selector: 'app-sign-up-modal',

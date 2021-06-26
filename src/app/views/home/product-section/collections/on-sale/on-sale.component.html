@@ -1,30 +1,31 @@
-<div class="main">
-  <div class="top-bar-conatiner">
-    <div class="top-bar">
-      <div class="menu-back">
-        <span class="material-icons" (click)="back()">
-          chevron_left
+<div *ngIf="productsOnSale && productsOnSale.length" class="main box-shadow">
+  <h2 class="cat-label">
+    <span>
+      Today specials
+    </span>
+
+    <span>
+      <!-- Sell all -->
+    </span>
+  </h2>
+  <div class="flexy">
+    <div class="list">
+      <span *ngFor="let item of productsOnSale; let i = index">
+        <div class="catergory"  (click)="viewMore(item)"
+        [ngStyle]="{'background-image': ' linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(128, 128, 128, 0.2)),'+'url(' + item.FeaturedImageUrl + ')'}">
+    
+      </div>
+      <p>
+        {{item.SalePrice | currency:'R'}}
+        <span>
+        {{item.Sale}}
         </span>
-      </div>
-
-
-      <div class="name">
-        Shops running promotions
-      </div>
-
-      <div class="btn-menu">
-
-      </div>
-    </div>
-  </div>
-
-  <div class="promotions" *ngIf="promotions && promotions.length">
-    <div class="promo-item" *ngFor="let promotion of promotions" [ngClass]="promotion.Class">
-      <h4 *ngIf="promotion.ImageUrl">
-        {{ promotion.Company?.Name}}
-      </h4>
-      <img *ngIf="promotion.ImageUrl" [src]="promotion.ImageUrl" (click)="gotoShopPromotion(promotion)">
+      </p>
+      </span>
+   
     </div>
   </div>
 
 </div>
+<app-product-quick-view *ngIf="selectedProduct" [selectedProduct]="selectedProduct"
+  (showProduct)="selectedProduct = null"></app-product-quick-view>

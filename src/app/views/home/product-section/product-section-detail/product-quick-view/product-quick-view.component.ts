@@ -8,12 +8,13 @@ import { Images } from 'src/models/images.model';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { ProductVariation } from 'src/models/product.variation.model';
 import { ProductVariationOption } from 'src/models/product.variation.option.model';
+import { Promotion } from 'src/models/promotion.model';
 import { NavHistoryUX, BreadModel } from 'src/models/UxModel.model';
 import { OrderService, AccountService, ProductService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { InteractionService } from 'src/services/Interaction.service';
 import { UxService } from 'src/services/ux.service';
-import { ORDER_TYPE_SALES, INTERRACTION_TYPE_LIKE } from 'src/shared/constants';
+import { ORDER_TYPE_SALES, INTERRACTION_TYPE_LIKE, DISCOUNT_TYPES } from 'src/shared/constants';
 
 @Component({
   selector: 'app-product-quick-view',
@@ -50,10 +51,10 @@ export class ProductQuickViewComponent implements OnInit {
   navHistory: NavHistoryUX;
   selectedQuantiy: number = 1;
   liked: string = 'no';
+  heading = 'like a product.'
 
   interaction: Interaction;
   user: User;
-  showAdd: boolean;
 
 
   items: BreadModel[] = [
@@ -63,6 +64,8 @@ export class ProductQuickViewComponent implements OnInit {
     },
 
   ];
+  pendingActionLike: boolean;
+  like: string;
 
   constructor(
     private homeShopService: HomeShopService,
@@ -80,15 +83,24 @@ export class ProductQuickViewComponent implements OnInit {
 
   ngOnInit() {
     this.loadScreen();
+    this.accountService.user.subscribe(data => {
+      this.user = data;
+      this.getInteractions();
+      if (this.pendingActionLike && this.user && this.user.UserId) {
+        this.onLike(this.like);
+      }
+
+    })
   }
 
   loadScreen() {
     this.items = [];
     this.user = this.accountService.currentUserValue;
     if (this.selectedProduct) {
-      this.productService.getProductSync(this.selectedProduct.ProductSlug).subscribe(data=>{
-        if(data){
+      this.productService.getProductSync(this.selectedProduct.ProductSlug).subscribe(data => {
+        if (data) {
           this.product = data;
+          this.interactionService.logProductPage(this.user, this.product);
           this.fullLink = `${this.baseUrl}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
           if (this.product) {
             this.sanitize();
@@ -104,7 +116,7 @@ export class ProductQuickViewComponent implements OnInit {
                 Name: this.company.Name.substr(0, 30),
                 Link: `/${this.product.Company.Slug || this.product.Company.CompanyId}`
               },
-    
+
               // {
               //   Name: this.product.CategoryName.substr(0,50),
               //   Link: `home/collections/picks`
@@ -113,14 +125,23 @@ export class ProductQuickViewComponent implements OnInit {
                 Name: this.product.Name.substr(0, 50),
                 Link: `shop/product/${this.product.ProductSlug || this.product.ProductId}`
               }
-    
+
             )
-            if (this.company && this.company.Promotions) {
-              this.product.SalePrice = Number(this.product.RegularPrice) - (Number(this.product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
+            if (this.company && this.company.Promotions && this.company.Promotions.length) {
+              const promo: Promotion = this.company.Promotions[0];
+              if (promo.PromoType === DISCOUNT_TYPES[0]) {
+                this.product.SalePrice = (Number(this.product.RegularPrice) * (Number(promo.DiscountValue) / 100));
+                this.product.SalePrice = (Number(this.product.RegularPrice) - (Number(this.product.SalePrice)));
+                this.product.Sale = `${promo.DiscountValue} ${promo.DiscountUnits}`
+              }
+              if (promo.PromoType === DISCOUNT_TYPES[1]) {
+                (this.product.SalePrice = (Number(this.product.RegularPrice) - (Number(promo.DiscountValue))));
+              }
+  
               if (Number(this.product.SalePrice) < Number(this.product.RegularPrice)) {
                 this.product.OnSale = true;
               }
-    
+  
             }
             this.sizes = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Size');
             this.colors = this.product.ProductVariations && this.product.ProductVariations.find(x => x.VariationName === 'Color');
@@ -131,8 +152,8 @@ export class ProductQuickViewComponent implements OnInit {
                 this.product.Images[0].Class = ['active'];
                 this.product.FeaturedImageUrl = this.product.Images[0].Url
               }
-    
-    
+
+
               if (this.colors && this.colors.ProductVariationOptions) {
                 this.colors.ProductVariationOptions.forEach(item => {
                   item.Images = this.product.AllImages.filter(x => x.OptionId === item.Id);
@@ -140,7 +161,7 @@ export class ProductQuickViewComponent implements OnInit {
                 this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.Images && x.Images.length > 0)
               }
             }
-    
+
             if (this.colors && this.colors.ProductVariationOptions && this.colors.ProductVariationOptions.length) {
               this.colors.ProductVariationOptions = this.colors.ProductVariationOptions.filter(x => x.ShowOnline === 'show')
               this.selectOption(this.colors.ProductVariationOptions[0], 'Coulor');
@@ -150,40 +171,40 @@ export class ProductQuickViewComponent implements OnInit {
             }
           }
 
-          
 
 
-      this.homeShopService.updatePageMovesIntroTrueFalse(false);
-      this.order = this.orderService.currentOrderValue;
-      if (!this.order) {
-        this.order = {
-          OrdersId: '',
-          OrderNo: 'Shop',
-          CompanyId: this.product.CompanyId,
-          Company: this.company,
-          CustomerId: '',
-          AddressId: '',
-          Notes: '',
-          OrderType: ORDER_TYPE_SALES,
-          Total: 0,
-          Paid: 0,
-          Due: 0,
-          InvoiceDate: new Date(),
-          DueDate: '',
-          CreateUserId: 'shop',
-          ModifyUserId: 'shop',
-          Status: 'Not paid',
-          StatusId: 1,
-          Orderproducts: []
-        }
-        this.orderService.updateOrderState(this.order);
-      }
-      this.carttItems = this.order.Orderproducts && this.order.Orderproducts.length || 0;
-      this.uxService.updateLoadingState({ Loading: false, Message: undefined });
-      this.getInteractions();
+
+          this.homeShopService.updatePageMovesIntroTrueFalse(false);
+          this.order = this.orderService.currentOrderValue;
+          if (!this.order) {
+            this.order = {
+              OrdersId: '',
+              OrderNo: 'Shop',
+              CompanyId: this.product.CompanyId,
+              Company: this.company,
+              CustomerId: '',
+              AddressId: '',
+              Notes: '',
+              OrderType: ORDER_TYPE_SALES,
+              Total: 0,
+              Paid: 0,
+              Due: 0,
+              InvoiceDate: new Date(),
+              DueDate: '',
+              CreateUserId: 'shop',
+              ModifyUserId: 'shop',
+              Status: 'Not paid',
+              StatusId: 1,
+              Orderproducts: []
+            }
+            this.orderService.updateOrderState(this.order);
+          }
+          this.carttItems = this.order.Orderproducts && this.order.Orderproducts.length || 0;
+          this.uxService.updateLoadingState({ Loading: false, Message: undefined });
+          this.getInteractions();
         }
       })
-   
+
 
 
     }
@@ -379,15 +400,10 @@ export class ProductQuickViewComponent implements OnInit {
     this.router.navigate([url]);
   }
   onLike(like: string) {
+    this.like = like;
     if (!this.user) {
-      this.uxService.keepNavHistory(
-        {
-          BackToAfterLogin: `/shop/product/${this.product.ProductSlug || this.product.ProductId}`,
-          BackTo: this.navHistory && this.navHistory.BackTo || null,
-          ScrollToProduct: null
-        }
-      );
-      this.showAdd = true;
+      this.uxService.openTheQuickLogin();
+      this.pendingActionLike = true;
       return false;
     }
     this.liked = like;
@@ -407,8 +423,8 @@ export class ProductQuickViewComponent implements OnInit {
         InteractionStatus: "Valid",
         ImageUrl: this.product.FeaturedImageUrl,
         SourceType: "",
-        SourceName: "",
-        SourceDp: "",
+        SourceName: this.user.Name,
+        SourceDp: this.user.Dp,
         TargetType: "",
         TargetName: "",
         TargetDp: "",
@@ -419,12 +435,16 @@ export class ProductQuickViewComponent implements OnInit {
 
       this.interactionService.add(this.interaction).subscribe(data => {
         console.log(data);
+        this.getInteractionSync();
+        this.pendingActionLike = false;
+
       })
     }
 
     if (like === 'no' && this.interaction.InteractionId && this.interaction.CreateDate) {
       this.interactionService.delete(this.interaction.InteractionId).subscribe(data => {
         console.log(data);
+        this.getInteractionSync();
       })
     }
 
@@ -432,12 +452,12 @@ export class ProductQuickViewComponent implements OnInit {
   }
 
   getInteractions() {
-    if (!this.user) {
+    if (!this.user || !this.selectedProduct) {
       return false;
     }
     const interactionSearchModel: InteractionSearchModel = {
       InteractionSourceId: this.user.UserId,
-      InteractionTargetId: this.product.ProductId,
+      InteractionTargetId: this.selectedProduct.ProductId,
       InteractionType: INTERRACTION_TYPE_LIKE,
       StatusId: 1
     }
@@ -450,6 +470,20 @@ export class ProductQuickViewComponent implements OnInit {
         }
       }
     })
+  }
+
+
+  getInteractionSync() {
+    if (!this.user) {
+      return;
+    }
+    const interactionSearchModel: InteractionSearchModel = {
+      InteractionSourceId: this.user.UserId,
+      InteractionTargetId: '',
+      InteractionType: INTERRACTION_TYPE_LIKE,
+      StatusId: 1
+    }
+    this.interactionService.getInteractionsBySourceSync(interactionSearchModel);
   }
 
   // loadCategories() {

@@ -19,7 +19,7 @@
 
   .nav-grid {
     display: grid;
-    grid-template-columns: 4em 18em 53% 18% auto;
+    grid-template-columns: 4em 4em 18em 53% 18% auto;
 
     max-width: $max-width;
     margin: 0 auto;
@@ -32,7 +32,7 @@
 
     @media only screen and (max-width: 600px) {
       width: 100%;
-      grid-template-columns: 10% 72% 10% auto;
+      grid-template-columns: 10% 10% 60% 10% auto;
       padding: .5em .2em;
       padding-right: 1em;
     }
@@ -94,7 +94,7 @@
         @media only screen and (max-width: 600px) {
           height: 3em;
           top: .3em;
-          left: 1em;
+          left: 0;
 
         }
 

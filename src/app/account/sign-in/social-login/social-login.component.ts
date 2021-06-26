@@ -28,6 +28,7 @@ export class SocialLoginComponent implements OnInit {
     img: undefined
   };
   @Input() userType: string;
+  @Input() parentReferralCode: string;
   socialUser: SocialUser;
   loggedIn: boolean;
   modalImage: string;
@@ -88,6 +89,7 @@ export class SocialLoginComponent implements OnInit {
 
   login(model: UserModel) {
     this.uxService.showLoader();
+    model.ParentReferralCode = this.parentReferralCode || '';
     this.accountService.socialLogin(model).subscribe(user => {
       this.uxService.hideLoader();
    

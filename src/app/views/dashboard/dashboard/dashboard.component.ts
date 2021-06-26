@@ -48,9 +48,7 @@ export class DashboardComponent implements OnInit {
   onTabChanged(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
   }
-  menu() {
-    this.showMenu = !this.showMenu;
-  }
+
   totop() {
     window.scroll(0, 0);
   }

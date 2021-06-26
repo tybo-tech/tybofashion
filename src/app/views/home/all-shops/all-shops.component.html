@@ -14,6 +14,14 @@
 
           <div class="name" (click)="view(item)">
             {{item.Name}}
+            <span class="address" *ngIf="item.AddressLine || item.Location">
+
+              <!-- <span class="material-icons">
+                location_on
+                </span> -->
+              {{item.AddressLine || item.Location}}
+            
+          </span>
           </div>
           <div class="name">
             <a *ngIf="!item.Liked" (click)="onLike('yes', item)">Follow</a>

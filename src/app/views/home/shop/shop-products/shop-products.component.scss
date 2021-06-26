@@ -212,20 +212,21 @@
 
 
 .company-profile {
-  margin:0;
+  margin: 0 auto;
   padding: 1em;
   display: grid;
   grid-template-columns: 8em auto;
   background: $white;
-  box-shadow: $box-shadow;
-  width: 98%;
+  max-width: $max-width;
+  padding-top: 2em;
+  // box-shadow: $box-shadow;
 
   @media only screen and (max-width: 600px) {
     grid-template-columns: 6em auto;
     padding: 1em .5em;
     margin: 0;
     margin-top: 3em;
-    padding-top: 6em;
+    padding-top: 4em;
     width: 100%;
   }
 
@@ -320,9 +321,159 @@
 }
 
 
-.holder{
+.holder {
   background: $white;
   width: 100%;
   margin: 0;
   box-shadow: $box-shadow;
+
+
+}
+
+
+.address {
+  font-weight: 400;
+  font-size: .75em;
+  overflow: hidden;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: $darker-grey;
+}
+
+p {
+  padding: .5em;
+  border-top: 1px solid $cloud;
+}
+
+.following {
+  border-top: 1px solid $cloud;
+  display: grid;
+  grid-template-columns: 22% 35% auto;
+  padding: .5em;
+  max-width: $max-width;
+  margin: 1em auto;
+
+  padding: .4em 1.2em;
+
+  .item {
+    span {
+      font-weight: 700;
+      display: block;
+    }
+
+    button {
+      margin-top: .3em;
+      width: 97%;
+      margin: 0.3em auto;
+      padding: .6em !important;
+      border-radius: .1em;
+      font-size: .65em;
+
+      span {
+        position: relative;
+        font-size: 1.6em;
+        top: 0;
+      }
+    }
+
+    .ter {
+      border: 2px solid $black !important;
+      color: $black !important;
+      background: $white !important;
+    }
+
+    .mess {
+      border: 2px solid $pop !important;
+      color: $black !important;
+      background: $pop !important;
+    }
+  }
+}
+
+.comapy-description {
+  max-width: $max-width;
+  margin: 1em auto;
+}
+
+.products-holder {
+  max-width: $max-width;
+  margin: 1em auto;
+}
+
+.follower {
+  display: grid;
+  grid-template-columns: 3em auto;
+  padding: .4em;
+  border-bottom: 1px solid $cloud;
+
+  .icon {
+    padding: .5em;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  p {
+    padding: .5em;
+    border: none;
+  }
+
+  details {
+    padding: 1em;
+  }
+}
+
+
+
+.top-bar-conatiner {
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+}
+
+.top-bar {
+  grid-template-columns: 3% 40% 20% 20% auto;
+  // div{
+  //   border: 1px solid red;
+  // }
+
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 5% 40% 20% auto;
+    padding: .75em .5em;
+    background: rgba(255, 255, 255, 0.472);
+    border: none;
+
+  }
+
+  .share,
+  .cart {
+    text-align: right;
+
+
+    @media only screen and (max-width: 600px) {
+      text-align: center;
+
+    }
+  }
+
+}
+
+.main{
+  @media only screen and (max-width: 600px) {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    z-index: 1000000;
+    top: 0;
+    left: 0;
+    padding-bottom: 8em;
+
+  }
 }

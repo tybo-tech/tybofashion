@@ -1,4 +1,5 @@
 import { Company } from "./company.model";
+import { Product } from "./product.model";
 
 export interface Promotion {
   PromotionId: string;
@@ -26,5 +27,6 @@ export interface Promotion {
   StatusId: number;
   Class?: string[];
   Company?: Company;
+  Products?: Product[];
   Style?: any;
 }

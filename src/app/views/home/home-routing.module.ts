@@ -4,6 +4,8 @@ import { EditMyProfileComponent } from 'src/app/account/edit-my-profile/edit-my-
 import { ForgotPasswordComponent, ResetPasswordComponent } from 'src/app/account/forgot-password';
 import { ListMyOrdersComponent } from 'src/app/account/list-my-orders/list-my-orders.component';
 import { MyProfileComponent } from 'src/app/account/my-profile/my-profile.component';
+import { InviteComponent } from 'src/app/account/my-refferals/invite/invite.component';
+import { MyRefferalsComponent } from 'src/app/account/my-refferals/my-refferals.component';
 import { SignInComponent } from 'src/app/account/sign-in';
 import { QuickSignInComponent } from 'src/app/account/sign-in/quick-sign-in/quick-sign-in.component';
 import { SocialLoginComponent } from 'src/app/account/sign-in/social-login/social-login.component';
@@ -17,6 +19,7 @@ import { MyOrdersComponent } from '../dashboard/orders/my-orders/my-orders.compo
 import { ViewMyOrderComponent } from '../dashboard/orders/view-order/view-my-order/view-my-order.component';
 import { ViewOrderComponent } from '../dashboard/orders/view-order/view-order.component';
 import { AllShopsComponent } from './all-shops/all-shops.component';
+import { ListShopsComponent } from './all-shops/list-shops/list-shops.component';
 import { CartComponent, CheckoutComponent } from './cart';
 import { CartItemsComponent } from './cart/cart-items/cart-items.component';
 import { MyCartComponent } from './cart/my-cart/my-cart.component';
@@ -28,8 +31,10 @@ import { FiitingRoomComponent } from './fiiting-room/fiiting-room.component';
 import { AboutComponent } from './general/about/about.component';
 import { ButtinSpinnerComponent } from './general/buttin-spinner/buttin-spinner.component';
 import { ContactComponent } from './general/contact/contact.component';
+import { FloatingMenuComponent } from './general/floating-menu/floating-menu.component';
 import { FooterComponent } from './general/footer/footer.component';
 import { ReturnsPolicyComponent } from './general/returns-policy/returns-policy.component';
+import { SearchShopComponent } from './general/search-shop/search-shop.component';
 import { TermsComponent } from './general/terms/terms.component';
 import { HomeLandingComponent } from './home-landing';
 import { CustomerDesignComponent } from './home-landing/customer-design/customer-design.component';
@@ -58,6 +63,7 @@ import { ShopByCatergoryComponent } from './product-section/product-section-deta
 import { ShopComponent } from './shop';
 import { ShopNavComponent } from './shop-nav/shop-nav.component';
 import { ShopSideNavComponent } from './shop-nav/shop-side-nav/shop-side-nav.component';
+import { SetUpShopComponent } from './shop/shop-products/set-up-shop/set-up-shop.component';
 import { ShopProductsComponent } from './shop/shop-products/shop-products.component';
 import { ShowPromotionsComponent } from './shop/shop-products/show-promotions/show-promotions.component';
 
@@ -86,7 +92,7 @@ const routes: Routes = [
       { path: 'home/collections/:id', component: CollectionsComponent },
       { path: 'home/all-collections/:id', component: AllCollectionsComponent },
       { path: 'home/hello-fashion-shop', component: SellWithUsComponent },
-      { path: 'home/shops', component: AllShopsComponent },
+      { path: 'home/shops', component: ListShopsComponent },
       { path: 'home/payment-cancelled/:id', component: PaymentCancelledComponent },
       // { path: 'home/payment-cancelled/:id', component: ShopingSuccesfulComponent },  //    for testing only,
       { path: 'home/shopping-succesful/:id', component: ShopingSuccesfulComponent },
@@ -100,14 +106,18 @@ const routes: Routes = [
       { path: 'home/shop-for/:id', component: DepartmentComponent },
       { path: 'home/chat/:id/:userId/:userToId', component: ChatComponent },
       { path: 'home/messages/:traceId/:targetId', component: MessagesComponent },
-
+      
       //general
-
+      
       { path: 'home/contact-us', component: ContactComponent },
       { path: 'home/about', component: AboutComponent },
       { path: 'home/terms', component: TermsComponent },
       { path: 'home/returns-policy', component: ReturnsPolicyComponent },
-
+      { path: 'home/how-it-works', component: HowItWorksComponent },
+      { path: 'home/search', component: SearchShopComponent },
+      { path: 'home/my-refferals', component: MyRefferalsComponent },
+      { path: 'home/invite/:id', component: InviteComponent },
+      
 
     ]
 
@@ -179,7 +189,14 @@ export const declarations = [
   FeaturedComponent,
   ShopByGenderComponent,
   QuickSignInComponent,
-  ButtinSpinnerComponent
+  ButtinSpinnerComponent,
+  FloatingMenuComponent,
+  SearchShopComponent,
+  MyRefferalsComponent,
+  InviteComponent,
+  ListShopsComponent,
+  SetUpShopComponent
+  
 
 ];
 

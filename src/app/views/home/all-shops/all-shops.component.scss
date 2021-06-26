@@ -1,12 +1,22 @@
 @import '../../../../assets/styles/color';
 
 .main {
+
+
   .shops {
+    animation: moveInRight .2s ease-out 0s;
+    animation-fill-mode: backwards;
     .shop {
       background: $white;
       margin: 1em auto;
       padding: 1em;
       box-shadow: $box-shadow;
+      padding: 1em $padding;
+
+
+      @media only screen and (max-width: 600px) {
+        padding: 1em;
+      }
 
 
       .top-row {
@@ -45,7 +55,7 @@
             border: 2px solid $black;
           }
 
-          a.following{
+          a.following {
             color: $black;
             background: $white;
             border: 2px solid $black;
@@ -79,9 +89,26 @@
 
   .search-box {
     text-align: center;
-   input{
-     width: 98%;
-    background: $white;
-   }
+
+    input {
+      width: 98%;
+      background: $white;
+    }
+  }
+}
+
+
+.address {
+  font-weight: 400;
+  font-size: .75em;
+  // height: 1em;
+  overflow: hidden;
+  display: block;
+
+  .material-icons {
+    position: relative;
+    margin: 0;
+    font-size: 1.5em;
+    top: .4em;
   }
 }

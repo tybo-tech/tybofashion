@@ -2,13 +2,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category, NavigationModel, Order, Product, User } from 'src/models';
 import { Company } from 'src/models/company.model';
+import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { SearchResultModel } from 'src/models/search.model';
 import { AccountService, CompanyCategoryService, OrderService, ProductService } from 'src/services';
 import { CompanyService } from 'src/services/company.service';
 import { HomeShopService } from 'src/services/home-shop.service';
+import { InteractionService } from 'src/services/Interaction.service';
 import { NavigationService } from 'src/services/navigation.service';
 import { UxService } from 'src/services/ux.service';
-import { COMPANY_TYPE, ORDER_TYPE_SALES } from 'src/shared/constants';
+import { COMPANY_TYPE, INTERRACTION_TYPE_LIKE, ORDER_TYPE_SALES } from 'src/shared/constants';
 
 @Component({
   selector: 'app-home-nav',
@@ -26,14 +28,12 @@ export class HomeNavComponent implements OnInit {
   allProducts: Product[]
   order: Order;
   user: User;
-  searchString: string;
-  searchResults: SearchResultModel[] = [];
-  showSearch: boolean;
   products: any;
   catergories: any[];
   tertiaryCategories: any[];
   shops: Company[];
   companies: Company[];
+  productsInteractions: Interaction[] = [];
   constructor(
     private navigationService: NavigationService,
     private accountService: AccountService,
@@ -43,6 +43,7 @@ export class HomeNavComponent implements OnInit {
     private uxService: UxService,
     private productService: ProductService,
     private companyCategoryService: CompanyCategoryService,
+    private interactionService: InteractionService,
 
   ) {
 
@@ -52,6 +53,7 @@ export class HomeNavComponent implements OnInit {
     this.user = this.accountService.currentUserValue;
     this.accountService.user.subscribe(user => {
       this.user = user;
+      this.getInteractions();
     });
 
 
@@ -79,6 +81,13 @@ export class HomeNavComponent implements OnInit {
     })
 
     this.getCategories();
+
+    this.interactionService.interactionListTabObservable.subscribe(data => {
+      if (data && data.length) {
+        this.productsInteractions = data;
+        // this.productsInteractions = data.filter(x => x.InteractionBody !== 'Follow');
+      }
+    });
   }
 
   getCategories() {
@@ -89,6 +98,20 @@ export class HomeNavComponent implements OnInit {
         this.allCategories = data;
       }
     });
+  }
+
+  getInteractions() {
+    if (!this.user) {
+      this.productsInteractions = [];
+      return;
+    }
+    const interactionSearchModel: InteractionSearchModel = {
+      InteractionSourceId: this.user.UserId,
+      InteractionTargetId: '',
+      InteractionType: INTERRACTION_TYPE_LIKE,
+      StatusId: 1
+    }
+    this.interactionService.getInteractionsBySourceSync(interactionSearchModel);
   }
 
   tabParentCategories(category: Category) {
@@ -113,45 +136,9 @@ export class HomeNavComponent implements OnInit {
     this.showMenu = !this.showMenu;
   }
 
-  search() {
-    this.searchResults = [];
-    if (this.allProducts && this.searchString) {
-      this.searchString = this.searchString.toLocaleLowerCase();
-      const matchingProducts = this.allProducts.filter(x => {
-        if (
-          x.Name && x.Name.toLocaleLowerCase().includes(this.searchString)
-          || x.Description && x.Description.toLocaleLowerCase().includes(this.searchString)
-        ) {
-          return x;
-        }
-      });
-      matchingProducts.forEach(x => {
 
-        this.searchResults.push(
-          {
-            Name: x.Name,
-            RegularPrice: x.RegularPrice,
-            Icon: x.FeaturedImageUrl,
-            Object: x,
-            Type: 'product'
-          }
-        );
-      })
-    }
 
-  }
 
-  openSearchResult(item: SearchResultModel) {
-    if (!item) {
-      return;
-    }
-    this.showSearch = false;
-
-    if (item.Type === 'product') {
-      this.viewMore(item.Object);
-      this.searchString = undefined;
-    }
-  }
 
   viewMore(model: Product) {
     const order = this.orderService.currentOrderValue;

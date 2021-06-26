@@ -11,11 +11,12 @@ import { ProductVariationOption } from 'src/models/product.variation.option.mode
 import { Images } from 'src/models/images.model';
 import { CompanyService } from 'src/services/company.service';
 import { UxService } from 'src/services/ux.service';
-import { INTERRACTION_TYPE_LIKE, ORDER_TYPE_SALES } from 'src/shared/constants';
+import { DISCOUNT_TYPES, INTERRACTION_TYPE_LIKE, ORDER_TYPE_SALES } from 'src/shared/constants';
 import { environment } from 'src/environments/environment';
 import { Interaction, InteractionSearchModel } from 'src/models/interaction.model';
 import { InteractionService } from 'src/services/Interaction.service';
 import { BreadModel, NavHistoryUX } from 'src/models/UxModel.model';
+import { Promotion } from 'src/models/promotion.model';
 
 
 @Component({
@@ -47,11 +48,11 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
   imageIndex = 0;
   imageClass;
   fullLink: any;
-  baseUrl = environment.BASE_URL;
   carttItems = 0;
   navHistory: NavHistoryUX;
   selectedQuantiy: number = 1;
   liked: string = 'no';
+  heading = 'like a product.';
 
   interaction: Interaction;
   user: User;
@@ -65,6 +66,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     },
 
   ];
+  pendingActionLike: any;
+  like: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -97,17 +100,27 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
       }, 0)
 
     });
+
+    this.accountService.user.subscribe(data => {
+      this.user = data;
+      this.getInteractions();
+      if (this.pendingActionLike) {
+        this.onLike(this.like);
+      }
+
+    })
   }
 
   loadScreen() {
     this.items = [];
-    this.user = this.accountService.currentUserValue;
     this.uxService.updateLoadingState({ Loading: true, Message: 'Loading product, please wait...' });
 
     this.productService.getProductSync(this.productSlug).subscribe(data => {
       if (data && data.ProductId) {
+        this.interactionService.logProductPage(this.user, this.product);
+
         this.product = data;
-        this.fullLink = `${this.baseUrl}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
+        this.fullLink = `${environment.BASE_URL}/shop/product/${this.product.ProductSlug || this.product.ProductId}`;
         if (this.product) {
           this.sanitize();
           this.company = this.product.Company;
@@ -133,8 +146,17 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
             }
 
           )
-          if (this.company && this.company.Promotions) {
-            this.product.SalePrice = Number(this.product.RegularPrice) - (Number(this.product.RegularPrice) * (Number(this.company.Promotions[0].DiscountValue) / 100));
+          if (this.company && this.company.Promotions && this.company.Promotions.length) {
+            const promo: Promotion = this.company.Promotions[0];
+            if (promo.PromoType === DISCOUNT_TYPES[0]) {
+              this.product.SalePrice = (Number(this.product.RegularPrice) * (Number(promo.DiscountValue) / 100));
+              this.product.SalePrice = (Number(this.product.RegularPrice) - (Number(this.product.SalePrice)));
+              this.product.Sale = `${promo.DiscountValue} ${promo.DiscountUnits}`
+            }
+            if (promo.PromoType === DISCOUNT_TYPES[1]) {
+              (this.product.SalePrice = (Number(this.product.RegularPrice) - (Number(promo.DiscountValue))));
+            }
+
             if (Number(this.product.SalePrice) < Number(this.product.RegularPrice)) {
               this.product.OnSale = true;
             }
@@ -406,15 +428,10 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
     this.router.navigate([url]);
   }
   onLike(like: string) {
+    this.like = like;
     if (!this.user) {
-      this.uxService.keepNavHistory(
-        {
-          BackToAfterLogin: `/shop/product/${this.product.ProductSlug || this.product.ProductId}`,
-          BackTo: this.navHistory && this.navHistory.BackTo || null,
-          ScrollToProduct: null
-        }
-      );
-      this.showAdd = true;
+      this.uxService.openTheQuickLogin();
+      this.pendingActionLike = true;
       return false;
     }
     this.liked = like;
@@ -434,8 +451,8 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
         InteractionStatus: "Valid",
         ImageUrl: this.product.FeaturedImageUrl,
         SourceType: "",
-        SourceName: "",
-        SourceDp: "",
+        SourceName: this.user.Name,
+        SourceDp: this.user.Dp,
         TargetType: "",
         TargetName: "",
         TargetDp: "",
@@ -446,20 +463,36 @@ export class ProductSectionDetailComponent implements OnInit, OnChanges {
 
       this.interactionService.add(this.interaction).subscribe(data => {
         console.log(data);
+        this.getInteractionSync();
+        this.pendingActionLike = false;
       })
     }
 
     if (like === 'no' && this.interaction.InteractionId && this.interaction.CreateDate) {
       this.interactionService.delete(this.interaction.InteractionId).subscribe(data => {
         console.log(data);
+        this.getInteractionSync();
       })
     }
 
 
   }
 
-  getInteractions() {
+  getInteractionSync() {
     if (!this.user) {
+      return;
+    }
+    const interactionSearchModel: InteractionSearchModel = {
+      InteractionSourceId: this.user.UserId,
+      InteractionTargetId: '',
+      InteractionType: INTERRACTION_TYPE_LIKE,
+      StatusId: 1
+    }
+    this.interactionService.getInteractionsBySourceSync(interactionSearchModel);
+  }
+
+  getInteractions() {
+    if (!this.user || !this.product) {
       return false;
     }
     const interactionSearchModel: InteractionSearchModel = {

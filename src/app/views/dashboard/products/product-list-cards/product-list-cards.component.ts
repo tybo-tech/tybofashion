@@ -64,7 +64,7 @@ export class ProductListCardsComponent implements OnInit {
       Name: '',
       RegularPrice: 0,
       PriceFrom: 0,
-      TotalStock: 0,
+      TotalStock: 1,
       PriceTo: 0,
       Description: '',
       ProductSlug: '',

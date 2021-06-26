@@ -23,6 +23,7 @@ export class HomeSideNavComponent implements OnInit {
   user: User;
   parentCategory: Category;
   allCategories: Category[];
+  toggleState: string = '';
   constructor(
     private router: Router,
     private homeShopService: HomeShopService,
@@ -91,11 +92,13 @@ export class HomeSideNavComponent implements OnInit {
   logout() {
     this.user = null;
     this.accountService.updateUserState(null);
+    this.toggleMenu(false);
   }
 
   profile() {
     this.router.navigate(['home/profile']);
     this.showMobileNav = false;
+    this.toggleMenu(false);
   }
 
 
@@ -110,6 +113,11 @@ export class HomeSideNavComponent implements OnInit {
   }
 
   loadCategories(name: string) {
+    if(this.toggleState === name){
+      this.toggleState = '';
+      this.parentCategory =  null;
+      return;
+    }
     if (this.allCategories) {
       this.parentCategory = this.allCategories.find(x => x.CategoryType === 'Parent'
         && x.Name.toLocaleLowerCase() === name.toLocaleLowerCase())
@@ -118,7 +126,8 @@ export class HomeSideNavComponent implements OnInit {
           === this.parentCategory.CategoryId && x.ProductsImages && x.ProductsImages.length);
       }
     }
-
+  
+    this.toggleState = name;
   }
 
   tapChildCategory(category: any) {

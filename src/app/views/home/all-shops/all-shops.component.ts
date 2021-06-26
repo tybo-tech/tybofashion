@@ -46,10 +46,10 @@ export class AllShopsComponent implements OnInit {
   ngOnInit() {
     this.accountService.user.subscribe(data => {
       this.user = data;
-    this.getInteractions();
-    if(this.pendingActionLike){
-      this.onLike(this.likeAction, this.company);
-    }
+      this.getInteractions();
+      if (this.pendingActionLike) {
+        this.onLike(this.likeAction, this.company);
+      }
 
     })
     // this.getInteractions();
@@ -59,6 +59,7 @@ export class AllShopsComponent implements OnInit {
   }
   getAllComapnies() {
     this.companyService.companyListObservable.subscribe(data => {
+      this.uxService.hideLoader();
       if (data && data.length) {
         this.shops = data.filter(x => Number(x.ProductsCount && x.ProductsCount.ProductsCount) > 0);
         this.plusFours = this.shops.filter(x => x.GeCategoryNames && x.GeCategoryNames.length >= 2);
@@ -105,8 +106,8 @@ export class AllShopsComponent implements OnInit {
         InteractionStatus: "Valid",
         ImageUrl: this.company.Dp,
         SourceType: "",
-        SourceName: "",
-        SourceDp: "",
+        SourceName: this.user.Name,
+        SourceDp: this.user.Dp,
         TargetType: "",
         TargetName: "",
         TargetDp: "",
@@ -120,25 +121,43 @@ export class AllShopsComponent implements OnInit {
           company.Liked = true;
           this.getInteractions();
           this.pendingActionLike = false;
-          this.uxService.showQuickMessage('Shop added to favorites.')
+          this.uxService.showQuickMessage('Shop added to favorites.');
+          this.getInteractionSync();
+
         }
       })
     }
 
-    if (like === 'no' &&  company.Interaction && company.Interaction.InteractionId && company.Interaction.CreateDate) {
+    if (like === 'no' && company.Interaction && company.Interaction.InteractionId && company.Interaction.CreateDate) {
       this.interactionService.delete(company.Interaction.InteractionId).subscribe(data => {
         company.Liked = false;
-        this.uxService.showQuickMessage('Shop removed from favorites.')
+        this.uxService.showQuickMessage('Shop removed from favorites.');
+        this.getInteractionSync();
       });
     }
 
 
   }
 
+
+
+  getInteractionSync() {
+    if (!this.user) {
+      return;
+    }
+    const interactionSearchModel: InteractionSearchModel = {
+      InteractionSourceId: this.user.UserId,
+      InteractionTargetId: '',
+      InteractionType: INTERRACTION_TYPE_LIKE,
+      StatusId: 1
+    }
+    this.interactionService.getInteractionsBySourceSync(interactionSearchModel);
+  }
   getInteractions() {
+    this.uxService.showLoader();
     if (!this.user) {
       this.getAllComapnies();
-      this.interactions =  [];
+      this.interactions = [];
       return false;
     }
     const interactionSearchModel: InteractionSearchModel = {

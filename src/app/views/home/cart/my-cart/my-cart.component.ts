@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Order, Orderproduct } from 'src/models';
-import { OrderService } from 'src/services';
+import { Order, Orderproduct, Product, User } from 'src/models';
+import { AccountService, OrderService } from 'src/services';
 import { HomeShopService } from 'src/services/home-shop.service';
+import { InteractionService } from 'src/services/Interaction.service';
 
 @Component({
   selector: 'app-my-cart',
@@ -13,19 +14,24 @@ export class MyCartComponent implements OnInit {
 
   order: Order;
   @Output() checkoutOrShopMoreEvent: EventEmitter<string> = new EventEmitter<string>();
-  product: import("c:/NDU/apps/tybo-invoice/src/models/product.model").Product;
+  product: Product;
+  user: User;
 
   constructor(
     private orderService: OrderService,
     private homeShopService: HomeShopService,
     private router: Router,
+    private interactionService: InteractionService,
+    private accountService: AccountService
+
 
   ) { }
 
   ngOnInit() {
     this.order = this.orderService.currentOrderValue;
     this.product = this.homeShopService.getCurrentProductValue;
-
+    this.user = this.accountService.currentUserValue;
+    this.interactionService.logHomePage(this.user, 'cart page', JSON.stringify(this.order || ''),"ViewCartPage");
   }
 
 

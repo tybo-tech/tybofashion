@@ -44,11 +44,14 @@ export const DEFAULT_DATE = '0000-00-00 00:00:00';
 
 export const GET_PRODUCTS_URL = `api/product/get-products.php`;
 export const GET_PRODUCTS_FOR_SHOP_URL = `api/product/get-products-for-shop.php`;
+export const SEARCH_PRODUCTS_FOR_SHOP_URL = `api/product/search-product.php
+`;
 export const GET_PRODUCT_URL = `api/product/get-product.php`;
 export const GET_ALL_PRODUCT_URL = `api/product/get-all-products.php`;
 
 export const GET_USERS_URL = `api/user/get-users.php`;
 export const GET_ALL_USERS_URL = `api/user/get-all-users.php`;
+export const GET_REFFERALS_URL = `api/user/get-my-refferals.php`;
 export const GET_USER_URL = `api/user/get-user.php`;
 export const UPDATE_USER_URL = `api/user/update-user.php`;
 export const ADD_USER_URL = `api/user/add-user.php`;
@@ -68,10 +71,12 @@ export const PRINT_URL = `api/pdf/inv/i-2.php`;
 export const UPDATE_ORDER_URL = `api/orders/update-order.php`;
 
 
-export const DISCOUNT_TYPES = ['Percentage Off', 'Fixed Amount Off', 'Free Shipping', 'Buy X get Y'];
+export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Must Enter Promo Code'];
+export const DISCOUNT_TYPES = ['Percentage Off', 'Fixed Amount Off',
+//  'Free Shipping', 'Buy X get Y'
+];
 export const DISCOUNT_APPLIES_TO = ['All Products', 'Specific Products']; //, 'Specific Collections'
 export const DISCOUNT_MIN_RQS = ['No Minimum Requirements', 'Minimum Purchase Amount', 'Minimum Purchase Quantity'];
-export const DISCOUNT_GROUP = ['Automatically Apply The Discount.', 'Customer Must Enter Promo Code To Get The Discount'];
 export const CURRENCY = 'ZAR';
 export const COMPANY_TYPE = 'Fashion';
 export const MAX_PAGE_SIZE = 20;
@@ -84,7 +89,7 @@ export const TABS : HomeTabModel[] = [
         Classes: ['active'],
     },
     {
-        Name: `Mens's`,
+        Name: `Mens`,
         Classes: [''],
     },
     {

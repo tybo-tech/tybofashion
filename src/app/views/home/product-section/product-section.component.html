@@ -3,6 +3,7 @@
   <div class="global-tabs">
     <div class="tab" *ngFor="let item of TABS" [ngClass]="item.Classes" (click)="tab(item)">{{item.Name}}</div>
   </div>
+  <app-on-sale *ngIf="currentTab.Name === TABS[0].Name || currentTab.Name === TABS[1].Name"></app-on-sale>
   <app-shop-by-catergory *ngIf="currentTab.Name === TABS[0].Name && ladiesCategory"
     [parentId]="ladiesCategory.CategoryId" [label]="currentTab.Name">
   </app-shop-by-catergory>

@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Category, Product } from 'src/models';
+import { Category, Product, User } from 'src/models';
 import { HomeShopService } from 'src/services/home-shop.service';
 import { MAX_PAGE_SIZE, TIMER_LIMIT_WAIT } from 'src/shared/constants';
 import { ProductService } from 'src/services/product.service';
 import { BreadModel } from 'src/models/UxModel.model';
-import { CompanyCategoryService } from 'src/services';
+import { AccountService, CompanyCategoryService } from 'src/services';
+import { UxService } from 'src/services/ux.service';
+import { InteractionService } from 'src/services/Interaction.service';
 
 @Component({
   selector: 'app-collections',
@@ -32,15 +34,20 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
   allUxisexProducts: Product[] = [];
   showShowMore: boolean;
   selectedProduct: any;
+  user:User;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private homeShopService: HomeShopService,
+    private interactionService: InteractionService,
     private productService: ProductService,
+    private accountService: AccountService,
     private router: Router,
     private location: Location,
+    private uxService: UxService,
     private companyCategoryService: CompanyCategoryService,
   ) {
+    this.user = accountService.currentUserValue;
     this.activatedRoute.params.subscribe(r => {
       this.catergoryId = r.id;
       if (this.catergoryId === 'picks') {
@@ -52,6 +59,8 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
         this.companyCategoryService.systemCategoryListObservable.subscribe(data => {
           if (data && data.length) {
             this.currentCategory = data.find(x => x.CategoryId === this.catergoryId);
+            this.interactionService.logCategoryPage(this.user, this.currentCategory);
+
           }
         });
       }
@@ -86,7 +95,9 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
 
   }
   getProducts(maxId: number) {
+    this.uxService.showLoader();
     this.productService.getAllActiveByCategoryId(this.catergoryId, maxId).subscribe(data => {
+      this.uxService.hideLoader();
       if (data) {
         this.products = data;
         this.allProducts = data;
@@ -170,7 +181,7 @@ export class CollectionsComponent implements OnInit, AfterViewInit {
   }
   onNavItemClicked(p) { }
   back() {
-    this.location.back();
+    this.router.navigate(['']);
   }
 
   ngAfterViewInit(): void {

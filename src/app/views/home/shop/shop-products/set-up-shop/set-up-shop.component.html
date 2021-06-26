@@ -1,0 +1,61 @@
+<div class="main">
+
+
+  <div class="basic">
+    <h3 class="header-label heading">
+    Hi {{user?.Name}},  please set up your shop to start selling.
+    </h3>
+
+    <div class="dash-forms">
+
+      <div class="upload-preview">
+        <div class="upload">
+          <input type="file" accept="image/png, image/jpeg" #file placeholder="Choose file" multiple
+            (change)="uploadFile(file.files)" style="display:none;">
+          <span class="material-icons  user-dp" *ngIf="!company.Dp" (click)="file.click()">
+            add_a_photo
+          </span>
+        </div>
+        <div class="preview" (click)="file.click()">
+          <img *ngIf="company.Dp" [src]="company.Dp" alt="">
+        </div>
+      </div>
+      <div class="form-item">
+        <label for="name">Your shop Name*</label>
+        <input type="text" [(ngModel)]="company.Name" placeholder="e.g. John Smith">
+      </div>
+
+      <!-- <div class="form-item">
+        <label for="name">Customer Surname</label>
+        <input type="text" [(ngModel)]="company.Surname" placeholder="e.g. Mnisi">
+      </div> -->
+
+
+
+
+      <div class="form-group">
+        <label class="map" for="exampleInputSurname">Shop Location</label>
+        <textarea [(ngModel)]="company.AddressLine"></textarea>
+      </div>
+      <!-- <div class="form-group">
+        <label class="map" for="exampleInputSurname">Shop Description</label>
+        <textarea [(ngModel)]="company.Description"></textarea>
+      </div> -->
+
+      <!-- <div class="form-item">
+        <label for="name">Instagram URL
+        </label>
+        <input type="text" [(ngModel)]="company.Name" placeholder="e.g. John Smith">
+      </div> -->
+
+
+
+
+
+      <button mat-button class="more" type="button" [disabled]="!company.Name" type="button" (click)="save()">
+        Save shop details
+      </button>
+    </div>
+  </div>
+
+</div>

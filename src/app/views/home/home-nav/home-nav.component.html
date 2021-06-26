@@ -15,9 +15,13 @@
       </span>
     </div>
 
+    <div class="search col">
+      <!-- <span class="material-icons pointer" (click)="showSearch = true">
+        search
+      </span> -->
+    </div>
+
     <div class="logo col" (click)="goto('')">
-      <!-- <img *ngIf="logoUx.Name" [src]="logoUx.LogoUrl" alt="">
-      <img *ngIf="!logoUx.Name" [src]="logoUx.LogoUrl" style="width: auto; height: 2.5em;" alt=""> -->
       <img src="assets/images/common/logoblack2.png" style="width: auto; height: 2.5em;" alt="">
     </div>
 
@@ -47,9 +51,7 @@
     </div>
 
     <div class="search col">
-      <span class="material-icons pointer" (click)="showSearch = true">
-        search
-      </span>
+      <mat-icon [matBadge]="productsInteractions.length" class="love loved pointer" matBadgeColor="pink" (click)="goto('home/wishlist')">favorite</mat-icon>
     </div>
 
 
@@ -62,69 +64,6 @@
 
 </div>
 
-
-<!-- 
-<div class="sub-carts phone-only">
-  <button  (click)="goto('home/shop-for/Ladies')">
-    Ladies collection
-  </button>
-  <button  (click)="goto('home/shop-for/Ladies')">
-    Ladies collection
-  </button>
-  <button  (click)="goto('home/shop-for/Ladies')">
-    Ladies collection
-  </button>
-</div> -->
-
-
-
-<div class="search-mobile" *ngIf="showSearch">
-  <div class="close">
-    <span class="material-icons" (click)="showSearch = false">
-      close
-    </span>
-  </div>
-  <div class="form-item search">
-    <input type="search" [(ngModel)]="searchString" name="" id="" placeholder="🔎 Search products and shops"
-      (keyup)="search()">
-    <div class="search-results" *ngIf="searchString && searchString.length > 0">
-      <span *ngIf="searchResults && searchResults.length">
-        <div class="result-item" *ngFor="let item of searchResults" (click)="openSearchResult(item)">
-          <div class="image">
-            <img [src]="item.Icon" alt="">
-          </div>
-          <div class="name">
-            {{item.Name}}
-            <span class="price">
-              {{item.RegularPrice | currency:'R'}}
-            </span>
-
-            <span class="company" *ngIf="item && item.Company">
-              <div class="company-image">
-                <img *ngIf="item.Company.Dp" [src]="item.Company.Dp" alt="">
-                <img *ngIf="!item.Company.Dp" src="assets/images/shop.svg" alt="">
-              </div>
-              <div class=""> {{item.Object.Company?.Name}}</div>
-            </span>
-
-          </div>
-
-        </div>
-      </span>
-
-      <span *ngIf="searchResults && !searchResults.length">
-        <div class="sorry">
-          <span>
-            <img src="assets/images/common/search-no-found.svg" alt="">
-          </span>
-          Sorry we didn't find any results matching this search : <b>{{searchString}}</b>
-        </div>
-      </span>
-
-    </div>
-
-  </div>
-</div>
 
 
 <app-home-side-nav *ngIf="showMenu"></app-home-side-nav>

@@ -16,9 +16,14 @@
          
         </div>
         <div class="name">
-          <b>
+          <b *ngIf="!item.OnSale">
             {{item.RegularPrice | currency:'R'}}
           </b>
+          <b *ngIf="item.OnSale">
+            <del>{{item.RegularPrice | currency:'R'}}</del>
+            {{item.SalePrice | currency:'R'}}
+          </b>
+          <span *ngIf="item.OnSale" class="sale-tag">{{item.Sale}}</span>
 
           <br>
           <a (click)="gotoComapny(item)">   By {{item.Company.Name}}</a>

@@ -8,7 +8,7 @@
       <div class="top-bar">
         <div class="menu-back">
           <span class="material-icons" (click)="back()">
-            chevron_left
+            arrow_back
           </span>
         </div>
 
@@ -301,20 +301,4 @@
     </div>
   </div>
 </div>
-
-
-<div class="quick-add" *ngIf="showAdd">
-  <div class="form">
-    <h3>
-      Please login or sign up to like the product.
-    </h3>
-
-    <div class="form-item">
-      <button (click)="goto('home/sign-in')">Login</button>
-      <div class="or">Or</div>
-      <button (click)="goto('home/sign-up')">Sign up</button>
-      <div class="link" (click)="showAdd = false">Cancel</div>
-    </div>
-
-  </div>
-</div>
+<app-quick-sign-in [heading] = "heading"></app-quick-sign-in>

@@ -27,7 +27,7 @@
   <div class="basic">
     <div class="no-child">
       <div class="black-label">
-       Apply Discount Method
+        Apply Discount Method
       </div>
       <mat-radio-group aria-label="Select an option" [(ngModel)]="promotion.PromoGroup">
         <mat-radio-button *ngFor="let item of DISCOUNT_GROUP" [value]="item">{{item}}</mat-radio-button>
@@ -67,6 +67,17 @@
     <div class="no-child">
       <div class="black-label">
         Percentage value <b>(%)</b>
+      </div>
+      <div class="link">
+        <input type="tel" [(ngModel)]="promotion.DiscountValue" placeholder="e.g. 20">
+      </div>
+    </div>
+  </div>
+
+  <div class="basic" *ngIf="promotion.PromoType === DISCOUNT_TYPES[1]">
+    <div class="no-child">
+      <div class="black-label">
+        Fixed Off Amount <b>ZAR</b>
       </div>
       <div class="link">
         <input type="tel" [(ngModel)]="promotion.DiscountValue" placeholder="e.g. 20">
@@ -165,7 +176,7 @@
         Finish Date
       </div>
       <div class="link">
-        <input type="date" [(ngModel)]="promotion.StartDate">
+        <input type="date" [(ngModel)]="promotion.FinishDate">
       </div>
 
       <div class="black-label">
@@ -222,7 +233,7 @@
 
 
 
-  <div class="basic">
+  <!-- <div class="basic">
     <div class="no-child">
       <div class="black-label">
         Promotion poster.
@@ -251,10 +262,10 @@
     </div>
 
 
-  </div>
+  </div> -->
 
 
-  
+
   <div class="basic">
     <div class="no-child">
       <div class="black-label">

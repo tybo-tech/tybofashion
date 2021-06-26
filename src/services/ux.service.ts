@@ -35,6 +35,10 @@ export class UxService {
   private pageYPositionBehaviorSubject: BehaviorSubject<number>;
   public pageYPositionObservable: Observable<number>;
 
+
+  private searchStringBehaviorSubject: BehaviorSubject<string>;
+  public searchStringObservable: Observable<string>;
+
   private homeTabBehaviorSubject: BehaviorSubject<HomeTabModel>;
   public homeTabObservable: Observable<HomeTabModel>;
 
@@ -69,6 +73,10 @@ export class UxService {
     this.homeTabBehaviorSubject = new BehaviorSubject<HomeTabModel>(JSON.parse(localStorage.getItem('HomeTabState')));
     this.homeTabObservable = this.homeTabBehaviorSubject.asObservable();
 
+
+    this.searchStringBehaviorSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('searchString')));
+    this.searchStringObservable = this.searchStringBehaviorSubject.asObservable();
+
   }
 
   public get currentMessagePopValue(): string {
@@ -83,6 +91,10 @@ export class UxService {
     if (state) {
       this.pageYPositionBehaviorSubject.next(state);
     }
+  }
+  updateSearchStringState(state: string) {
+    this.searchStringBehaviorSubject.next(state);
+    localStorage.setItem('searchString', JSON.stringify(state));
   }
   updateHomeTabModelState(state: HomeTabModel) {
     if (state) {

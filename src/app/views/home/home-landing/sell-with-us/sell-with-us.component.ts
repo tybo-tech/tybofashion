@@ -6,6 +6,7 @@ import { Email, User, UserModel } from 'src/models';
 import { Company } from 'src/models/company.model';
 import { ModalModel } from 'src/models/modal.model';
 import { AccountService, EmailService, UploadService, UserService } from 'src/services';
+import { InteractionService } from 'src/services/Interaction.service';
 import { ADMIN, CUSTOMER, IMAGE_DONE, SUPER } from 'src/shared/constants';
 
 @Component({
@@ -44,11 +45,14 @@ export class SellWithUsComponent implements OnInit {
     private uploadService: UploadService,
     private userService: UserService,
     private emailService: EmailService,
+    private interactionService: InteractionService,
 
   ) { }
 
   ngOnInit() {
     this.user = this.accountService.currentUserValue;
+    this.interactionService.logHomePage(this.user, 'sell on tybo', "ViewSellWithUsPage");
+
     if (this.user && this.user.UserType === ADMIN) {
       this.router.navigate(['admin/dashboard']);
     }
